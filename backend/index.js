@@ -8,6 +8,7 @@ const PORT = 3000;
 app.use(express.json())
 
 
+
 const start = async () => {
     try {
         sequelize.authenticate()
