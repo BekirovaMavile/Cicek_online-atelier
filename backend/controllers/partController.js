@@ -31,6 +31,13 @@ class partController {
     });
     return res.json(part);
   }
+  async getByCategory(req, res) {
+    const { part_category_id } = req.params;
+    const parts = await Part.findAll({
+      where: { part_category_id,}
+    });
+    return res.json(parts);
+  }
 
   async deleteItem(req, res) {
     const { id } = req.params;
