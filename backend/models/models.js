@@ -230,13 +230,13 @@ Product.belongsTo(ProductCategory, { foreignKey: 'product_categories_id' });
 PartProductCategory.belongsTo(ProductCategory);
 PartProductCategory.belongsTo(PartCategory);
 
-// Связь между таблицами Product и ProductCategory
+// Связь между таблицами Part и ProductCategory
 PartCategory.hasMany(Part, { as: 'part_categories', foreignKey: 'part_category_id' });
 Part.belongsTo(PartCategory, { foreignKey: 'part_category_id' });
 
-// Связь между таблицами Product и Part
-Product.hasMany(Part, { foreignKey: 'product_id' });
-Part.belongsTo(Product, { foreignKey: 'product_id' });
+// Связь между таблицами Part и Product (многие ко многим)
+ProductPart.belongsTo(Part);
+ProductPart.belongsTo(Product);
 
 // Связь между таблицами User и Review
 User.hasMany(Review, { foreignKey: 'user_id' });
