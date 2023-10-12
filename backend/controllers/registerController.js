@@ -1,18 +1,52 @@
-const handleNewUser = async (req, res) => {
-    const {user, pwd} = req.body;
-    if (!user || !pwd) return res.status(400).json({'message': 'Username and password are required.'});
-    //Проверка на дубликацию пользователся в БД
-    const duplicate = usersDB.users.find(person => person.username == user); // Переписать строку
-    if (duplicate) return res.sendStatus(409); // Conflict
+const {
+    User
+} = require("../models/models");
+const bcrypt = require('bcrypt')
 
-    try {
-        // Шифруем пароль
-        const hashedPwd = await bcrypt.hash(pwd, 10);
-        // Добавление нового юзера
-        const newUser = {"username": user, "password": hashedPwd};
-        userDB.setUsers([...usersDB.users, newUser]);
+class RegisterController {
+    async create(req, res) {
+        const {
+            email,
+            password,
+            first_name,
+            last_name,
+        } = req.body;
 
-    } catch (err) {
-        res.status(500).json({'message': err.message})
+        // Проверка на пустые поля
+        if (!email || !password || !first_name || !last_name) return res.status(400).json({
+            'message': "Fields are empty."
+        })
+
+        // Проверка на повторение по email
+        const duplicate = await User.findOne({
+            where: {
+                email: email,
+            }
+        })
+        if (duplicate) return res.sendStatus(409); // Conflict
+
+        // Шифрование пароля
+        const hashedPwd = await bcrypt.hash(password, 10)
+        // Если все прошло успешно то создание и запись в БД
+        try {
+            const user = await User.create({
+                email,
+                password: hashedPwd,
+                first_name,
+                last_name,
+            });
+            res.status(201).json({
+                'success': `New user ${email} created!`
+            })
+            console.log(user.dataValues);
+        } catch (error) {``
+            res.status(500).json({
+                'message': error.message
+            })
+        }
+
     }
+
 }
+
+module.exports = new RegisterController();

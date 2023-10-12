@@ -9,10 +9,6 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json())
 app.use('/api', router)
 
-app.post('/auth/login', (req, res) => {
-    res.send('New branch');
-})
-
 const start = async () => {
     try {
         sequelize.authenticate()
