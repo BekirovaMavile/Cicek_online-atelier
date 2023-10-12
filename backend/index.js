@@ -9,9 +9,6 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json())
 app.use('/api', router)
 
-app.get('/', (req, res) => {
-    res.send('Оно работаааеет!')
-})
 app.post('/auth/login', (req, res) => {
     res.send('New branch');
 })
