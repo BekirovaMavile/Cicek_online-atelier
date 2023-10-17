@@ -9,6 +9,7 @@ class partController {
       const part = await Part.create({
         name,
         icon,
+        part_category_id,
       });
 
       return res.json(part);
@@ -51,12 +52,13 @@ class partController {
 
   async updateItem(req, res, next) {
     try {
-      let { name, icon, id } = req.body;
+      let { name, icon, id, part_category_id } = req.body;
 
       const [updated] = await Part.update(
         {
           name,
           icon,
+          part_category_id,
         },
         {
           where: {
