@@ -7,9 +7,9 @@ import { create, getAll, getOne, deleteItem, updateItem } from "controllers/part
 router.post("/", create);
 router.get("/", getAll);
 router.get("/:id", getOne);
+router.get("/:part_category_id", getByCategory);
 router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
-// ошибка может быть в том что id в параметрах, а не в теле запрса
 
 export default router;
 // , checkRole("ADMIN")
