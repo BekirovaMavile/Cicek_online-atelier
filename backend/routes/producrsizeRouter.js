@@ -1,7 +1,13 @@
 import { Router } from "express";
 const router = Router();
 
-import { create, getAll, getOne, deleteItem, updateItem } from "controllers/productsizeController.js"
+import {
+  create,
+  getAll,
+  getOne,
+  deleteItem,
+  updateItem,
+} from "controllers/productsizeController.js";
 // import checkRole from "../middleware/checkRoleMiddleware";
 
 router.post("/", create);

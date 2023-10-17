@@ -1,7 +1,13 @@
 import { Router } from "express";
 const router = Router();
 
-import { create, getAll, getOne, deleteItem, updateItem } from "controllers/colorController.js"
+import {
+  create,
+  getAll,
+  getOne,
+  deleteItem,
+  updateItem,
+} from "controllers/colorController.js";
 // import checkRole from "../middleware/checkRoleMiddleware";
 
 router.post("/", create);

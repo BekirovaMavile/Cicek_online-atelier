@@ -5,17 +5,24 @@ import {
   create,
   getAll,
   getOne,
+  getByColor,
+  getByMaterial,
+  getByCategory,
+  getBySize,
   deleteItem,
   updateItem,
-} from "controllers/productcategoryRouterController.js";
+} from "controllers/productController.js";
 // import checkRole from "../middleware/checkRoleMiddleware";
 
 router.post("/", create);
 router.get("/", getAll);
 router.get("/:id", getOne);
+router.get("/:color_id", getByColor);
+router.get("/:material_id", getByMaterial);
+router.get("/:product_categories_id", getByCategory);
+router.get("/:product_size_id", getBySize);
 router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
-// ошибка может быть в том что id в параметрах, а не в теле запрса
 
 export default router;
 // , checkRole("ADMIN")
