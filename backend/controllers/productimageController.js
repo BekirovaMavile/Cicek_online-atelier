@@ -4,12 +4,11 @@ const { badRequest } = "../error/ApiError";
 class product_image_Controller {
   async create(req, res, next) {
     try {
-      let { name } = req.body;
+      let { path, product_id } = req.body;
 
       const product_image = await ProductImage.create({
-        name,
-        hip_girth,
-        chest_girth,
+        path,
+        product_id,
       });
 
       return res.json(product_image);
@@ -45,13 +44,12 @@ class product_image_Controller {
 
   async updateItem(req, res, next) {
     try {
-      let { name, icon, id } = req.body;
+      let { path, product_id, id } = req.body;
 
       const [updated] = await ProductImage.update(
         {
-          name,
-          hip_girth,
-          chest_girth,
+          path,
+          product_id,
         },
         {
           where: {

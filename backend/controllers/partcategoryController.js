@@ -4,7 +4,7 @@ const { badRequest } = "../error/ApiError";
 class partcategoryController {
   async create(req, res, next) {
     try {
-      let { name } = req.body;
+      let { name, icon } = req.body;
 
       const partCategory = await PartCategory.create({
         name,
@@ -59,7 +59,7 @@ class partcategoryController {
       );
 
       if (updated === 0) {
-        return res.status(404).send({ error: "PartCategory not found" });
+        return res.status(404).send({ error: "Part category not found" });
       }
 
       return res.json(updated);

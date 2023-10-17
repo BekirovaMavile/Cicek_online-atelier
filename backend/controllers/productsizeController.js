@@ -4,7 +4,7 @@ const { badRequest } = "../error/ApiError";
 class product_size_Controller {
   async create(req, res, next) {
     try {
-      let { name } = req.body;
+      let { name, hip_girth, chest_girth } = req.body;
 
       const product_size = await ProductSize.create({
         name,
@@ -45,7 +45,7 @@ class product_size_Controller {
 
   async updateItem(req, res, next) {
     try {
-      let { name, icon, id } = req.body;
+      let { name, hip_girth, chest_girth, id } = req.body;
 
       const [updated] = await ProductSize.update(
         {

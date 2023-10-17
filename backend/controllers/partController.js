@@ -4,7 +4,7 @@ const { badRequest } = "../error/ApiError";
 class partController {
   async create(req, res, next) {
     try {
-      let { name } = req.body;
+      let { name, icon, part_category_id } = req.body;
 
       const part = await Part.create({
         name,
@@ -35,7 +35,7 @@ class partController {
   async getByCategory(req, res) {
     const { part_category_id } = req.params;
     const parts = await Part.findAll({
-      where: { part_category_id,}
+      where: { part_category_id },
     });
     return res.json(parts);
   }

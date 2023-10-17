@@ -196,6 +196,9 @@ const ProductCategory = sequelize.define('Product_Category', {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
+  icon: {
+    type: DataTypes.STRING(200),
+  },
 });
 
 // Связь между таблицами User и Order

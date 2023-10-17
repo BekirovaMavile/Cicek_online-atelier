@@ -4,7 +4,7 @@ const { badRequest } = "../error/ApiError";
 class colorController {
   async create(req, res, next) {
     try {
-      let { name } = req.body;
+      let { name, icon } = req.body;
 
       const color = await Color.create({
         name,
@@ -29,7 +29,7 @@ class colorController {
         id,
       },
     });
-    return res.json(params);
+    return res.json(color);
   }
 
   async deleteItem(req, res) {
