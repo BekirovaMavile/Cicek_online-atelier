@@ -1,14 +1,15 @@
-const { PartCategory } = require("../models/models");
+const { PartCategory, PartProductCategory } = require("../models/models");
 const { badRequest } = "../error/ApiError";
 
 class partcategoryController {
   async create(req, res, next) {
     try {
-      let { name, icon } = req.body;
+      let { name, icon, product_categories_id } = req.body;
 
       const partCategory = await PartCategory.create({
         name,
         icon,
+        product_categories_id,
       });
 
       return res.json(partCategory);
@@ -29,7 +30,17 @@ class partcategoryController {
         id,
       },
     });
-    return res.json(params);
+    return res.json(partCategory);
+  }
+
+  async getByCategory(req, res) {
+    const { product_categories_id } = req.params;
+    const partCategorys = await PartCategory.findAll({
+      where: {
+        product_categories_id,
+      },
+    });
+    return res.json(partCategorys);
   }
 
   async deleteItem(req, res) {
