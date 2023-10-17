@@ -26,7 +26,7 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
-  refreshToken :{
+  refreshToken: {
     type: DataTypes.STRING(250),
   },
   phone_number: {
@@ -41,11 +41,7 @@ const Order = sequelize.define('Order', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
-  },
-  date: {
-    type: DataTypes.DATE,
-    allowNull: false,
+    autoIncrement: true,
   },
   status: {
     type: DataTypes.STRING(45),
@@ -65,7 +61,7 @@ const Review = sequelize.define('Review', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true
   },
   rating: {
     type: DataTypes.DOUBLE,
@@ -209,8 +205,8 @@ User.hasMany(Order, {
   as: 'orders',
   foreignKey: 'user_id'
 });
-Order.belongsTo(Order, {
-  foreignKey: 'order_id'
+Order.belongsTo(User, {
+  foreignKey: 'user_id'
 });
 
 // Связь между таблицами Product и Order (многие ко многим)
