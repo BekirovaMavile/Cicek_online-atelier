@@ -2,6 +2,7 @@ const {
     User
 } = require("../models/models");
 const bcrypt = require('bcrypt')
+const jwt = require("jsonwebtoken");
 
 class RegisterController {
     async create(req, res) {
@@ -27,6 +28,7 @@ class RegisterController {
 
         // Шифрование пароля
         const hashedPwd = await bcrypt.hash(password, 10)
+
         // Если все прошло успешно то создание и запись в БД
         try {
             const user = await User.create({
@@ -35,10 +37,22 @@ class RegisterController {
                 first_name,
                 last_name,
             });
+
+            // const token = jwt.sign(
+            //     {id: user.id},
+            //     process.env.ACCESS_TOKEN_SECRET,
+            //     {
+            //         expiresIn: '30d'
+            //     }
+            // );
+            
             res.status(201).json({
                 'success': `New user ${email} created!`
             })
-            console.log(user.dataValues);
+
+            const {password, ...userData} = user.dataValues
+            console.log({userData});
+
         } catch (error) {``
             res.status(500).json({
                 'message': error.message

@@ -1,10 +1,11 @@
 const Router = require('express')
 const router = new Router()
-const materialController = require('../controllers/materialController')
+const materialController = require('../controllers/materialController');
+const verifyJWT = require('../middleware/verifyJWT.JS');
 // import checkRole from "../middleware/checkRoleMiddleware";
 
 router.post("/", materialController.create);
-router.get("/", materialController.getAll);
+router.get("/", verifyJWT, materialController.getAll);
 router.get("/:id", materialController.getOne);
 router.delete("/:id", materialController.deleteItem);
 router.put("/:id", materialController.updateItem);
