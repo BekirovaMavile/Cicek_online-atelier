@@ -1,4 +1,4 @@
-import { ProductSize } from "../models/models";
+const { ProductSize } = require("../models/models");
 const { badRequest } = "../error/ApiError";
 
 class product_size_Controller {
@@ -71,4 +71,4 @@ class product_size_Controller {
   }
 }
 
-export default new product_size_Controller();
+module.exports = new product_size_Controller();

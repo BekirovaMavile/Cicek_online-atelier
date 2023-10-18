@@ -15,4 +15,4 @@ router.get("/:id", getOne);
 router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
 
-module.export = router;
+module.exports = router;

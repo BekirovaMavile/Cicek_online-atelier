@@ -1,15 +1,14 @@
 const Router = require("express");
-const router = Router();
+const router = new Router();
 
-import {
+const {
   create,
   getAll,
   getOne,
   getByCategory,
   deleteItem,
   updateItem,
-} from "../controllers/partController.js";
-// import checkRole from "../middleware/checkRoleMiddleware";
+} = require("../controllers/partController.js");
 
 router.post("/", create);
 router.get("/", getAll);
@@ -18,4 +17,4 @@ router.get("/:part_category_id", getByCategory);
 router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
 
-module.export = router;
+module.exports = router;

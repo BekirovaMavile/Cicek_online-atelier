@@ -1,4 +1,4 @@
-import { Product } from "../models/models";
+const { Product } = require("../models/models");
 const { badRequest } = "../error/ApiError";
 
 class productController {
@@ -136,4 +136,4 @@ class productController {
   }
 }
 
-export default new productController();
+module.exports = new productController();

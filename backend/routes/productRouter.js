@@ -1,7 +1,7 @@
 const Router = require("express");
 const router = new Router();
 
-import {
+const {
   create,
   getAll,
   getOne,
@@ -11,7 +11,7 @@ import {
   getBySize,
   deleteItem,
   updateItem,
-} from "../controllers/productController.js";
+} = require("../controllers/productController.js");
 
 router.post("/", create);
 router.get("/", getAll);
@@ -23,4 +23,4 @@ router.get("/:product_size_id", getBySize);
 router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
 
-module.export = router;
+module.exports = router;
