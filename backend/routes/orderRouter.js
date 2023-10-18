@@ -1,8 +1,9 @@
 const Router = require('express');
 const OrderController = require('../controllers/orderController');
 const router = new Router()
+const verifyJWT = require("../middleware/verifyJWT")
 
-router.post("/", OrderController.create);
+router.post("/", verifyJWT, OrderController.create);
 router.get("/", OrderController.getAll);
 router.get("/user/:id", OrderController.getByUserId)
 router.get("/order/:id", OrderController.getById)

@@ -1,11 +1,11 @@
-const { Order } = require("../models/models");
+const { Review } = require("../models/models");
 
-class OrderController {
+class ReviewController {
     async create(req, res) {
-        const {user_id, status} = req.body;
+        const {user_id, rating, comment} = req.body;
         try {
-            const order = await Order.create({user_id, status});
-            res.json(order)
+            const review = await Review.create({user_id, rating, comment});
+            res.json(review)
         } catch (err) {
             res.status(404).send({ 'message': err })
         }
@@ -13,8 +13,8 @@ class OrderController {
     }
     async getAll(req, res) {
         try {
-            const orders = await Order.findAll();
-            res.json(orders)
+            const reviews = await Review.findAll();
+            res.json(reviews)
         } catch (err) {
             res.status(404).send({ 'message': err })
         }
@@ -23,12 +23,12 @@ class OrderController {
     async getByUserId(req, res) {
         try {
             const { id } = req.params;
-            const ordersUser = await Order.findAll({
+            const reviewsUser = await Review.findAll({
                 where: {
                     user_id: Number(id)
                 },
             });
-            return res.json(ordersUser);
+            return res.json(reviewsUser);
         } catch (err) {
             res.status(404).send({ 'message': err })
         }
@@ -37,34 +37,35 @@ class OrderController {
     async getById(req, res) {
         try {
             const { id } = req.params;
-            const foundOrder = await Order.findOne({
+            const foundReview = await Review.findOne({
                 where: {
                     id: Number(id)
                 },
             });
-            return res.json(foundOrder);
+            return res.json(foundReview);
         } catch (err) {
             res.status(404).send({ 'message': err })
         }
     }
 
-    async updateStatus(req, res) {
+    async updateReview(req, res) {
         try {
-            const { newStatus, id } = req.body;
-            const foundOrder = await Order.findOne({
+            const { newRaiting, newComment, id } = req.body;
+            const foundReview = await Review.findOne({
                 where: {
                     id: Number(id)
                 },
             });
+            return res.json({"asd": newRaiting})
+            // foundReview.status = newRaiting;
+            // foundReview.comment = newComment;
+            // foundReview.save();
 
-            foundOrder.status = newStatus;
-            foundOrder.save();
-
-            return res.json(foundOrder);
+            // return res.json(foundReview);
         } catch (err) {
             res.status(404).send({ 'message': err })
         }
     }
 }
 
-module.exports = new OrderController()
+module.exports = new ReviewController()
