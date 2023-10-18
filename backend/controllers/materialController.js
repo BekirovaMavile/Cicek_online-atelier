@@ -4,7 +4,7 @@ const { badRequest } = "../error/ApiError";
 class materialController {
   async create(req, res, next) {
     try {
-      let { name } = req.body;
+      let { name, icon } = req.body;
 
       const material = await Material.create({
         name,
