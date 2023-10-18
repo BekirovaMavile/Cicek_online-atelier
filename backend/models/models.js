@@ -76,7 +76,7 @@ const Color = sequelize.define("Color", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING(45),
@@ -91,7 +91,7 @@ const ProductImage = sequelize.define("Product_Image", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true,
   },
   image: {
     type: DataTypes.STRING(200),
@@ -103,7 +103,7 @@ const ProductSize = sequelize.define("Product_Size", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING(45),
@@ -121,7 +121,7 @@ const Material = sequelize.define("Material", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING(45),
@@ -136,7 +136,7 @@ const Part = sequelize.define("Part", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING(45),
@@ -151,7 +151,7 @@ const Product = sequelize.define("Product", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING(45),
@@ -171,7 +171,7 @@ const ProductPart = sequelize.define("Product", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true,
   },
 })
 
@@ -179,7 +179,7 @@ const PartCategory = sequelize.define("Part_Category", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING(45),
@@ -194,7 +194,7 @@ const ProductCategory = sequelize.define("Product_Category", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING(45),

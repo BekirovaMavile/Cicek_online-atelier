@@ -10,7 +10,7 @@ const {
 const verifyJWT = require('../middleware/verifyJWT.JS');
 
 router.post("/", create);
-router.get("/", verifyJWT, getAll);
+router.get("/", getAll);
 router.get("/:id", getOne);
 router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
