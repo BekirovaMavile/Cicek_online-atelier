@@ -1,19 +1,21 @@
-const sequelize = require("../db");
+const sequelize = require('../db')
 
-const { DataTypes } = require("sequelize");
+const {
+  DataTypes
+} = require('sequelize')
 
-const User = sequelize.define("User", {
+const User = sequelize.define('User', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true
   },
   email: {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
   password: {
-    type: DataTypes.STRING(45),
+    type: DataTypes.STRING(100),
     allowNull: false,
   },
   first_name: {
@@ -24,6 +26,9 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
+  refreshToken: {
+    type: DataTypes.STRING(250),
+  },
   phone_number: {
     type: DataTypes.STRING(45),
   },
@@ -32,15 +37,11 @@ const User = sequelize.define("User", {
   },
 });
 
-const Order = sequelize.define("Order", {
+const Order = sequelize.define('Order', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
-  },
-  date: {
-    type: DataTypes.DATE,
-    allowNull: false,
+    autoIncrement: true,
   },
   status: {
     type: DataTypes.STRING(45),
@@ -49,18 +50,18 @@ const Order = sequelize.define("Order", {
 });
 
 // Связующая таблица между таб. Order and Product
-const OrderProduct = sequelize.define("ProductOrder", {
+const OrderProduct = sequelize.define('ProductOrder', {
   quantity: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-});
+    allowNull: false
+  }
+})
 
-const Review = sequelize.define("Review", {
+const Review = sequelize.define('Review', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true
   },
   rating: {
     type: DataTypes.DOUBLE,
