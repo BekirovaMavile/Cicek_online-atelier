@@ -72,7 +72,7 @@ const Review = sequelize.define('Review', {
   },
 });
 
-const Color = sequelize.define('Color', {
+const Color = sequelize.define("Color", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -87,7 +87,7 @@ const Color = sequelize.define('Color', {
   },
 });
 
-const ProductImage = sequelize.define('Product_Image', {
+const ProductImage = sequelize.define("Product_Image", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -99,7 +99,7 @@ const ProductImage = sequelize.define('Product_Image', {
   },
 });
 
-const ProductSize = sequelize.define('Product_Size', {
+const ProductSize = sequelize.define("Product_Size", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -117,7 +117,7 @@ const ProductSize = sequelize.define('Product_Size', {
   },
 });
 
-const Material = sequelize.define('Material', {
+const Material = sequelize.define("Material", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -132,7 +132,7 @@ const Material = sequelize.define('Material', {
   },
 });
 
-const Part = sequelize.define('Part', {
+const Part = sequelize.define("Part", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -147,7 +147,7 @@ const Part = sequelize.define('Part', {
   },
 });
 
-const Product = sequelize.define('Product', {
+const Product = sequelize.define("Product", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -164,10 +164,10 @@ const Product = sequelize.define('Product', {
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
-  }
-})
+  },
+});
 
-const PartCategory = sequelize.define('Part_Category', {
+const PartCategory = sequelize.define("Part_Category", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -182,13 +182,10 @@ const PartCategory = sequelize.define('Part_Category', {
   },
 });
 
-// Связующая таблица между таб. PartCategory and ProductCategory
-const PartProductCategory = sequelize.define('PartProductCategory', {})
+// // Связующая таблица между таб. PartCategory and ProductCategory
+// const PartProductCategory = sequelize.define("PartProductCategory", {});
 
-// Связующая таблица между таб. Product and Part
-const ProductPart = sequelize.define('ProductPart', {})
-
-const ProductCategory = sequelize.define('Product_Category', {
+const ProductCategory = sequelize.define("Product_Category", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -198,90 +195,68 @@ const ProductCategory = sequelize.define('Product_Category', {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
+  icon: {
+    type: DataTypes.STRING(200),
+  },
 });
 
 // Связь между таблицами User и Order
-User.hasMany(Order, {
-  as: 'orders',
-  foreignKey: 'user_id'
-});
-Order.belongsTo(User, {
-  foreignKey: 'user_id'
-});
+User.hasMany(Order, { as: "orders", foreignKey: "user_id" });
+Order.belongsTo(Order, { foreignKey: "order_id" });
 
 // Связь между таблицами Product и Order (многие ко многим)
 OrderProduct.belongsTo(Order);
 OrderProduct.belongsTo(Product);
 
 // Связь между таблицами Product и Color
-Color.hasMany(Product, {
-  as: 'colors',
-  foreignKey: 'color_id'
-});
-Product.belongsTo(Color, {
-  foreignKey: 'color_id'
-});
+Color.hasMany(Product, { as: "colors", foreignKey: "color_id" });
+Product.belongsTo(Color, { foreignKey: "color_id" });
 
 // Связь между таблицами Product и Material
-Material.hasMany(Product, {
-  as: 'materials',
-  foreignKey: 'material_id'
-});
-Product.belongsTo(Material, {
-  foreignKey: 'material_id'
-});
+Material.hasMany(Product, { as: "materials", foreignKey: "material_id" });
+Product.belongsTo(Material, { foreignKey: "material_id" });
 
 // Связь между таблицами Product и ProductSize
 ProductSize.hasMany(Product, {
-  as: 'product_sizes',
-  foreignKey: 'product_size_id'
+  as: "product_sizes",
+  foreignKey: "product_size_id",
 });
-Product.belongsTo(ProductSize, {
-  foreignKey: 'product_size_id'
-});
+Product.belongsTo(ProductSize, { foreignKey: "product_size_id" });
 
 // Связь между таблицами Product и ProductImage
-Product.hasMany(ProductImage, {
-  as: 'photos',
-  foreignKey: 'product_id'
-});
-ProductImage.belongsTo(Product, {
-  foreignKey: 'product_id'
-});
+Product.hasMany(ProductImage, { as: "photos", foreignKey: "product_id" });
+ProductImage.belongsTo(Product, { foreignKey: "product_id" });
 
 // Связь между таблицами Product и ProductCategory
 ProductCategory.hasMany(Product, {
-  as: 'product_categories',
-  foreignKey: 'product_categories_id'
+  as: "product_categories",
+  foreignKey: "product_categories_id",
 });
-Product.belongsTo(ProductCategory, {
-  foreignKey: 'product_categories_id'
-});
+Product.belongsTo(ProductCategory, { foreignKey: "product_categories_id" });
 
-// Связь между таблицами ProductCategory и PartCategory (многие ко многим)
-PartProductCategory.belongsTo(ProductCategory);
-PartProductCategory.belongsTo(PartCategory);
+// Связь между таблицами ProductCategory и PartCategory
+ProductCategory.hasMany(PartCategory, {
+  as: "product_categories",
+  foreignKey: "product_categories_id",
+});
+PartCategory.belongsTo(ProductCategory, {
+  foreignKey: "product_categories_id",
+});
 
 // Связь между таблицами Part и ProductCategory
 PartCategory.hasMany(Part, {
-  as: 'part_categories',
-  foreignKey: 'part_category_id'
+  as: "part_categories",
+  foreignKey: "part_category_id",
 });
-Part.belongsTo(PartCategory, {
-  foreignKey: 'part_category_id'
-});
+Part.belongsTo(PartCategory, { foreignKey: "part_category_id" });
 
 // Связь между таблицами Part и Product (многие ко многим)
 ProductPart.belongsTo(Part);
 ProductPart.belongsTo(Product);
 
 // Связь между таблицами User и Review
-User.hasMany(Review, {
-  foreignKey: 'user_id'
-});
-Review.belongsTo(User, {
-  foreignKey: 'user_id'
-});
+User.hasMany(Review, { foreignKey: "user_id" });
+Review.belongsTo(User, { foreignKey: "user_id" });
 
 module.exports = {
   User,
@@ -289,7 +264,6 @@ module.exports = {
   Review,
   Color,
   Product,
-  ProductPart,
   ProductImage,
   ProductSize,
   Material,
@@ -297,5 +271,5 @@ module.exports = {
   PartCategory,
   ProductCategory,
   PartProductCategory,
-  OrderProduct
+  OrderProduct,
 };
