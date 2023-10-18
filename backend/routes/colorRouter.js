@@ -1,13 +1,13 @@
-import { Router } from "express";
-const router = Router();
+const Router = require("express");
+const router = new Router();
 
-import {
+const {
   create,
   getAll,
   getOne,
   deleteItem,
   updateItem,
-} from "controllers/colorController.js";
+} = require("../controllers/colorController");
 // import checkRole from "../middleware/checkRoleMiddleware";
 
 router.post("/", create);
@@ -17,5 +17,5 @@ router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
 // ошибка может быть в том что id в параметрах, а не в теле запрса
 
-export default router;
+module.export = router;
 // , checkRole("ADMIN")

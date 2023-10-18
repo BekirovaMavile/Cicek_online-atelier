@@ -167,6 +167,14 @@ const Product = sequelize.define("Product", {
   },
 });
 
+const ProductPart = sequelize.define("Product", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    allowNull: false,
+  },
+})
+
 const PartCategory = sequelize.define("Part_Category", {
   id: {
     type: DataTypes.INTEGER,
@@ -181,9 +189,6 @@ const PartCategory = sequelize.define("Part_Category", {
     type: DataTypes.STRING(200),
   },
 });
-
-// // Связующая таблица между таб. PartCategory and ProductCategory
-// const PartProductCategory = sequelize.define("PartProductCategory", {});
 
 const ProductCategory = sequelize.define("Product_Category", {
   id: {
@@ -202,7 +207,7 @@ const ProductCategory = sequelize.define("Product_Category", {
 
 // Связь между таблицами User и Order
 User.hasMany(Order, { as: "orders", foreignKey: "user_id" });
-Order.belongsTo(Order, { foreignKey: "order_id" });
+Order.belongsTo(User, { foreignKey: "order_id" });
 
 // Связь между таблицами Product и Order (многие ко многим)
 OrderProduct.belongsTo(Order);
@@ -229,14 +234,12 @@ ProductImage.belongsTo(Product, { foreignKey: "product_id" });
 
 // Связь между таблицами Product и ProductCategory
 ProductCategory.hasMany(Product, {
-  as: "product_categories",
   foreignKey: "product_categories_id",
 });
 Product.belongsTo(ProductCategory, { foreignKey: "product_categories_id" });
 
 // Связь между таблицами ProductCategory и PartCategory
 ProductCategory.hasMany(PartCategory, {
-  as: "product_categories",
   foreignKey: "product_categories_id",
 });
 PartCategory.belongsTo(ProductCategory, {
@@ -270,6 +273,5 @@ module.exports = {
   Part,
   PartCategory,
   ProductCategory,
-  PartProductCategory,
   OrderProduct,
 };
