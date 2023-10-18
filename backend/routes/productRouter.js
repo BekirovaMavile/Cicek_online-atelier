@@ -1,5 +1,5 @@
-import { Router } from "express";
-const router = Router();
+const Router = require("express");
+const router = new Router();
 
 import {
   create,
@@ -11,8 +11,7 @@ import {
   getBySize,
   deleteItem,
   updateItem,
-} from "controllers/productController.js";
-// import checkRole from "../middleware/checkRoleMiddleware";
+} from "../controllers/productController.js";
 
 router.post("/", create);
 router.get("/", getAll);
@@ -24,5 +23,4 @@ router.get("/:product_size_id", getBySize);
 router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
 
-export default router;
-// , checkRole("ADMIN")
+module.export = router;

@@ -1,4 +1,4 @@
-import { Router } from "express";
+const Router = require("express");
 const router = Router();
 
 import {
@@ -7,15 +7,12 @@ import {
   getOne,
   deleteItem,
   updateItem,
-} from "controllers/productsizeController.js";
-// import checkRole from "../middleware/checkRoleMiddleware";
+} from "../controllers/productsizeController.js";
 
 router.post("/", create);
 router.get("/", getAll);
 router.get("/:id", getOne);
 router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
-// ошибка может быть в том что id в параметрах, а не в теле запрса
 
-export default router;
-// , checkRole("ADMIN")
+module.export = router;

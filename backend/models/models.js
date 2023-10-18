@@ -271,6 +271,7 @@ module.exports = {
   ProductSize,
   Material,
   Part,
+  ProductPart,
   PartCategory,
   ProductCategory,
   OrderProduct,
