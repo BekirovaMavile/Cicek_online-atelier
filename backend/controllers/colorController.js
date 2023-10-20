@@ -29,6 +29,9 @@ class colorController {
         id,
       },
     });
+    if (!color) {
+      return  res.status(404).json({ error: "Цвет не найден" });
+    }
     return res.json(color);
   }
 
