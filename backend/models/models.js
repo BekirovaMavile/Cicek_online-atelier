@@ -207,7 +207,7 @@ const ProductCategory = sequelize.define("Product_Category", {
 
 // Связь между таблицами User и Order
 User.hasMany(Order, { as: "orders", foreignKey: "user_id" });
-Order.belongsTo(User, { foreignKey: "order_id" });
+Order.belongsTo(User, { foreignKey: "user_id" });
 
 // Связь между таблицами Product и Order (многие ко многим)
 OrderProduct.belongsTo(Order);

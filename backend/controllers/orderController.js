@@ -22,12 +22,15 @@ class OrderController {
 
     async getByUserId(req, res) {
         try {
-            const { id } = req.params;
+            const userInfo = req.user;
+            const id = userInfo.id;
+            
             const ordersUser = await Order.findAll({
                 where: {
                     user_id: Number(id)
                 },
             });
+
             return res.json(ordersUser);
         } catch (err) {
             res.status(404).send({ 'message': err })

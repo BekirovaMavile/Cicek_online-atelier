@@ -1,6 +1,6 @@
 const {
     User
-} = require("../models/models");
+} = require("../../models/models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config()
 
@@ -26,7 +26,8 @@ class RefreshTokenController {
             (err, decoded) => {
                 if (err || foundUser.email !== decoded.email) return res.sendStatus(403); //res.json({decoded}) 
                 const accessToken = jwt.sign({
-                        "email": decoded.email
+                        "email": decoded.email,
+                        "id": decoded.id
                     },
                     process.env.ACCESS_TOKEN_SECRET, {
                         expiresIn: "30s"
