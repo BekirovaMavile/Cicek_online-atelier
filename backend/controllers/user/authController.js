@@ -49,7 +49,8 @@ class AuthController {
             foundUser.refreshToken = refreshToken;
             foundUser.save();
 
-            console.log(foundUser.dataValues);
+            // console.log(foundUser.dataValues);
+            console.log("ПОЛЬЗОВАТЕЛЬ НАЙДЕН");
             res.cookie('jwt', refreshToken, {
                 httpOnly: true,
                 maxAge: 24 * 60 * 60 * 1000
