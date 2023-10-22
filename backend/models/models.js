@@ -208,7 +208,7 @@ OrderProduct.belongsTo(Order);
 OrderProduct.belongsTo(Product);
 
 // Связь между таблицами Product и Color
-Color.hasMany(Product, { foreignKey: "product_id" });
+Color.hasMany(Product, { foreignKey: "color_id" });
 Product.belongsTo(Color, { foreignKey: "color_id" });
 
 // Связь между таблицами Product и Material

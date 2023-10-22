@@ -3,38 +3,37 @@ const { badRequest } = require("../error/ApiError");
 
 class productController {
   async create(req, res, next) {
-      let {
-        price,
-        description,
-        color_id,
-        material_id,
-        product_size_id,
-        product_categories_id,
-        part_ids,
-      } = req.body;
+    let {
+      price,
+      description,
+      color_id,
+      material_id,
+      product_size_id,
+      product_categories_id,
+      part_ids,
+    } = req.body;
 
-      const product = await Product.create({
-        price: Number(price),
-        description,
-        color_id: Number(color_id),
-        material_id: Number(material_id),
-        product_size_id: Number(product_size_id),
-        product_categories_id: Number(product_categories_id),
-      });
+    const product = await Product.create({
+      price: Number(price),
+      description,
+      color_id: Number(color_id),
+      material_id: Number(material_id),
+      product_size_id: Number(product_size_id),
+      product_categories_id: Number(product_categories_id),
+    });
 
-      // Создаем записи в таблице ProductPart для каждого part_id
-      if (Array.isArray(part_ids)) {
-        await Promise.all(
-          part_ids.map(async (part_id) => {
-            await ProductPart.create({
-              product_id: product.id,
-              part_id: part_id, 
-            });
-          })
-        );
-        return res.json(product);
-      }
-
+    // Создаем записи в таблице ProductPart для каждого part_id
+    if (Array.isArray(part_ids)) {
+      await Promise.all(
+        part_ids.map(async (part_id) => {
+          await ProductPart.create({
+            ProductId: product.id,
+            PartId: part_id,
+          });
+        })
+      );
+      return res.json(product);
+    }
   }
 
   async getAll(req, res) {
@@ -52,43 +51,38 @@ class productController {
     return res.json(product);
   }
 
-  async getByColor(req, res) {
-    const { color_id } = req.params;
-    const products = await Product.findAll({
-      where: {
-        color_id,
-      },
-    });
-    return res.json(products);
-  }
+  async search(req, res) {
+    const { valueToSearch } = req.query; // Параметр запроса, который определяет, что искать
+    let whereCondition = {};
 
-  async getByMaterial(req, res) {
-    const { material_id } = req.params;
-    const products = await Product.findAll({
-      where: {
-        material_id,
-      },
-    });
-    return res.json(products);
-  }
+    if (valueToSearch) {
+      switch (valueToSearch) {
+        case "id":
+          whereCondition.id = req.body.id;
+          break;
+        case "color_id":
+          whereCondition.color_id = req.body.color_id;
+          break;
+        case "material_id":
+          whereCondition.material_id = req.body.material_id;
+          break;
+        case "product_categories_id":
+          whereCondition.product_categories_id = req.body.product_categories_id;
+          break;
+        case "product_size_id":
+          whereCondition.product_size_id = req.body.product_size_id;
+          break;
+        default:
+          return res.status(400).json({ error: "Invalid search parameter" });
+      }
+    } else {
+      return res.status(400).json({ error: "Search parameter is required" });
+    }
 
-  async getByCategory(req, res) {
-    const { product_categories_id } = req.params;
     const products = await Product.findAll({
-      where: {
-        product_categories_id,
-      },
+      where: whereCondition,
     });
-    return res.json(products);
-  }
 
-  async getBySize(req, res) {
-    const { product_size_id } = req.params;
-    const products = await Product.findAll({
-      where: {
-        product_size_id,
-      },
-    });
     return res.json(products);
   }
 
