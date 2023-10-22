@@ -1,14 +1,12 @@
-const sequelize = require('../db')
+const sequelize = require("../db");
 
-const {
-  DataTypes
-} = require('sequelize')
+const { DataTypes } = require("sequelize");
 
-const User = sequelize.define('User', {
+const User = sequelize.define("User", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   email: {
     type: DataTypes.STRING(45),
@@ -37,7 +35,7 @@ const User = sequelize.define('User', {
   },
 });
 
-const Order = sequelize.define('Order', {
+const Order = sequelize.define("Order", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -50,18 +48,18 @@ const Order = sequelize.define('Order', {
 });
 
 // Связующая таблица между таб. Order and Product
-const OrderProduct = sequelize.define('ProductOrder', {
+const OrderProduct = sequelize.define("ProductOrder", {
   quantity: {
     type: DataTypes.INTEGER,
-    allowNull: false
-  }
-})
+    allowNull: false,
+  },
+});
 
-const Review = sequelize.define('Review', {
+const Review = sequelize.define("Review", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   rating: {
     type: DataTypes.DOUBLE,
@@ -153,10 +151,6 @@ const Product = sequelize.define("Product", {
     primaryKey: true,
     autoIncrement: true,
   },
-  name: {
-    type: DataTypes.STRING(45),
-    allowNull: false,
-  },
   price: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -167,13 +161,13 @@ const Product = sequelize.define("Product", {
   },
 });
 
-const ProductPart = sequelize.define("Product", {
+const ProductPart = sequelize.define("Product_Part", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-})
+});
 
 const PartCategory = sequelize.define("Part_Category", {
   id: {
@@ -214,22 +208,21 @@ OrderProduct.belongsTo(Order);
 OrderProduct.belongsTo(Product);
 
 // Связь между таблицами Product и Color
-Color.hasMany(Product, { as: "colors", foreignKey: "color_id" });
+Color.hasMany(Product, { foreignKey: "product_id" });
 Product.belongsTo(Color, { foreignKey: "color_id" });
 
 // Связь между таблицами Product и Material
-Material.hasMany(Product, { as: "materials", foreignKey: "material_id" });
+Material.hasMany(Product, { foreignKey: "material_id" });
 Product.belongsTo(Material, { foreignKey: "material_id" });
 
 // Связь между таблицами Product и ProductSize
 ProductSize.hasMany(Product, {
-  as: "product_sizes",
   foreignKey: "product_size_id",
 });
 Product.belongsTo(ProductSize, { foreignKey: "product_size_id" });
 
 // Связь между таблицами Product и ProductImage
-Product.hasMany(ProductImage, { as: "photos", foreignKey: "product_id" });
+Product.hasMany(ProductImage, { foreignKey: "product_id" });
 ProductImage.belongsTo(Product, { foreignKey: "product_id" });
 
 // Связь между таблицами Product и ProductCategory

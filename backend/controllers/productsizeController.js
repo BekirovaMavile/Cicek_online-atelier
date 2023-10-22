@@ -1,5 +1,5 @@
 const { ProductSize } = require("../models/models");
-const { badRequest } = "../error/ApiError";
+const { badRequest } = require("../error/ApiError");
 
 class product_size_Controller {
   async create(req, res, next) {
