@@ -2,6 +2,8 @@ const express = require('express');
 const sequelize = require('./db')
 const models = require('./models/models')
 const router = require('./routes/index')
+const cors = require('cors');
+// import cors from "cors";
 const cokieParser = require("cookie-parser");
 
 const app = express();
@@ -9,7 +11,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cokieParser());
 app.use(express.json())
+app.use(cors());
 app.use('/api', router)
+
 
 const start = async () => {
     try {
