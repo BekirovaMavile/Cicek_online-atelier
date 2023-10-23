@@ -3,7 +3,7 @@ const {
 } = require("../../models/models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config()
+// require("dotenv").config({path: '/../../.env'});
 
 class AuthController {
     async handleLogin(req, res) {
@@ -33,7 +33,7 @@ class AuthController {
                     email: foundUser.email,
                     id: foundUser.id
                 },
-                process.env.ACCESS_TOKEN_SECRET, {
+                '' + process.env.ACCESS_TOKEN_SECRET, {
                     expiresIn: '30s'
                 }
             );
@@ -41,7 +41,7 @@ class AuthController {
                     email: foundUser.email,
                     id: foundUser.id
                 },
-                process.env.REFRESH_TOKEN_SECRET, {
+                '' + process.env.REFRESH_TOKEN_SECRET, {
                     expiresIn: '1d'
                 }
             );
