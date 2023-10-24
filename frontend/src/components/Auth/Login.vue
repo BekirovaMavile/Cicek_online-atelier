@@ -8,7 +8,7 @@
                     пожалуйста, пройдите процесс регистрации.
                 </p>
             </v-col>
-
+<!--  -->
             <v-col cols="12" md="6">
                 <v-col cols="auto">
                     <v-img src="../../../public/image/login.jpg" max-height="220" max-width="220"></v-img>
