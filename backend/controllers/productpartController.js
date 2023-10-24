@@ -1,52 +1,52 @@
-const { ProductCategory } = require("../models/models");
+const { ProductPart } = require("../models/models");
 const { badRequest } = "../error/ApiError";
 
-class productcategoryController {
+class productPartController {
   async create(req, res, next) {
     try {
       let { name, icon } = req.body;
 
-      const productCategory = await ProductCategory.create({
+      const productPart = await ProductPart.create({
         name,
         icon,
       });
 
-      return res.json(productCategory);
+      return res.json(productPart);
     } catch (e) {
       next(badRequest(e.message));
     }
   }
 
   async getAll(req, res) {
-    const productCategorys = await ProductCategory.findAll();
-    return res.json(productCategorys);
+    const productParts = await ProductPart.findAll();
+    return res.json(productParts);
   }
 
   async getOne(req, res) {
     const { id } = req.params;
-    const productCategory = await ProductCategory.findOne({
+    const productPart = await ProductPart.findOne({
       where: {
         id,
       },
     });
-    return res.json(productCategory);
+    return res.json(productPart);
   }
 
   async deleteItem(req, res) {
     const { id } = req.params;
-    const productCategory = await ProductCategory.destroy({
+    const productPart = await ProductPart.destroy({
       where: {
         id,
       },
     });
-    return res.json(productCategory);
+    return res.json(productPart);
   }
 
   async updateItem(req, res, next) {
     try {
       let { name, icon, id } = req.body;
 
-      const [updated] = await ProductCategory.update(
+      const [updated] = await ProductPart.update(
         {
           name,
           icon,
@@ -59,7 +59,7 @@ class productcategoryController {
       );
 
       if (updated === 0) {
-        return res.status(404).send({ error: "Product category not found" });
+        return res.status(404).send({ error: "ProductPart not found" });
       }
 
       return res.json(updated);
@@ -69,4 +69,4 @@ class productcategoryController {
   }
 }
 
-module.exports = new productcategoryController();
+module.exports = new productPartController();

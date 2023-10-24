@@ -17,4 +17,4 @@ class ApiError  extends Error{
     }
 }
 
-export default ApiError
+module.export = ApiError

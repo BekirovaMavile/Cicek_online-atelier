@@ -9,7 +9,7 @@ class partController {
       const part = await Part.create({
         name,
         icon,
-        part_category_id,
+        part_category_id: Number(part_category_id),
       });
 
       return res.json(part);
