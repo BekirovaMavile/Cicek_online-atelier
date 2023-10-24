@@ -9,7 +9,7 @@ const {
 } = require('../controllers/materialController');
 const verifyJWT = require('../middleware/verifyJWT.JS');
 
-router.post("/", create);
+router.post("/", verifyJWT, create);
 router.get("/", getAll);
 router.get("/:id", getOne);
 router.delete("/:id", deleteItem);

@@ -1,6 +1,6 @@
 const {
     User
-} = require("../models/models");
+} = require("../../models/models");
 
 class LogoutController {
     async handleLogout(req, res) {

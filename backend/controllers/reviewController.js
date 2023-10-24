@@ -2,7 +2,8 @@ const { Review } = require("../models/models");
 
 class ReviewController {
     async create(req, res) {
-        const {user_id, rating, comment} = req.body;
+        const user_id = req.user.id
+        const {rating, comment} = req.body;
         try {
             const review = await Review.create({user_id, rating, comment});
             res.json(review)
@@ -50,18 +51,22 @@ class ReviewController {
 
     async updateReview(req, res) {
         try {
+            const userId = req.user.id;
+
             const { newRaiting, newComment, id } = req.body;
             const foundReview = await Review.findOne({
                 where: {
                     id: Number(id)
                 },
             });
-            return res.json({"asd": newRaiting})
-            // foundReview.status = newRaiting;
-            // foundReview.comment = newComment;
-            // foundReview.save();
 
-            // return res.json(foundReview);
+            if (!(foundReview.user_id === userId)) return res.status(404).json({"message": "Нет прав доступа"});
+            
+            foundReview.status = newRaiting;
+            foundReview.comment = newComment;
+            foundReview.save();
+
+            return res.json(foundReview);
         } catch (err) {
             res.status(404).send({ 'message': err })
         }
