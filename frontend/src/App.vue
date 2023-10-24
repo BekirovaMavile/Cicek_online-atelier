@@ -58,10 +58,12 @@ export default {
           title: "Корзина", url: "/cart"
         },
         { title: "Отзывы", url: "/reviews" },
-        { title: "Профиль", url: "/profile" },
+        // { title: "Профиль", url: "/profile" },
         { title: "Вход", url: "/login" }
       ]
     }
   }
 }
 </script>
+
+

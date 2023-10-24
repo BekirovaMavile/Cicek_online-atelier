@@ -25,16 +25,22 @@
         <v-row class="justify-center text-center mt-4 mb-4">
               <!-- Первая колонка -->
               <v-col cols="4">
+                <h3>Платье</h3>
+                <br>
                 <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorDress">Перейти</v-btn>
               </v-col>
 
               <!-- Вторая колонка -->
               <v-col cols="4">
+                <h3>Футболка</h3>
+                  <br>
                 <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorShirt">Перейти</v-btn>
               </v-col>
 
               <!-- Третья колонка -->
               <v-col cols="4">
+                <h3>Худи</h3>
+                  <br>
                 <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorHudi">Перейти</v-btn>
               </v-col>
             </v-row>
@@ -58,10 +64,14 @@
                   <v-row class="justify-center text-center mt-4 mb-4">
                   <!-- Первая колонка -->
                   <v-col cols="6">
+                    <h3>Юбка</h3>
+                  <br>
                     <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorSkirt">Перейти</v-btn>
                   </v-col>
                   <!-- Третья колонка -->
                   <v-col cols="6">
+                    <h3>Брюки</h3>
+                  <br>
                     <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorPants">Перейти</v-btn>
                   </v-col>
                 </v-row>

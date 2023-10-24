@@ -14,9 +14,9 @@
                     <v-img src="../../../public/image/login.jpg" max-height="220" max-width="220"></v-img>
                 </v-col>
                 <v-form ref="form" @submit.prevent="login">
-                    <v-text-field v-model="email" label="Электронный адрес"></v-text-field>
-                    <v-text-field v-model="password" type="password" label="Пароль"></v-text-field>
-                    <v-btn rounded="" color="blue-grey-lighten-3">Войти</v-btn>
+                    <v-text-field v-model="email" :rules="emailRules" label="Электронный адрес"></v-text-field>
+                    <v-text-field v-model="password" :rules="passwordRules" type="password" label="Пароль"></v-text-field>
+                    <v-btn rounded color="blue-grey-lighten-3" type="submit">Войти</v-btn>
                     <p class="mt-5">Еще нет аккаунта? <a href="/registration" class="login">Зарегистрируйтесь.</a></p>
                 </v-form>
             </v-col>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -32,14 +34,48 @@ export default {
             password: '',
         };
     },
+    computed: {
+        emailRules() {
+            return [
+                v => !!v || 'Поле должно быть заполнено',
+                v => /.+@.+\..+/.test(v) || 'Введите действительный адрес электронной почты',
+            ];
+        },
+        passwordRules() {
+            return [
+                v => !!v || 'Поле должно быть заполнено',
+                v => (v && v.length >= 6) || 'Пароль должен содержать не менее 6 символов',
+            ];
+        },
+    },
     methods: {
+        async login() {
+            if (this.$refs.form.validate()) {
+                try {
+                    const response = await axios.post('http://localhost:3000/api/user/auth', {
+                        email: this.email,
+                        password: this.password,
+                    });
+
+                    // Проверка успешного входа
+                    if (response.data.accessToken) {
+                        // Перенаправление на страницу пользователя
+                        this.$router.push({ name: 'profile' });
+                    } else {
+                        console.log('Вход не удался');
+                    }
+                } catch (error) {
+                    console.error('Произошла ошибка при входе:', error);
+                }
+            }
+        },
     },
 };
 </script>
 
 <style>
 a.login {
-  color: #497DDD; 
-  text-decoration: none;
+    color: #497DDD;
+    text-decoration: none;
 }
 </style>

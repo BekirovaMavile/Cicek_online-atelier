@@ -30,9 +30,10 @@
                             <!-- Дополнительные поля информации о пользователе -->
                         </v-list>
                     </v-card-text>
-                    <!-- <v-card-actions class="justify-center"> -->
                 <v-btn rounded="" color="blue-grey-lighten-3">Изменить данные</v-btn>
-              <!-- </v-card-actions> -->
+                <br>
+                <br>
+                <v-btn rounded="" @click="logout" color="blue-grey-lighten-3">Выйти</v-btn>
                 </v-card>
             </v-col>
             <v-col cols="12" md="8">
@@ -59,19 +60,37 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
             username: "JohnDoe",
             email: "johndoe@example.com",
             name: "John Doe",
-            birthdate: "01.01.1990",
+            birthdate: "-",
             orders: [
                 { id: 1, status: "Обрабатывается" },
                 { id: 2, status: "Доставка" },
-                // Дополнительные заказы пользователя
             ],
         };
+    },
+    methods: {
+        logout() {
+            // Удаляем JWT-токен из localStorage
+            localStorage.removeItem('accessToken');
+
+            // Далее можно добавить запрос на сервер для удаления refreshToken,
+            // если это необходимо
+            // axios.post('http://localhost:3000/api/user/logout').then(response => {
+            //     if (response.status === 204) {
+            //         localStorage.removeItem('accessToken'); // Удаляем JWT-токен
+            //         this.$router.push({ name: 'login' }); // Перенаправляем на страницу входа
+            //     }
+            // }).catch(error => {
+            //     console.error('Ошибка при выходе:', error);
+            // });
+            this.$router.push({ name: 'login' }); // Перенаправляем на страницу входа
+        },
     },
 };
 </script>
