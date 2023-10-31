@@ -1,14 +1,16 @@
 const { PartCategory, PartProductCategory } = require("../models/models");
-const { badRequest } = "../error/ApiError";
+const { badRequest } = require("../error/ApiError");
+const fileService = require("../service/fileService")
 
 class partcategoryController {
   async create(req, res, next) {
     try {
-      let { name, icon, product_categories_id } = req.body;
+      const { name, product_categories_id } = req.body;
+      const fileName = fileService.saveFile(req.files.image)
 
       const partCategory = await PartCategory.create({
         name,
-        icon,
+        icon: fileName,
         product_categories_id,
       });
 

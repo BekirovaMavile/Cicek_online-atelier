@@ -1,14 +1,16 @@
 const { Part } = require("../models/models");
-const { badRequest } = "../error/ApiError";
+const { badRequest } = require("../error/ApiError");
+const fileService = require("../service/fileService")
 
 class partController {
   async create(req, res, next) {
     try {
-      let { name, icon, part_category_id } = req.body;
+      const { name, part_category_id } = req.body;
+      const fileName = fileService.saveFile(req.files.image)
 
       const part = await Part.create({
         name,
-        icon,
+        icon: fileName,
         part_category_id: Number(part_category_id),
       });
 

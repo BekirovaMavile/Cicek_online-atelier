@@ -1,19 +1,21 @@
 const { Color } = require("../models/models");
-const { badRequest } = "../error/ApiError";
+const { badRequest } = require("../error/ApiError");
+const fileService = require("../service/fileService")
 
 class colorController {
   async create(req, res, next) {
     try {
-      let { name, icon } = req.body;
+      const { name } = req.body;
+      const fileName = fileService.saveFile(req.files.image)
 
       const color = await Color.create({
         name,
-        icon,
+        icon: fileName,
       });
 
-      return res.json(color);
+      return res.json(color)
     } catch (e) {
-      next(badRequest(e.message));
+      return res.json(e);
     }
   }
 

@@ -1,14 +1,16 @@
 const { ProductCategory } = require("../models/models");
-const { badRequest } = "../error/ApiError";
+const fileService = require("../service/fileService");
+const { badRequest } = require("../error/ApiError");
 
 class productcategoryController {
   async create(req, res, next) {
     try {
-      let { name, icon } = req.body;
+      const { name } = req.body;
+      const fileName = fileService.saveFile(req.file.image)
 
       const productCategory = await ProductCategory.create({
         name,
-        icon,
+        icon: fileName,
       });
 
       return res.json(productCategory);
