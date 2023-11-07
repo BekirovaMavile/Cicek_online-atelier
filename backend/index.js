@@ -5,12 +5,14 @@ const router = require('./routes/index')
 const cors = require('cors');
 // import cors from "cors";
 const cokieParser = require("cookie-parser");
+const fileUpload = require('express-fileupload');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cokieParser());
 app.use(express.json())
+app.use(fileUpload({}))
 app.use(cors());
 app.use('/api', router)
 

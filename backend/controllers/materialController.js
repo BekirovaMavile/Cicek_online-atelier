@@ -1,14 +1,16 @@
 const { Material } = require("../models/models");
-const { badRequest } = "../error/ApiError";
+const { badRequest } = require("../error/ApiError");
+const fileService = require("../service/fileService")
 
 class materialController {
   async create(req, res, next) {
     try {
-      let { name, icon } = req.body;
+      const { name } = req.body;
+      const fileName = fileService.saveFile(req.files.image)
 
       const material = await Material.create({
         name,
-        icon,
+        icon: fileName,
       });
 
       return res.json(material);
