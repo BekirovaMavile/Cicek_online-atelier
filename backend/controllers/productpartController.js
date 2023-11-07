@@ -1,16 +1,14 @@
 const { ProductPart } = require("../models/models");
-const { badRequest } = require("../error/ApiError");
-const fileService = require("../service/fileService")
+const { badRequest } = "../error/ApiError";
 
 class productPartController {
   async create(req, res, next) {
     try {
-      const { name } = req.body;
-      const fileName = fileService.saveFile(req.files.image)
+      let { name, icon } = req.body;
 
       const productPart = await ProductPart.create({
         name,
-        icon: fileName,
+        icon,
       });
 
       return res.json(productPart);

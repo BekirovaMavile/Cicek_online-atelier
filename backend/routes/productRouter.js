@@ -4,11 +4,6 @@ const router = new Router();
 const {
   create,
   getAll,
-  getOne,
-  getByColor,
-  getByMaterial,
-  getByCategory,
-  getBySize,
   deleteItem,
   updateItem,
   search,

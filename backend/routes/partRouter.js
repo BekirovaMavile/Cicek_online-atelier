@@ -8,12 +8,14 @@ const {
   getByCategory,
   deleteItem,
   updateItem,
+  getByProduct,
 } = require("../controllers/partController.js");
 
 router.post("/", create);
 router.get("/", getAll);
 router.get("/:id", getOne);
-router.get("/:part_category_id", getByCategory);
+router.get("/cat/:part_category_id", getByCategory);
+router.get("/prod/:product_id", getByProduct);
 router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
 

@@ -11,6 +11,7 @@ const partcategoryRouter = require("./partcategoryRouter");
 const productcategoryRouter = require("./productcategoryRouter");
 const productRouter = require("./productRouter");
 const productpartRouter = require("./productpartRouter");
+const creatorRouter = require("./creatorRouter");
 
 
 router.use("/user", userRouter);
@@ -24,5 +25,6 @@ router.use("/product", productRouter);
 router.use("/partcategory", partcategoryRouter);
 router.use("/productcategory", productcategoryRouter);
 router.use("/productpart", productpartRouter);
+router.use("/creator", creatorRouter);
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const sequelize = require("../db");
-
 const { DataTypes } = require("sequelize");
 
 const User = sequelize.define("User", {
@@ -247,8 +246,8 @@ PartCategory.hasMany(Part, {
 Part.belongsTo(PartCategory, { foreignKey: "part_category_id" });
 
 // Связь между таблицами Part и Product (многие ко многим)
-ProductPart.belongsTo(Part);
-ProductPart.belongsTo(Product);
+ProductPart.belongsTo(Part , { foreignKey: "part_id" });
+ProductPart.belongsTo(Product , { foreignKey: "product_id" });
 
 // Связь между таблицами User и Review
 User.hasMany(Review, { foreignKey: "user_id" });

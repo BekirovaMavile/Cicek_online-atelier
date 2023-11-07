@@ -1,16 +1,14 @@
-const { Part } = require("../models/models");
-const { badRequest } = require("../error/ApiError");
-const fileService = require("../service/fileService")
+const { Part, ProductPart } = require("../models/models");
+const { badRequest } = "../error/ApiError";
 
 class partController {
   async create(req, res, next) {
     try {
-      const { name, part_category_id } = req.body;
-      const fileName = fileService.saveFile(req.files.image)
+      let { name, icon, part_category_id } = req.body;
 
       const part = await Part.create({
         name,
-        icon: fileName,
+        icon,
         part_category_id: Number(part_category_id),
       });
 
@@ -39,6 +37,23 @@ class partController {
     const parts = await Part.findAll({
       where: { part_category_id },
     });
+    return res.json(parts);
+  }
+
+  async getByProduct(req, res) {
+    const {  ProductId } = req.params;
+
+    const productParts = await ProductPart.findAll({
+      where: { ProductId },
+    });
+
+    // Извлечь массив id из результатов запроса ProductPart
+    const partIds = productParts.map((part) => part.PartId);
+
+    const parts = await Part.findAll({
+      where: { id: partIds },
+    });
+
     return res.json(parts);
   }
 
