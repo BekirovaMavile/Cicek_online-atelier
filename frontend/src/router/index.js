@@ -13,6 +13,7 @@ import Registration from '@/components/Auth/Registration.vue'
 import Reviews from '@/components/Auth/Reviews.vue'
 import Profile from '@/components/Auth/Profile.vue'
 import Clothes from '@/components/Atelier/Clothes.vue'
+import Admin from '@/components/Auth/Admin.vue'
 
 
 const routes = [
@@ -40,6 +41,11 @@ component: Reviews
 path: '/login',
 name: 'login',
 component: Login
+},
+{
+path: '/admin',
+name: 'admin',
+component: Admin
 },
 {
 path: '/registration',

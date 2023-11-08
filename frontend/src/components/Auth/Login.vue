@@ -8,7 +8,7 @@
                     пожалуйста, пройдите процесс регистрации.
                 </p>
             </v-col>
-
+<!--  -->
             <v-col cols="12" md="6">
                 <v-col cols="auto">
                     <v-img src="../../../public/image/login.jpg" max-height="220" max-width="220"></v-img>
@@ -18,6 +18,7 @@
                     <v-text-field v-model="password" :rules="passwordRules" type="password" label="Пароль"></v-text-field>
                     <v-btn rounded color="blue-grey-lighten-3" type="submit">Войти</v-btn>
                     <p class="mt-5">Еще нет аккаунта? <a href="/registration" class="login">Зарегистрируйтесь.</a></p>
+                    <p class="mt-5"><a href="/admin" class="login">Вход</a> для администратора</p>
                 </v-form>
             </v-col>
         </v-row>
