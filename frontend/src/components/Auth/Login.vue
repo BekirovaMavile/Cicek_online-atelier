@@ -18,6 +18,7 @@
                     <v-text-field v-model="password" :rules="passwordRules" type="password" label="Пароль"></v-text-field>
                     <v-btn rounded color="blue-grey-lighten-3" type="submit">Войти</v-btn>
                     <p class="mt-5">Еще нет аккаунта? <a href="/registration" class="login">Зарегистрируйтесь.</a></p>
+                    <p class="mt-5"><a href="/admin" class="login">Вход</a> для администратора</p>
                 </v-form>
             </v-col>
         </v-row>
