@@ -1,10 +1,8 @@
 const Router = require("express");
 const router = new Router();
 
-const {
-  CreateAll
-} = require("../controllers/creators/index");
+const CreateAll = require("../controllers/creators/index");
 
-router.post("/", CreateAll);
+router.get("/", CreateAll);
 
 module.exports = router;

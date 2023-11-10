@@ -3,21 +3,21 @@
     <v-tabs v-model="tab" color="blue-grey-darken-4" align-tabs="center">
       <v-tab
         v-for="category in categories[currentCategory]"
-        :key="category.value"
-        :value="category.value"
+        :key="category.id"
+        :id="category.id"
       >
         {{ category.name }}
       </v-tab>
-      <v-tab :value="8">Цвет</v-tab>
-      <v-tab :value="9">Размер</v-tab>
-      <v-tab :value="10">Итого</v-tab>
+      <v-tab :id="8">Цвет</v-tab>
+      <v-tab :id="9">Размер</v-tab>
+      <v-tab :id="10">Итого</v-tab>
     </v-tabs>
     <v-window v-model="tab">
       <!-- Табы для выбранной категории -->
       <v-window-item
         v-for="category in categories[currentCategory]"
-        :key="category.value"
-        :value="category.value"
+        :key="category.id"
+        :id="category.id"
       >
         <v-container fluid>
           <v-row class="mb-12">
@@ -25,7 +25,7 @@
               <v-row justify="center">
                 <!-- Отобразите изображения для выбранной категории -->
                 <v-img
-                  v-for="image in getCategoryImages(category.value)"
+                  v-for="image in getCategoryImages(category.id)"
                   :key="image"
                   :src="image"
                   aspect-ratio="1"
@@ -35,18 +35,16 @@
             </v-col>
             <v-row justify="center">
               <v-col
-                v-for="(checkbox, index) in getCategoryCheckboxes(
-                  category.value
-                )"
+                v-for="(checkbox, index) in getCategoryCheckboxes(category.id)"
                 :key="index"
                 cols="4"
               >
                 <v-radio-group
                   v-model="
-                    selectedCategoryValues[this.currentCategory][category.value]
+                    selectedCategoryids[this.currentCategory][category.id]
                   "
                 >
-                  <v-radio :label="checkbox" :value="checkbox"></v-radio>
+                  <v-radio :label="checkbox" :id="checkbox"></v-radio>
                 </v-radio-group>
               </v-col>
             </v-row>
@@ -55,11 +53,11 @@
       </v-window-item>
 
       <!-- Таб для Цвета -->
-      <v-window-item v-if="tab === 8" :value="8">
+      <v-window-item v-if="tab === 8" :id="8">
         <v-row class="mb-12">
           <v-col v-for="(color, index) in colors" :key="index" cols="12" sm="3">
             <v-radio-group v-model="selectedColor">
-              <v-radio :label="color.name" :value="color.name"></v-radio>
+              <v-radio :label="color.name" :id="color.name"></v-radio>
               <v-img
                 :src="color.image"
                 aspect-ratio="1"
@@ -71,7 +69,7 @@
         </v-row>
       </v-window-item>
       <!-- Таб для Размера -->
-      <v-window-item v-if="tab === 9" :value="9">
+      <v-window-item v-if="tab === 9" :id="9">
         <v-row>
           <v-container>
             <v-combobox
@@ -102,14 +100,14 @@
       </v-window-item>
 
       <!-- Таб для Итого -->
-      <v-window-item v-if="tab === 10" :value="10">
+      <v-window-item v-if="tab === 10" :id="10">
         <v-row>
           <v-container>
             <ul>
-              <li>Длина: {{ selectedCategoryValues[1] }}</li>
-              <li>Карман: {{ selectedCategoryValues[2] }}</li>
-              <li>Рукав: {{ selectedCategoryValues[3] }}</li>
-              <li>Горловина: {{ selectedCategoryValues[4] }}</li>
+              <li>Длина: {{ selectedCategoryids[1] }}</li>
+              <li>Карман: {{ selectedCategoryids[2] }}</li>
+              <li>Рукав: {{ selectedCategoryids[3] }}</li>
+              <li>Горловина: {{ selectedCategoryids[4] }}</li>
               <li>Цвет: {{ selectedColor }}</li>
               <li>Размер: {{ selectedSize }}</li>
             </ul>
@@ -128,297 +126,272 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data: () => ({
-    // prodCats массив объектов
-    //   id: {
-    //   type: DataTypes.INTEGER,
-    //   primaryKey: true,
-    //   autoIncrement: true,
-    // },
-    // name: {
-    //   type: DataTypes.STRING(45),
-    //   allowNull: false,
-    // },
-    // icon: {
-    //   type: DataTypes.STRING(200),
-    // },
-
-
-
-    // partCats: функция принимает id категории продукта, принимает массив объектов категорий частей
-    //   id: {
-    //   type: DataTypes.INTEGER,
-    //   primaryKey: true,
-    //   autoIncrement: true,
-    // },
-    // name: {
-    //   type: DataTypes.STRING(45),
-    //   allowNull: false,
-    // },
-    // icon: {
-    //   type: DataTypes.STRING(200),
-    // product_categories_id: {
-    //   type: DataTypes.INTEGER,
-    // }},
-
-    selectedCategoryValues: {},
+    // selectedCategoryids: {},
     selected: null,
     tab: 1,
-    currentCategory: null,
-    images: {
-      dress: {
-        1: [
-          "./image/constructorDress/1.webp",
-          "./image/constructorDress/2.webp",
-        ],
-        2: [
-          "./image/constructorDress/3.webp",
-          "./image/constructorDress/4.webp",
-        ],
-        3: [
-          "./image/constructorDress/1.webp",
-          "./image/constructorDress/5.webp",
-          "./image/constructorDress/3.webp",
-        ],
-        4: [
-          "./image/constructorDress/1.webp",
-          "./image/constructorDress/5.webp",
-          "./image/constructorDress/3.webp",
-        ],
+    // currentCategory: null,
+    selectedCategories: {},
+    selectedPartCategoryId: {},
+    productCategories: [],
+    partcategories: [],
+
+    images: [
+      {
+        type: "dress",
+        options: {
+          1: [
+            "./image/constructorDress/1.webp",
+            "./image/constructorDress/2.webp",
+          ],
+          2: [
+            "./image/constructorDress/3.webp",
+            "./image/constructorDress/4.webp",
+          ],
+          3: [
+            "./image/constructorDress/1.webp",
+            "./image/constructorDress/5.webp",
+            "./image/constructorDress/3.webp",
+          ],
+          4: [
+            "./image/constructorDress/1.webp",
+            "./image/constructorDress/5.webp",
+            "./image/constructorDress/3.webp",
+          ],
+        },
       },
-      shirt: {
-        1: [
-          "./image/constructorShirt/1.jpeg",
-          "./image/constructorShirt/2.webp",
-        ],
-        2: [
-          "./image/constructorShirt/3.webp",
-          "./image/constructorShirt/2.webp",
-        ],
-        3: [
-          "./image/constructorShirt/1.jpeg",
-          "./image/constructorShirt/4.jpeg",
-        ],
-        4: [
-          "./image/constructorShirt/1.jpeg",
-          "./image/constructorShirt/2.webp",
-          "./image/constructorShirt/5.jpeg",
-        ],
+      {
+        type: "shirt",
+        options: {
+          1: [
+            "./image/constructorShirt/1.jpeg",
+            "./image/constructorShirt/2.webp",
+          ],
+          2: [
+            "./image/constructorShirt/3.webp",
+            "./image/constructorShirt/2.webp",
+          ],
+          3: [
+            "./image/constructorShirt/1.jpeg",
+            "./image/constructorShirt/4.jpeg",
+          ],
+          4: [
+            "./image/constructorShirt/1.jpeg",
+            "./image/constructorShirt/2.webp",
+            "./image/constructorShirt/5.jpeg",
+          ],
+        },
       },
-      hudi: {
-        1: [
-          "./image/constructorHudi/one.webp",
-          "./image/constructorHudi/three.jpeg",
-        ],
-        2: [
-          "./image/constructorHudi/four.jpeg",
-          "./image/constructorHudi/five.jpeg",
-        ],
-        3: [
-          "./image/constructorHudi/six.webp",
-          "./image/constructorHudi/seven.jpeg",
-          "./image/constructorHudi/eight.webp",
-        ],
-        4: [
-          "./image/constructorHudi/three.jpeg",
-          "./image/constructorHudi/nine.webp",
-        ],
-        5: [
-          "./image/constructorHudi/ten.webp",
-          "./image/constructorHudi/eleven.webp",
-          "./image/constructorHudi/12.webp",
-        ],
-        6: [
-          "./image/constructorHudi/three.jpeg",
-          "./image/constructorHudi/hudi1.jpeg",
-        ],
-        7: [
-          "./image/constructorHudi/13.webp",
-          "./image/constructorHudi/14.webp",
-        ],
+      {
+        type: "hudi",
+        options: {
+          1: [
+            "./image/constructorHudi/one.webp",
+            "./image/constructorHudi/three.jpeg",
+          ],
+          2: [
+            "./image/constructorHudi/four.jpeg",
+            "./image/constructorHudi/five.jpeg",
+          ],
+          3: [
+            "./image/constructorHudi/six.webp",
+            "./image/constructorHudi/seven.jpeg",
+            "./image/constructorHudi/eight.webp",
+          ],
+          4: [
+            "./image/constructorHudi/three.jpeg",
+            "./image/constructorHudi/nine.webp",
+          ],
+          5: [
+            "./image/constructorHudi/ten.webp",
+            "./image/constructorHudi/eleven.webp",
+            "./image/constructorHudi/12.webp",
+          ],
+          6: [
+            "./image/constructorHudi/three.jpeg",
+            "./image/constructorHudi/hudi1.jpeg",
+          ],
+          7: [
+            "./image/constructorHudi/13.webp",
+            "./image/constructorHudi/14.webp",
+          ],
+        },
       },
-      skirt: {
-        1: [
-          "./image/constructorSkirt/1.webp",
-          "./image/constructorSkirt/2.webp",
-        ],
-        2: [
-          "./image/constructorSkirt/3.jpeg",
-          "./image/constructorSkirt/2.webp",
-          "./image/constructorSkirt/1.webp",
-        ],
-        3: [
-          "./image/constructorSkirt/3.jpeg",
-          "./image/constructorSkirt/4.webp",
-        ],
-        4: [
-          "./image/constructorSkirt/13.webp",
-          "./image/constructorSkirt/14.webp",
-        ],
+      {
+        type: "skirt",
+        options: {
+          1: [
+            "./image/constructorSkirt/1.webp",
+            "./image/constructorSkirt/2.webp",
+          ],
+          2: [
+            "./image/constructorSkirt/3.jpeg",
+            "./image/constructorSkirt/2.webp",
+            "./image/constructorSkirt/1.webp",
+          ],
+          3: [
+            "./image/constructorSkirt/3.jpeg",
+            "./image/constructorSkirt/4.webp",
+          ],
+          4: [
+            "./image/constructorSkirt/13.webp",
+            "./image/constructorSkirt/14.webp",
+          ],
+        },
       },
-      pants: {
-        1: [
-          "./image/constructorPants/1.jpeg",
-          "./image/constructorPants/2.webp",
-          "./image/constructorPants/4.jpeg",
-        ],
-        2: [
-          "./image/constructorPants/4.jpeg",
-          "./image/constructorPants/5.webp",
-        ],
-        3: [
-          "./image/constructorPants/1.jpeg",
-          "./image/constructorPants/2.webp",
-        ],
-        4: [
-          "./image/constructorPants/1.jpeg",
-          "./image/constructorPants/3.webp",
-        ],
-        5: [
-          "./image/constructorPants/13.webp",
-          "./image/constructorPants/14.webp",
-        ],
+      {
+        type: "pants",
+        options: {
+          1: [
+            "./image/constructorPants/1.jpeg",
+            "./image/constructorPants/2.webp",
+            "./image/constructorPants/4.jpeg",
+          ],
+          2: [
+            "./image/constructorPants/4.jpeg",
+            "./image/constructorPants/5.webp",
+          ],
+          3: [
+            "./image/constructorPants/1.jpeg",
+            "./image/constructorPants/2.webp",
+          ],
+          4: [
+            "./image/constructorPants/1.jpeg",
+            "./image/constructorPants/3.webp",
+          ],
+          5: [
+            "./image/constructorPants/13.webp",
+            "./image/constructorPants/14.webp",
+          ],
+        },
       },
-    },
-    categories: {
-      dress: [
-        { name: "Длина", value: 1 },
-        { name: "Карман", value: 2 },
-        { name: "Рукав", value: 3 },
-        { name: "Горловина", value: 4 },
-      ],
-      shirt: [
-        { name: "Крой", value: 1 },
-        { name: "Длина", value: 2 },
-        { name: "Горловина", value: 3 },
-        { name: "Рукав", value: 4 },
-      ],
-      hudi: [
-        { name: "Крой", value: 1 },
-        { name: "Длина", value: 2 },
-        { name: "Низ", value: 3 },
-        { name: "Карман", value: 4 },
-        { name: "Манжеты", value: 5 },
-        { name: "Капюшон", value: 6 },
-        { name: "Ткань", value: 7 },
-      ],
-      skirt: [
-        { name: "Крой", value: 1 },
-        { name: "Длина", value: 2 },
-        { name: "Пояс", value: 3 },
-        { name: "Ткань", value: 4 },
-      ],
-      pants: [
-        { name: "Модель", value: 1 },
-        { name: "Пояс", value: 2 },
-        { name: "Низ", value: 3 },
-        { name: "Карман", value: 4 },
-        { name: "Ткань", value: 5 },
-      ],
-      colors: [
-        { name: "Черный", image: "./image/color_cicek/black.jpeg" },
-        { name: "Песочный", image: "./image/color_cicek/песочный.jpeg" },
-        { name: "Фиолетовый", image: "./image/color_cicek/фиолетовый.jpeg" },
-        { name: "Лавандовый", image: "./image/color_cicek/лавандовый.jpeg" },
-        { name: "Розовый", image: "./image/color_cicek/розовый.jpeg" },
-        { name: "Белый", image: "./image/color_cicek/белый.jpeg" },
-        { name: "Серый", image: "./image/color_cicek/серый.jpeg" },
-        { name: "Графит", image: "./image/color_cicek/графит.jpg" },
-        { name: "Желтый", image: "./image/color_cicek/желтая.jpeg" },
-        { name: "Оранжевый", image: "./image/color_cicek/оранжевый.jpeg" },
-        { name: "Красный", image: "./image/color_cicek/красный.jpeg" },
-        { name: "Синий", image: "./image/color_cicek/синий.jpeg" },
-        { name: "Голубой", image: "./image/color_cicek/голубой.jpeg" },
-        { name: "Зеленый", image: "./image/color_cicek/зеленый.jpeg" },
-        { name: "Мятный", image: "./image/color_cicek/мятный.jpeg" },
-        { name: "Хаки", image: "./image/color_cicek/хаки.jpeg" },
-      ],
-    },
-    chexboxDress: {
-      1: ["Средняя", "Длинная"],
-      2: ["С карманом", "Без кармана"],
-      3: ["Длинный", "3/4", "Короткий"],
-      4: ["Квадратный", "Треугольный", "Круглый"],
-    },
-    chexboxShirt: {
-      1: ["Классический", "Оверсайз"],
-      2: ["До пояса", "До бедра"],
-      3: ["Круглая", "Треугольная"],
-      4: ["Короткий", "До локтя", "Лонгслив"],
-    },
-    chexboxHudi: {
-      1: ["Классический", "Бочонок (оверсайз)"],
-      2: ["До середины бедер", "До колена"],
-      3: ["Декоративная резинка кашкорсе", "Обрезанный край", "Шов"],
-      4: ["Кенгуру", "В боковых швах"],
-      5: ["Декоративная резинка кашкорсе", "Шов", "На резинке"],
-      6: ["С капюшоном", "Без капюшона"],
-      7: ["С начёсом", "Без начёса"],
-    },
-    chexboxSkirt: {
-      1: ["Прямая", "Колокол"],
-      2: ["Короткая", "Средняя", "Длинная"],
-      3: ["Декоративная резинка кашкорсе", "Резинка со шнурком"],
-      4: ["С начёсом", "Без начёса"],
-    },
-    chexboxPants: {
-      1: ["Классика", "Карго", "Широкие"],
-      2: ["Декоративная резинка кашкорсе", "Резинка со шнурком"],
-      3: ["Шов", "Резинка"],
-      4: ["С карманом", "Без кармана"],
-      5: ["С начёсом", "Без начёса"],
-    },
-    // colors: [
-    //     { name: "Черный", image: "./image/color_cicek/black.jpeg" },
-    //     { name: "Песочный", image: "./image/color_cicek/песочный.jpeg" },
-    //     { name: "Фиолетовый", image: "./image/color_cicek/фиолетовый.jpeg" },
-    //     { name: "Лавандовый", image: "./image/color_cicek/лавандовый.jpeg" },
-    //     { name: "Розовый", image: "./image/color_cicek/розовый.jpeg" },
-    //     { name: "Белый", image: "./image/color_cicek/белый.jpeg" },
-    //     { name: "Серый", image: "./image/color_cicek/серый.jpeg" },
-    //     { name: "Графит", image: "./image/color_cicek/графит.jpg" },
-    //     { name: "Желтый", image: "./image/color_cicek/желтая.jpeg" },
-    //     { name: "Оранжевый", image: "./image/color_cicek/оранжевый.jpeg" },
-    //     { name: "Красный", image: "./image/color_cicek/красный.jpeg" },
-    //     { name: "Синий", image: "./image/color_cicek/синий.jpeg" },
-    //     { name: "Голубой", image: "./image/color_cicek/голубой.jpeg" },
-    //     { name: "Зеленый", image: "./image/color_cicek/зеленый.jpeg" },
-    //     { name: "Мятный", image: "./image/color_cicek/мятный.jpeg" },
-    //     { name: "Хаки", image: "./image/color_cicek/хаки.jpeg" },
-    // ],
+    ],
+    categories: [],
+    colors: [],
+    chexboxDress: [
+      { id: 1, options: ["Средняя", "Длинная"] },
+      { id: 2, options: ["С карманом", "Без кармана"] },
+      { id: 3, options: ["Длинный", "3/4", "Короткий"] },
+      { id: 4, options: ["Квадратный", "Треугольный", "Круглый"] },
+    ],
+    chexboxShirt: [
+      { id: 1, options: ["Классический", "Оверсайз"] },
+      { id: 2, options: ["До пояса", "До бедра"] },
+      { id: 3, options: ["Круглая", "Треугольная"] },
+      { id: 4, options: ["Короткий", "До локтя", "Лонгслив"] },
+    ],
+    chexboxHudi: [
+      { id: 1, options: ["Классический", "Бочонок (оверсайз)"] },
+      { id: 2, options: ["До середины бедер", "До колена"] },
+      {
+        id: 3,
+        options: ["Декоративная резинка кашкорсе", "Обрезанный край", "Шов"],
+      },
+      { id: 4, options: ["Кенгуру", "В боковых швах"] },
+      {
+        id: 5,
+        options: ["Декоративная резинка кашкорсе", "Шов", "На резинке"],
+      },
+      { id: 6, options: ["С капюшоном", "Без капюшона"] },
+      { id: 7, options: ["С начёсом", "Без начёса"] },
+    ],
+    chexboxSkirt: [
+      { id: 1, options: ["Прямая", "Колокол"] },
+      { id: 2, options: ["Короткая", "Средняя", "Длинная"] },
+      {
+        id: 3,
+        options: ["Декоративная резинка кашкорсе", "Резинка со шнурком"],
+      },
+      { id: 4, options: ["С начёсом", "Без начёса"] },
+    ],
+    chexboxPants: [
+      { id: 1, options: ["Классика", "Карго", "Широкие"] },
+      {
+        id: 2,
+        options: ["Декоративная резинка кашкорсе", "Резинка со шнурком"],
+      },
+      { id: 3, options: ["Шов", "Резинка"] },
+      { id: 4, options: ["С карманом", "Без кармана"] },
+      { id: 5, options: ["С начёсом", "Без начёса"] },
+    ],
+    chexboxData: [],
   }),
   mounted() {
     this.loadProdCats();
+    this.loadColors();
+    this.loadProdCats();
   },
   computed: {
-    getSelectedValue() {
-      return (categoryValue) => this.selectedCategoryValues[categoryValue];
+    getSelectedid() {
+      return (categoryid) => this.selectedCategoryids[categoryid];
     },
     currentCategory() {
       return this.$route.params.category;
     },
   },
   methods: {
-    loadPartCats(id) {
-      axios
-        .get("http://localhost:3000/api/partcategory/" + id)
-        .then((response) => {
-          this.reviews = response.data;
-        });
+    loadPartCats() {
+      axios.get("http://localhost:3000/api/partcategory/").then((response) => {
+        this.reviews = response.data;
+      });
     },
-    getCategoryImages(categoryValue) {
-      if (this.currentCategory && this.currentCategory in this.images) {
-        return this.images[this.currentCategory][categoryValue];
+    loadProdCats() {
+      axios.get("http://localhost:3000/api/partcategory/").then((response) => {
+        this.categories = response.data;
+      });
+    },
+    loadColors() {
+      axios.get("http://localhost:3000/api/color/").then((response) => {
+        this.colors = response.data;
+      });
+    },
+    getPartCategories(productCategoryId) {
+      return this.partcategories.filter(
+        (partCategory) =>
+          partCategory.product_categories_id === productCategoryId
+      );
+    },
+    getSelectedPartCategories() {
+      const selectedPartCategories = [];
+      for (const categoryId in this.selectedCategories) {
+        if (this.selectedCategories[categoryId]) {
+          selectedPartCategories.push(this.selectedPartCategoryId[categoryId]);
+        }
       }
-      return [];
+      console.log("Selected Part Categories:", selectedPartCategories);
     },
-    getCategoryCheckboxes(categoryValue) {
-      if (this.currentCategory && this.currentCategory in this.chexboxData) {
-        return this.chexboxData[this.currentCategory][categoryValue];
-      }
-      return [];
-    },
+
+    // getCategoryImages(categoryid) {
+    //   if (this.currentCategory && this.currentCategory in this.images) {
+    //     return this.images[this.currentCategory][categoryid];
+    //   }
+    //   return [];
+    // },
+    // getCategoryCheckboxes(categoryid) {
+    //   if (this.currentCategory in this.chexboxData) {
+    //     return this.chexboxData[this.currentCategory][categoryid];
+    //   }
+    //   return [];
+    // },
   },
 };
 </script>
+
+
+<!-- <div>
+  <div v-for="productCategory in productCategories" :key="productCategory.id">
+    <label>
+      <input type="checkbox" v-model="selectedCategories[productCategory.id]" />
+      {{ productCategory.name }}
+    </label>
+    <select v-model="selectedPartCategoryId[productCategory.id]">
+      <option v-for="partCategory in getPartCategories(productCategory.id)" :key="partCategory.id" :value="partCategory.id">
+        {{ partCategory.name }}
+      </option>
+    </select>
+  </div>
+
+  <button @click="getSelectedPartCategories">Get Selected Part Categories</button>
+</div> -->

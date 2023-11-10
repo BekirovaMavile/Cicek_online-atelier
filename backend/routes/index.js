@@ -1,9 +1,9 @@
-const Router = require('express')
-const router = new Router()
+const Router = require("express");
+const router = new Router();
 const materialRouter = require("./materialRouter");
 const userRouter = require("./userRouter");
-const orderRouter = require('./orderRouter')
-const reviewRouter = require('./reviewRouter')
+const orderRouter = require("./orderRouter");
+const reviewRouter = require("./reviewRouter");
 const colorRouter = require("./colorRouter");
 const ptoductsizeRouter = require("./producrsizeRouter");
 const partRouter = require("./partRouter");
@@ -12,7 +12,6 @@ const productcategoryRouter = require("./productcategoryRouter");
 const productRouter = require("./productRouter");
 const productpartRouter = require("./productpartRouter");
 const creatorRouter = require("./creatorRouter");
-
 
 router.use("/user", userRouter);
 router.use("/orders", orderRouter);
