@@ -1,5 +1,6 @@
 <template>
   <v-card>
+
     <v-tabs v-model="tab" color="blue-grey-darken-4" align-tabs="center">
       <v-tab
         v-for="category in partcategories"
@@ -12,33 +13,29 @@
       <v-tab :id="9">Размер</v-tab>
       <v-tab :id="10">Итого</v-tab>
     </v-tabs>
-    <div>
-      <!-- Выводим категории продуктов -->
+    <!-- <div>
       <p>Выводим категории продуктов</p>
       <div v-for="category in productcategories" :key="category.id">
         {{ category.id }} - {{ category.name }}
       </div>
-
-      <!-- Выводим категории запчастей -->
       <p>Выводим категории запчастей</p>
-
       <div v-for="partCategory in partcategories" :key="partCategory.id">
         {{ partCategory.id }} - {{ partCategory.name }} - Product Category ID:
         {{ partCategory.product_categories_id }}
       </div>
-      <!-- Выводим цвета -->
       <p>Выводим цвета</p>
 
       <div v-for="color in colors" :key="color.id">
         {{ color.id }} - {{ color.name }}
       </div>
-      <!-- Выводим части -->
       <p>Выводим части</p>
 
       <div v-for="part in parts" :key="part.id">
         {{ part.id }} - {{ part.name }}
       </div>
-    </div>
+    </div> -->
+
+    
     <!-- <v-window v-model="tab">
       <v-window-item
         v-for="category in categories[currentCategory]"
@@ -163,7 +160,7 @@ export default {
     productcategories: [],
     partcategories: [],
     parts: [],
-    
+    // selectedCategory: null,
 
     images: [
       {
@@ -346,6 +343,7 @@ export default {
     // chexboxData: [],
   }),
   mounted() {
+    // this.selectedCategory = this.$route.params.selectedCategory;
     this.loadPartCats();
     this.loadColors();
     this.loadProdCats();
@@ -359,6 +357,18 @@ export default {
     },
   },
   methods: {
+    // async loadPartCats() {
+    //   if (this.selectedCategory) {
+    //     await axios
+    //       .get(`http://localhost:3000/api/partcategory/${this.selectedCategory}`)
+    //       .then((response) => {
+    //         this.partcategories = response.data;
+    //       })
+    //       .catch((error) => {
+    //         console.error("Error fetching part categories:", error);
+    //       });
+    //   }
+    // },
     async loadPartCats() {
       await axios
         .get("http://localhost:3000/api/partcategory/")

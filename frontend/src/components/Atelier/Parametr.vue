@@ -5,17 +5,23 @@
     max-width="220"
     class="d-flex mx-auto my-auto mt-2 mb-3"
   ></v-img>
-  <!-- <h2 class="d-flex flex-column justify-center align-center mt-8 mb-8">
+  <h2 class="d-flex flex-column justify-center align-center mt-8 mb-8">
     ВЫБЕРИТЕ КАТЕГОРИЮ ОДЕЖДЫ:
   </h2>
-  <div
-    v-for="category in productcategories"
-    :key="category.id"
-    :id="category.id"
-  >
-    {{ category.name }}
-  </div> -->
-  <v-row>
+  <v-card>
+      <v-row>
+        <v-col v-for="category in productcategories" :key="category.id">
+          <v-card>
+            <v-card-title class="text-center">{{ category.name }}</v-card-title>
+            <v-img :src="getImagePath(category.name)" height="256"></v-img>
+            <v-card-actions>
+              <v-btn @click="goToCategory(category)">Перейти</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-card>
+  <!-- <v-row>
     <v-col class="d-flex child-flex" cols="12">
       <v-img
         src="../../../public/image/constructorDress/3.webp"
@@ -118,7 +124,7 @@
         >Перейти</v-btn
       >
     </v-col>
-  </v-row>
+  </v-row> -->
 </template>
 <script>
 import axios from "axios";
@@ -137,12 +143,33 @@ export default {
       await axios
         .get("http://localhost:3000/api/productcategory/")
         .then((response) => {
-          this.productcategories = response.data;
+          this.productcategories = response.data.map((category) => {
+            category.path = `/constructor/${category.name.toLowerCase()}`;
+            return category;
+          });
           console.log(this.productcategories);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
+    },
+    goToCategory(category) {
+      // Переход на страницу, определенную в поле path
+      this.$router.push(category.path);
+    },
+    getImagePath(category) {
+      switch (category.toLowerCase()) {
+        case 'dress':
+          return '../../../public/image/constructorDress/3.webp';
+        case 'shirt':
+          return '../../../public/image/constructorShirt/1.jpeg';
+        case 'hudi':
+          return '../../../public/image/hudi2.webp';
+        case 'pants':
+          return '../../../public/image/constructorPants/4.jpeg';
+        default:
+          return ''; 
+      }
     },
   },
 };
