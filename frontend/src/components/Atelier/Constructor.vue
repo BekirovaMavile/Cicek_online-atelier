@@ -1,13 +1,13 @@
 <template>
   <v-card>
     <v-tabs v-model="tab" color="blue-grey-darken-4" align-tabs="center">
-      <!-- <v-tab
-        v-for="category in categories[currentCategory]"
+      <v-tab
+        v-for="category in partcategories"
         :key="category.id"
         :id="category.id"
       >
         {{ category.name }}
-      </v-tab> -->
+      </v-tab>
       <v-tab :id="8">Цвет</v-tab>
       <v-tab :id="9">Размер</v-tab>
       <v-tab :id="10">Итого</v-tab>
@@ -163,6 +163,7 @@ export default {
     productcategories: [],
     partcategories: [],
     parts: [],
+    
 
     images: [
       {
