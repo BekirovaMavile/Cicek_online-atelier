@@ -119,17 +119,17 @@ const createPartCat = async () => {
     },
     {
       name: "Прямой конец (Straight Hem)",
-      cat: "10",
+      cat: "3",
       image: "./images/hem_styles/straight_hem_pants.jpeg",
     },
     {
       name: "Завышенный (растянутый) конец (Cropped Hem)",
-      cat: "10",
+      cat: "3",
       image: "./images/hem_styles/cropped_hem_pants.jpeg",
     },
     {
       name: "Расклешенный конец (Flared Hem)",
-      cat: "10",
+      cat: "3",
       image: "./images/hem_styles/flared_hem_pants.jpeg",
     },
   ];

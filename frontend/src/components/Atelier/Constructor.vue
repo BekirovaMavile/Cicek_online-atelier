@@ -1,19 +1,45 @@
 <template>
   <v-card>
     <v-tabs v-model="tab" color="blue-grey-darken-4" align-tabs="center">
-      <v-tab
+      <!-- <v-tab
         v-for="category in categories[currentCategory]"
         :key="category.id"
         :id="category.id"
       >
         {{ category.name }}
-      </v-tab>
+      </v-tab> -->
       <v-tab :id="8">Цвет</v-tab>
       <v-tab :id="9">Размер</v-tab>
       <v-tab :id="10">Итого</v-tab>
     </v-tabs>
-    <v-window v-model="tab">
-      <!-- Табы для выбранной категории -->
+    <div>
+      <!-- Выводим категории продуктов -->
+      <p>Выводим категории продуктов</p>
+      <div v-for="category in productcategories" :key="category.id">
+        {{ category.id }} - {{ category.name }}
+      </div>
+
+      <!-- Выводим категории запчастей -->
+      <p>Выводим категории запчастей</p>
+
+      <div v-for="partCategory in partcategories" :key="partCategory.id">
+        {{ partCategory.id }} - {{ partCategory.name }} - Product Category ID:
+        {{ partCategory.product_categories_id }}
+      </div>
+      <!-- Выводим цвета -->
+      <p>Выводим цвета</p>
+
+      <div v-for="color in colors" :key="color.id">
+        {{ color.id }} - {{ color.name }}
+      </div>
+      <!-- Выводим части -->
+      <p>Выводим части</p>
+
+      <div v-for="part in parts" :key="part.id">
+        {{ part.id }} - {{ part.name }}
+      </div>
+    </div>
+    <!-- <v-window v-model="tab">
       <v-window-item
         v-for="category in categories[currentCategory]"
         :key="category.id"
@@ -23,7 +49,6 @@
           <v-row class="mb-12">
             <v-col class="d-flex child-flex" cols="12">
               <v-row justify="center">
-                <!-- Отобразите изображения для выбранной категории -->
                 <v-img
                   v-for="image in getCategoryImages(category.id)"
                   :key="image"
@@ -50,10 +75,10 @@
             </v-row>
           </v-row>
         </v-container>
-      </v-window-item>
+      </v-window-item> -->
 
-      <!-- Таб для Цвета -->
-      <v-window-item v-if="tab === 8" :id="8">
+    <!-- Таб для Цвета -->
+    <!-- <v-window-item v-if="tab === 8" :id="8">
         <v-row class="mb-12">
           <v-col v-for="(color, index) in colors" :key="index" cols="12" sm="3">
             <v-radio-group v-model="selectedColor">
@@ -67,9 +92,9 @@
             </v-radio-group>
           </v-col>
         </v-row>
-      </v-window-item>
-      <!-- Таб для Размера -->
-      <v-window-item v-if="tab === 9" :id="9">
+      </v-window-item> -->
+    <!-- Таб для Размера -->
+    <!-- <v-window-item v-if="tab === 9" :id="9">
         <v-row>
           <v-container>
             <v-combobox
@@ -97,10 +122,10 @@
             ></v-text-field>
           </v-container>
         </v-row>
-      </v-window-item>
+      </v-window-item> -->
 
-      <!-- Таб для Итого -->
-      <v-window-item v-if="tab === 10" :id="10">
+    <!-- Таб для Итого -->
+    <!-- <v-window-item v-if="tab === 10" :id="10">
         <v-row>
           <v-container>
             <ul>
@@ -121,7 +146,7 @@
           </v-container>
         </v-row>
       </v-window-item>
-    </v-window>
+    </v-window> -->
   </v-card>
 </template>
 
@@ -135,8 +160,9 @@ export default {
     // currentCategory: null,
     selectedCategories: {},
     selectedPartCategoryId: {},
-    productCategories: [],
+    productcategories: [],
     partcategories: [],
+    parts: [],
 
     images: [
       {
@@ -269,57 +295,57 @@ export default {
       },
     ],
     categories: [],
-    colors: [],
-    chexboxDress: [
-      { id: 1, options: ["Средняя", "Длинная"] },
-      { id: 2, options: ["С карманом", "Без кармана"] },
-      { id: 3, options: ["Длинный", "3/4", "Короткий"] },
-      { id: 4, options: ["Квадратный", "Треугольный", "Круглый"] },
-    ],
-    chexboxShirt: [
-      { id: 1, options: ["Классический", "Оверсайз"] },
-      { id: 2, options: ["До пояса", "До бедра"] },
-      { id: 3, options: ["Круглая", "Треугольная"] },
-      { id: 4, options: ["Короткий", "До локтя", "Лонгслив"] },
-    ],
-    chexboxHudi: [
-      { id: 1, options: ["Классический", "Бочонок (оверсайз)"] },
-      { id: 2, options: ["До середины бедер", "До колена"] },
-      {
-        id: 3,
-        options: ["Декоративная резинка кашкорсе", "Обрезанный край", "Шов"],
-      },
-      { id: 4, options: ["Кенгуру", "В боковых швах"] },
-      {
-        id: 5,
-        options: ["Декоративная резинка кашкорсе", "Шов", "На резинке"],
-      },
-      { id: 6, options: ["С капюшоном", "Без капюшона"] },
-      { id: 7, options: ["С начёсом", "Без начёса"] },
-    ],
-    chexboxSkirt: [
-      { id: 1, options: ["Прямая", "Колокол"] },
-      { id: 2, options: ["Короткая", "Средняя", "Длинная"] },
-      {
-        id: 3,
-        options: ["Декоративная резинка кашкорсе", "Резинка со шнурком"],
-      },
-      { id: 4, options: ["С начёсом", "Без начёса"] },
-    ],
-    chexboxPants: [
-      { id: 1, options: ["Классика", "Карго", "Широкие"] },
-      {
-        id: 2,
-        options: ["Декоративная резинка кашкорсе", "Резинка со шнурком"],
-      },
-      { id: 3, options: ["Шов", "Резинка"] },
-      { id: 4, options: ["С карманом", "Без кармана"] },
-      { id: 5, options: ["С начёсом", "Без начёса"] },
-    ],
-    chexboxData: [],
+    // colors: [],
+    // chexboxDress: [
+    //   { id: 1, options: ["Средняя", "Длинная"] },
+    //   { id: 2, options: ["С карманом", "Без кармана"] },
+    //   { id: 3, options: ["Длинный", "3/4", "Короткий"] },
+    //   { id: 4, options: ["Квадратный", "Треугольный", "Круглый"] },
+    // ],
+    // chexboxShirt: [
+    //   { id: 1, options: ["Классический", "Оверсайз"] },
+    //   { id: 2, options: ["До пояса", "До бедра"] },
+    //   { id: 3, options: ["Круглая", "Треугольная"] },
+    //   { id: 4, options: ["Короткий", "До локтя", "Лонгслив"] },
+    // ],
+    // chexboxHudi: [
+    //   { id: 1, options: ["Классический", "Бочонок (оверсайз)"] },
+    //   { id: 2, options: ["До середины бедер", "До колена"] },
+    //   {
+    //     id: 3,
+    //     options: ["Декоративная резинка кашкорсе", "Обрезанный край", "Шов"],
+    //   },
+    //   { id: 4, options: ["Кенгуру", "В боковых швах"] },
+    //   {
+    //     id: 5,
+    //     options: ["Декоративная резинка кашкорсе", "Шов", "На резинке"],
+    //   },
+    //   { id: 6, options: ["С капюшоном", "Без капюшона"] },
+    //   { id: 7, options: ["С начёсом", "Без начёса"] },
+    // ],
+    // chexboxSkirt: [
+    //   { id: 1, options: ["Прямая", "Колокол"] },
+    //   { id: 2, options: ["Короткая", "Средняя", "Длинная"] },
+    //   {
+    //     id: 3,
+    //     options: ["Декоративная резинка кашкорсе", "Резинка со шнурком"],
+    //   },
+    //   { id: 4, options: ["С начёсом", "Без начёса"] },
+    // ],
+    // chexboxPants: [
+    //   { id: 1, options: ["Классика", "Карго", "Широкие"] },
+    //   {
+    //     id: 2,
+    //     options: ["Декоративная резинка кашкорсе", "Резинка со шнурком"],
+    //   },
+    //   { id: 3, options: ["Шов", "Резинка"] },
+    //   { id: 4, options: ["С карманом", "Без кармана"] },
+    //   { id: 5, options: ["С начёсом", "Без начёса"] },
+    // ],
+    // chexboxData: [],
   }),
   mounted() {
-    this.loadProdCats();
+    this.loadPartCats();
     this.loadColors();
     this.loadProdCats();
   },
@@ -332,36 +358,58 @@ export default {
     },
   },
   methods: {
-    loadPartCats() {
-      axios.get("http://localhost:3000/api/partcategory/").then((response) => {
-        this.reviews = response.data;
-      });
+    async loadPartCats() {
+      await axios
+        .get("http://localhost:3000/api/partcategory/")
+        .then((response) => {
+          console.log(response.data); // Вывести ответ сервера в консоль
+          this.partcategories = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     },
-    loadProdCats() {
-      axios.get("http://localhost:3000/api/partcategory/").then((response) => {
-        this.categories = response.data;
-      });
+    async loadProdCats() {
+      await axios
+        .get("http://localhost:3000/api/productcategory/")
+        .then((response) => {
+          this.productcategories = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     },
-    loadColors() {
-      axios.get("http://localhost:3000/api/color/").then((response) => {
+    async loadColors() {
+      await axios.get("http://localhost:3000/api/color/").then((response) => {
         this.colors = response.data;
       });
     },
-    getPartCategories(productCategoryId) {
-      return this.partcategories.filter(
-        (partCategory) =>
-          partCategory.product_categories_id === productCategoryId
-      );
+    async loadParts() {
+      await axios
+        .get("http://localhost:3000/api/part/")
+        .then((response) => {
+          console.log(response.data); // Вывести ответ сервера в консоль
+          this.parts = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     },
-    getSelectedPartCategories() {
-      const selectedPartCategories = [];
-      for (const categoryId in this.selectedCategories) {
-        if (this.selectedCategories[categoryId]) {
-          selectedPartCategories.push(this.selectedPartCategoryId[categoryId]);
-        }
-      }
-      console.log("Selected Part Categories:", selectedPartCategories);
-    },
+    // getPartCategories(productCategoryId) {
+    //   return this.partcategories.filter(
+    //     (partCategory) =>
+    //       partCategory.product_categories_id === productCategoryId
+    //   );
+    // },
+    // getSelectedPartCategories() {
+    //   const selectedPartCategories = [];
+    //   for (const categoryId in this.selectedCategories) {
+    //     if (this.selectedCategories[categoryId]) {
+    //       selectedPartCategories.push(this.selectedPartCategoryId[categoryId]);
+    //     }
+    //   }
+    //   console.log("Selected Part Categories:", selectedPartCategories);
+    // },
 
     // getCategoryImages(categoryid) {
     //   if (this.currentCategory && this.currentCategory in this.images) {
@@ -378,7 +426,6 @@ export default {
   },
 };
 </script>
-
 
 <!-- <div>
   <div v-for="productCategory in productCategories" :key="productCategory.id">
