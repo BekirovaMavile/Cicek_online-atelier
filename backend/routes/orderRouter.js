@@ -3,7 +3,7 @@ const OrderController = require('../controllers/orderController');
 const router = new Router()
 const verifyJWT = require("../middleware/verifyJWT")
 
-router.post("/", verifyJWT, /*  */ OrderController.create);
+router.post("/",  /* verifyJWT, */ OrderController.create);
 router.get("/", OrderController.getAll); // Только для админов
 router.get("/user", /* verifyJWT, */ OrderController.getByUserId)
 router.get("/order/:id", verifyJWT, /*  */ OrderController.getById)

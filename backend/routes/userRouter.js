@@ -12,7 +12,7 @@ router.post("/auth", AuthController.handleLogin);
 router.get("/refresh", RefreshTokenController.handleRefreshToken);
 router.get("/logout", LogoutController.handleLogout);
 router.put("/update", verifyJWT, userController.update);
-router.get("/profile", verifyJWT, userController.getOne);
+router.get("/profile", userController.getOne);
 
 
 module.exports = router

@@ -159,14 +159,14 @@ export default {
     },
     getImagePath(category) {
       switch (category.toLowerCase()) {
-        case 'dress':
-          return '../../../public/image/constructorDress/3.webp';
-        case 'shirt':
-          return '../../../public/image/constructorShirt/1.jpeg';
-        case 'hudi':
-          return '../../../public/image/hudi2.webp';
-        case 'pants':
-          return '../../../public/image/constructorPants/4.jpeg';
+        case 'платье':
+          return '/image/constructorDress/3.webp';
+        case 'футболка':
+          return '/image/constructorShirt/1.jpeg';
+        case 'худи':
+          return '/image/hudi2.webp';
+        case 'брюки':
+          return '/image/constructorPants/4.jpeg';
         default:
           return ''; 
       }
