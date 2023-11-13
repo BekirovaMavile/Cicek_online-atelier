@@ -35,7 +35,7 @@ class UserController {
 
   async getProfile(req, res) {
     try {
-      const userId = 1;
+      const userId = req.user.id;
 
       const foundUser = await User.findOne({
         where: {

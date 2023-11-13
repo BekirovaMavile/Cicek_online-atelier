@@ -2,8 +2,7 @@ const { Order } = require("../models/models");
 
 class OrderController {
     async create(req, res) {
-        // const user_id = req.user.id;
-        const user_id = 1;
+        const user_id = req.user.id;
         const status = 'В обработке';
 
         console.log({user_id, "status": status});
@@ -27,7 +26,7 @@ class OrderController {
 
     async getByUserId(req, res) {
         try {
-            const id = 1;
+            const id = req.user.id;
             
             const ordersUser = await Order.findAll({
                 where: {

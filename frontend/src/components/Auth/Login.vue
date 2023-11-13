@@ -27,6 +27,7 @@
 
 <script>
 import axios from 'axios';
+import { setMyCookie } from "@/plugins/cookie";
 
 export default {
     data() {
@@ -60,6 +61,8 @@ export default {
 
                     // Проверка успешного входа
                     if (response.data.accessToken) {
+                        console.log(response.data.accessToken);
+                        setMyCookie(response.data.accessToken)
                         // Перенаправление на страницу пользователя
                         this.$router.push({ name: 'profile' });
                     } else {
