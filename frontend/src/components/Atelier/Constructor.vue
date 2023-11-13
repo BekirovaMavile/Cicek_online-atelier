@@ -1,6 +1,5 @@
 <template>
   <v-card>
-
     <v-tabs v-model="tab" color="blue-grey-darken-4" align-tabs="center">
       <v-tab
         v-for="category in partcategories"
@@ -35,7 +34,6 @@
       </div>
     </div> -->
 
-    
     <!-- <v-window v-model="tab">
       <v-window-item
         v-for="category in categories[currentCategory]"
@@ -149,6 +147,7 @@
 
 <script>
 import axios from "axios";
+import { normalizeStyle } from "vue";
 export default {
   data: () => ({
     // selectedCategoryids: {},
@@ -156,10 +155,18 @@ export default {
     tab: 1,
     // currentCategory: null,
     selectedCategories: {},
-    selectedPartCategoryId: {},
-    productcategories: [],
-    partcategories: [],
-    parts: [],
+
+    productcategories: [], // подгружаются категории продукта
+    selectedProductCategoryId: null, // выбранная категория продукта
+    selectedPart: [], // подгружаются категории частей для выбранной категории продукта
+    selectedPartCategoryId: null, // выбранная категория части
+    parts: [], // подгружаются части для выбранной категории части
+    selectedParts: [], // массив куда добавлять выбранные части
+    price: null,
+    description: null,
+    SelectedColorId: null, // выбранный цвет
+    SelectedMaterialId: null, // выбранный материал
+    SelectedSizeId: null, // выбранный размер
     // selectedCategory: null,
 
     images: [
@@ -369,12 +376,39 @@ export default {
     //       });
     //   }
     // },
+    async SendProduct() {
+      const data = {
+        price: this.price,
+        description: this.description,
+        color_id: this.SelectedColorId,
+        material_id: this.SelectedMaterialId,
+        product_size_id: this.SelectedSizeId,
+        product_categories_id: this.selectedProductCategoryId,
+        part_ids: this.selectedParts,
+      };
+      await axios
+        .post("http://localhost:3000/api/product/")
+        .then((response) => {
+          console.log(response.data);
+        }); // Вывести ответ сервера в консоль
+    },
     async loadPartCats() {
       await axios
         .get("http://localhost:3000/api/partcategory/")
         .then((response) => {
           console.log(response.data); // Вывести ответ сервера в консоль
           this.partcategories = response.data;
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    },
+    async loadPartCatsByProdCat(selectedCategory) {
+      await axios
+        .get("http://localhost:3000/api/partcategory/" + selectedCategory)
+        .then((response) => {
+          console.log(response.data); // Вывести ответ сервера в консоль
+          this.selectedPartCategories = response.data;
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
