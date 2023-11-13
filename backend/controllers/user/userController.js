@@ -19,10 +19,10 @@ class UserController {
       });
 
       for (var param in userData) {
-        if (userData[param] == false) { foundUser[param] = "-"}
+        if (userData[param] == false) { foundUser[param] = "-" }
         else foundUser[param] = userData[param]
-      } 
-  
+      }
+
       foundUser.save();
 
       return res.json(foundUser);
@@ -33,7 +33,7 @@ class UserController {
     }
   }
 
-  async getOne(req, res) {
+  async getProfile(req, res) {
     try {
       const userId = 1;
 
@@ -47,15 +47,13 @@ class UserController {
         "message": "Пользователь не найден"
       });
 
-      const {password, refreshToken, createdAt, updatedAt, ...userData} = foundUser.dataValues
+      const { password, refreshToken, createdAt, updatedAt, ...userData } = foundUser.dataValues
       return res.json(userData);
-
     } catch (err) {
       res.status(404).send({
         'message': err
       })
     }
-
   }
 
 }
