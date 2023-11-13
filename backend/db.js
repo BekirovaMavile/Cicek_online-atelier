@@ -10,22 +10,22 @@ const { Sequelize } = require("sequelize");
 //     }
 // );
 
-module.exports = new Sequelize(
-    'atelierdb', // Название базы данных
-    'root', // Пользователь базы данных
-    'root', // Пароль от БД
-    {
-        host: 'localhost',
-        dialect: 'mysql'
-    }
-);
-
 // module.exports = new Sequelize(
-//   "atelierdb", // Название базы данных
-//   "root", // Пользователь базы данных
-//   "Wersia1797", // Пароль от БД
-//   {
-//     host: "localhost",
-//     dialect: "mysql",
-//   }
+//     'atelierdb', // Название базы данных
+//     'root', // Пользователь базы данных
+//     'root', // Пароль от БД
+//     {
+//         host: 'localhost',
+//         dialect: 'mysql'
+//     }
 // );
+
+module.exports = new Sequelize(
+  "atelierdb", // Название базы данных
+  "root", // Пользователь базы данных
+  "Wersia1797", // Пароль от БД
+  {
+    host: "localhost",
+    dialect: "mysql",
+  }
+);

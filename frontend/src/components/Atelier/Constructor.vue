@@ -12,6 +12,34 @@
       <v-tab :id="9">Размер</v-tab>
       <v-tab :id="10">Итого</v-tab>
     </v-tabs>
+    <div style="height: 100px; display: flex; align-items: center; justify-content:space-between; ">
+      <button style="background-color: aqua; border-radius: 20%; height: 50px;"
+        v-for="productCategory in productcategories"
+        :key="productCategory.id"
+        @click="loadPartCatsByProdCat(productCategory.id)"
+      >
+        {{ productCategory.name }}
+      </button>
+    </div>
+    <div style="height: 100px; display: flex; align-items: center; justify-content:space-between; ">
+      <button style="background-color: aqua; border-radius: 20%; height: 50px;"
+        v-for="partCategory in selectedPartCategories"
+        :key="partCategory.id"
+        @click="loadPartsbyCat(partCategory.id)"
+      >
+        {{ partCategory.name }}
+      </button>
+    </div>
+    <div style="height: 100px; display: flex; align-items: center; justify-content:space-between; ">
+      <button style="background-color: aqua; border-radius: 20%; height: 50px;"
+        v-for="part in parts"
+        :key="part.id"
+        @click="add(partCategory.id)"
+
+      >
+        {{ part.name }}
+      </button>
+    </div>
     <!-- <div>
       <p>Выводим категории продуктов</p>
       <div v-for="category in productcategories" :key="category.id">
@@ -154,11 +182,9 @@ export default {
     selected: null,
     tab: 1,
     // currentCategory: null,
-    selectedCategories: {},
-
     productcategories: [], // подгружаются категории продукта
     selectedProductCategoryId: null, // выбранная категория продукта
-    selectedPart: [], // подгружаются категории частей для выбранной категории продукта
+    selectedPartCategories: [], // подгружаются категории частей для выбранной категории продукта
     selectedPartCategoryId: null, // выбранная категория части
     parts: [], // подгружаются части для выбранной категории части
     selectedParts: [], // массив куда добавлять выбранные части
@@ -351,7 +377,6 @@ export default {
   }),
   mounted() {
     // this.selectedCategory = this.$route.params.selectedCategory;
-    this.loadPartCats();
     this.loadColors();
     this.loadProdCats();
   },
@@ -392,17 +417,6 @@ export default {
           console.log(response.data);
         }); // Вывести ответ сервера в консоль
     },
-    async loadPartCats() {
-      await axios
-        .get("http://localhost:3000/api/partcategory/")
-        .then((response) => {
-          console.log(response.data); // Вывести ответ сервера в консоль
-          this.partcategories = response.data;
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    },
     async loadPartCatsByProdCat(selectedCategory) {
       await axios
         .get("http://localhost:3000/api/partcategory/" + selectedCategory)
@@ -429,9 +443,9 @@ export default {
         this.colors = response.data;
       });
     },
-    async loadParts() {
+    async loadPartsbyCat(selectedCategory) {
       await axios
-        .get("http://localhost:3000/api/part/")
+        .get("http://localhost:3000/api/part/cat/"+ selectedCategory)
         .then((response) => {
           console.log(response.data); // Вывести ответ сервера в консоль
           this.parts = response.data;
@@ -440,6 +454,9 @@ export default {
           console.error("Error fetching data:", error);
         });
     },
+    add(part_id) {
+      this.parts.push(part_id);
+    }
     // getPartCategories(productCategoryId) {
     //   return this.partcategories.filter(
     //     (partCategory) =>
