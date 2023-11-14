@@ -13,7 +13,7 @@
         <v-window-item v-for="n in 20" :key="n" :value="n">
             <v-container fluid>
 
-                <div v-for="(item, key, index) in parts" :key="index">
+                <!-- <div v-for="(item, key, index) in parts" :key="index">
                     <v-row class="mb-12" v-if="n === index+1">
                         <v-col class="d-flex child-flex" cols="12">
                             <v-row justify="center">
@@ -29,7 +29,26 @@
                             </v-col>
                         </v-row>
                     </v-row>
-                </div>
+                </div> -->
+                <div v-for="(item, key, index) in parts" :key="index">
+      <v-row class="mb-12" v-if="n === index + 1">
+        <v-col class="d-flex child-flex" cols="12">
+          <v-row justify="center">
+            <v-card v-for="(part, index) in parts[key]" :key="index" class="mr-4">
+              <v-row align="center" justify="center">
+                <!-- Установите фиксированную высоту и ширину для v-img -->
+                <v-img :src="part.icon" aspect-ratio="1" height="450" width="450"></v-img>
+              </v-row>
+              <v-radio-group class="ml-2 mt-2" v-model="selectedLenght">
+                <!-- Оберните v-radio в v-card -->
+                <v-radio :label="part.name" :value="part.name"></v-radio>
+              </v-radio-group>
+            </v-card>
+          </v-row>
+        </v-col>
+      </v-row>
+    </div>
+
 
                 <!-- <v-row class="mb-12" v-if="n === 1">
                     <v-col class="d-flex child-flex" cols="12">
