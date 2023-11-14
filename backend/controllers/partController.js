@@ -19,9 +19,11 @@ class partController {
   }
 
   async getAll(req, res) {
-    const parts = await Part.findAll();
+    const parts = await Part.findAll({
+        attributes: ['name', 'icon', 'id', 'part_category_id']
+    });
     return res.json(parts);
-  }
+}
 
   async getOne(req, res) {
     const { id } = req.params;

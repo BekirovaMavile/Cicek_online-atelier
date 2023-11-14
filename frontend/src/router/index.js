@@ -14,8 +14,6 @@ import Reviews from '@/components/Auth/Reviews.vue'
 import Profile from '@/components/Auth/Profile.vue'
 import Clothes from '@/components/Atelier/Clothes.vue'
 import Admin from '@/components/Auth/Admin.vue'
-import Constructor from '@/components/Atelier/Constructor.vue'
-
 
 const routes = [
 {
@@ -58,11 +56,13 @@ path: '/constructorDress',
 name: 'constructorDress',
 component: ConstructorDress
 },
-{
-path: '/constructor/:category',
-name: 'constructor',
-component: Constructor
-},
+
+// {
+// path: '/constructor/:category',
+// name: 'constructor',
+// component: Constructor
+// },
+
 {
 path: '/constructorHudi',
 name: 'constructorHudi',

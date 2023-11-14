@@ -1,176 +1,108 @@
 <template>
-  <v-img
-    src="../../../public/image/login.jpg"
-    max-height="220"
-    max-width="220"
-    class="d-flex mx-auto my-auto mt-2 mb-3"
-  ></v-img>
-  <h2 class="d-flex flex-column justify-center align-center mt-8 mb-8">
+<v-img src="../../../public/image/login.jpg" max-height="220" max-width="220" class="d-flex mx-auto my-auto mt-2 mb-3"></v-img>
+<h2 class="d-flex flex-column justify-center align-center mt-8 mb-8">
     ВЫБЕРИТЕ КАТЕГОРИЮ ОДЕЖДЫ:
-  </h2>
-  <v-card>
-      <v-row>
-        <v-col v-for="category in productcategories" :key="category.id">
-          <v-card>
-            <v-card-title class="text-center">{{ category.name }}</v-card-title>
-            <v-img :src="getImagePath(category.name)" height="256"></v-img>
-            <v-card-actions>
-              <v-btn @click="goToCategory(category)">Перейти</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-card>
-  <!-- <v-row>
+</h2>
+<v-row>
     <v-col class="d-flex child-flex" cols="12">
-      <v-img
-        src="../../../public/image/constructorDress/3.webp"
-        aspect-ratio="1"
-        max-height="256"
-      >
-      </v-img>
-      <v-img
-        src="../../../public/image/constructorShirt/1.jpeg"
-        aspect-ratio="1"
-        max-height="256"
-      >
-      </v-img>
-      <v-img
-        src="../../../public/image/hudi2.webp"
-        aspect-ratio="1"
-        max-height="256"
-      >
-      </v-img>
+        <v-img src="../../../public/image/constructorDress/3.webp" aspect-ratio="1" max-height="256">
+        </v-img>
+        <v-img src="../../../public/image/constructorShirt/1.jpeg" aspect-ratio="1" max-height="256">
+        </v-img>
+        <v-img src="../../../public/image/hudi2.webp" aspect-ratio="1" max-height="256">
+        </v-img>
     </v-col>
-  </v-row>
+</v-row>
 
-  <v-row class="justify-center text-center mt-4 mb-4">
+<v-row class="justify-center text-center mt-4 mb-4">
     <v-col cols="4">
-      <h3>Платье</h3>
-      <br />
-      <v-btn
-        class="pa-3"
-        rounded=""
-        color="blue-grey-lighten-3"
-        to="/constructor/dress"
-        >Перейти</v-btn
-      >
+        <h3>Платье</h3>
+        <br />
+        <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorDress">Перейти</v-btn>
     </v-col>
 
     <v-col cols="4">
-      <h3>Футболка</h3>
-      <br />
-      <v-btn
-        class="pa-3"
-        rounded=""
-        color="blue-grey-lighten-3"
-        to="/constructor/shirt"
-        >Перейти</v-btn
-      >
+        <h3>Футболка</h3>
+        <br />
+        <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorShirt">Перейти</v-btn>
     </v-col>
-
 
     <v-col cols="4">
-      <h3>Худи</h3>
-      <br />
-      <v-btn
-        class="pa-3"
-        rounded=""
-        color="blue-grey-lighten-3"
-        to="/constructor/hudi"
-        >Перейти</v-btn
-      >
+        <h3>Худи</h3>
+        <br />
+        <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorHudi">Перейти</v-btn>
     </v-col>
-  </v-row>
+</v-row>
 
-  <v-row>
+<v-row>
     <v-col class="d-flex child-flex" cols="12">
-      <v-img
-        src="../../../public/image/constructorSkirt/5.webp"
-        aspect-ratio="1"
-        max-height="256"
-      >
-      </v-img>
+        <v-img src="../../../public/image/constructorSkirt/5.webp" aspect-ratio="1" max-height="256">
+        </v-img>
 
-      <v-img
-        src="../../../public/image/constructorPants/4.jpeg"
-        aspect-ratio="1"
-        max-height="256"
-      >
-      </v-img>
+        <v-img src="../../../public/image/constructorPants/4.jpeg" aspect-ratio="1" max-height="256">
+        </v-img>
     </v-col>
-  </v-row>
+</v-row>
 
-  <v-row class="justify-center text-center mt-4 mb-4">
+<v-row class="justify-center text-center mt-4 mb-4">
     <v-col cols="6">
-      <h3>Юбка</h3>
-      <br />
-      <v-btn
-        class="pa-3"
-        rounded=""
-        color="blue-grey-lighten-3"
-        to="/constructor/skirt"
-        >Перейти</v-btn
-      >
+        <h3>Юбка</h3>
+        <br />
+        <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorSkirt">Перейти</v-btn>
     </v-col>
     <v-col cols="6">
-      <h3>Брюки</h3>
-      <br />
-      <v-btn
-        class="pa-3"
-        rounded=""
-        color="blue-grey-lighten-3"
-        to="/constructor/pants"
-        >Перейти</v-btn
-      >
+        <h3>Брюки</h3>
+        <br />
+        <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorPants">Перейти</v-btn>
     </v-col>
-  </v-row> -->
+</v-row>
 </template>
+
 <script>
 import axios from "axios";
 
 export default {
-  data() {
-    return {
-      productcategories: [],
-    };
-  },
-  mounted() {
-    this.loadProdCats();
-  },
-  methods: {
-    async loadProdCats() {
-      await axios
-        .get("http://localhost:3000/api/productcategory/")
-        .then((response) => {
-          this.productcategories = response.data.map((category) => {
-            category.path = `/constructor/${category.name.toLowerCase()}`;
-            return category;
-          });
-          console.log(this.productcategories);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+    data() {
+        return {
+            productcategories: [],
+        };
     },
-    goToCategory(category) {
-      // Переход на страницу, определенную в поле path
-      this.$router.push(category.path);
+    mounted() {
+        this.loadProdCats();
     },
-    getImagePath(category) {
-      switch (category.toLowerCase()) {
-        case 'платье':
-          return '/image/constructorDress/3.webp';
-        case 'футболка':
-          return '/image/constructorShirt/1.jpeg';
-        case 'худи':
-          return '/image/hudi2.webp';
-        case 'брюки':
-          return '/image/constructorPants/4.jpeg';
-        default:
-          return ''; 
-      }
+    methods: {
+        async loadProdCats() {
+            await axios
+                .get("http://localhost:3000/api/productcategory/")
+                .then((response) => {
+                    this.productcategories = response.data.map((category) => {
+                        category.path = `/constructor/${category.name.toLowerCase()}`;
+                        return category;
+                    });
+                    console.log(this.productcategories);
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                });
+        },
+        goToCategory(category) {
+            // Переход на страницу, определенную в поле path
+            this.$router.push(category.path);
+        },
+        getImagePath(category) {
+            switch (category.toLowerCase()) {
+                case 'платье':
+                    return '/image/constructorDress/3.webp';
+                case 'футболка':
+                    return '/image/constructorShirt/1.jpeg';
+                case 'худи':
+                    return '/image/hudi2.webp';
+                case 'брюки':
+                    return '/image/constructorPants/4.jpeg';
+                default:
+                    return '';
+            }
+        },
     },
-  },
 };
 </script>
