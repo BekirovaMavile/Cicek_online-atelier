@@ -17,7 +17,6 @@
           </v-row>
         </v-card> -->
 
-        <!-- <v-card> -->
             <div>
                 <v-col class="d-flex child-flex" cols="12">
             <v-row justify="center">
@@ -63,61 +62,6 @@
             </v-row>
             </v-col>
             </div>
-        <!-- </v-card> -->
-
-<!-- <v-row>
-    <v-col class="d-flex child-flex" cols="12">
-        <v-img src="../../../public/image/constructorDress/3.webp" aspect-ratio="1" max-height="256">
-        </v-img>
-        <v-img src="../../../public/image/constructorShirt/1.jpeg" aspect-ratio="1" max-height="256">
-        </v-img>
-        <v-img src="../../../public/image/hudi2.webp" aspect-ratio="1" max-height="256">
-        </v-img>
-    </v-col>
-</v-row>
-
-<v-row class="justify-center text-center mt-4 mb-4">
-    <v-col cols="4">
-        <h3>Платье</h3>
-        <br />
-        <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorDress">Перейти</v-btn>
-    </v-col>
-
-    <v-col cols="4">
-        <h3>Футболка</h3>
-        <br />
-        <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorShirt">Перейти</v-btn>
-    </v-col>
-
-    <v-col cols="4">
-        <h3>Худи</h3>
-        <br />
-        <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorHudi">Перейти</v-btn>
-    </v-col>
-</v-row>
-
-<v-row>
-    <v-col class="d-flex child-flex" cols="12">
-        <v-img src="../../../public/image/constructorSkirt/5.webp" aspect-ratio="1" max-height="256">
-        </v-img>
-
-        <v-img src="../../../public/image/constructorPants/4.jpeg" aspect-ratio="1" max-height="256">
-        </v-img>
-    </v-col>
-</v-row>
-
-<v-row class="justify-center text-center mt-4 mb-4">
-    <v-col cols="6">
-        <h3>Юбка</h3>
-        <br />
-        <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorSkirt">Перейти</v-btn>
-    </v-col>
-    <v-col cols="6">
-        <h3>Брюки</h3>
-        <br />
-        <v-btn class="pa-3" rounded="" color="blue-grey-lighten-3" to="/constructorPants">Перейти</v-btn>
-    </v-col>
-</v-row> -->
 </template>
 
 <script>
