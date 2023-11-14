@@ -5,7 +5,7 @@
         v-for="(item, index) in partCategories"
         :key="index"
         :value="index + 1"
-        @click="handleTabClick(index + 1)"
+        @click="handleTabClick(item.id)"
       >
         {{ item.name }}
       </v-tab>
@@ -17,7 +17,6 @@
     <v-window v-model="tab">
       <v-window-item v-for="n in 20" :key="n" :value="n">
         <v-container fluid>
-            
           <!-- <div v-for="(item, key, index) in parts" :key="index">
                     <v-row class="mb-12" v-if="n === index+1">
                         <v-col class="d-flex child-flex" cols="12">
@@ -35,12 +34,12 @@
                         </v-row>
                     </v-row>
                 </div> -->
-          <div v-for="(item, key, index) in parts" :key="index">
-            <v-row class="mb-12" v-if="n === index + 1">
+          <div>
+            <v-row class="mb-12" v-if="n <= partCategoriesLen">
               <v-col class="d-flex child-flex" cols="12">
                 <v-row justify="center">
                   <v-card
-                    v-for="(part, index) in parts[key]"
+                    v-for="(part, index) in parts"
                     :key="index"
                     class="mr-4"
                   >
@@ -53,7 +52,11 @@
                         width="450"
                       ></v-img>
                     </v-row>
-                    <v-radio-group class="ml-2 mt-2" v-model="selectedLenght">
+                    <v-radio-group
+                      class="ml-2 mt-2"
+                      v-model="selectedLenght"
+                      @click="addPart(part)"
+                    >
                       <!-- Оберните v-radio в v-card -->
                       <v-radio :label="part.name" :value="part.name"></v-radio>
                     </v-radio-group>
@@ -112,7 +115,7 @@
                 </v-row> -->
 
           <!-- Цвет -->
-          <v-row class="mb-12" v-if="n === 4">
+          <v-row class="mb-12" v-if="n === partCategoriesLen + 1">
             <v-col
               v-for="(color, index) in colors"
               :key="index"
@@ -132,7 +135,7 @@
           </v-row>
 
           <!-- Размер -->
-          <v-row v-if="n === 5">
+          <v-row v-if="n === partCategoriesLen + 2">
             <v-container>
               <v-combobox
                 label="Выберите ваш размер"
@@ -161,13 +164,16 @@
           </v-row>
 
           <!-- Итог -->
-          <v-row v-if="n === 6">
+          <v-row v-if="n === partCategoriesLen + 3">
             <v-container>
               <ul>
-                <li>{{ selectedLenght }}</li>
+                <!-- <li>{{ selectedLenght }}</li>
                 <li>{{ selectedPocket }}</li>
                 <li>{{ selectedSleeve }}</li>
-                <li>{{ selectedNeck }}</li>
+                <li>{{ selectedNeck }}</li> -->
+                <li v-for="part in selectedParts" :key="part.id">
+                  {{ part.name }}
+                </li>
                 <li>{{ selectedColor }}</li>
                 <li>{{ selectedSize }}</li>
               </ul>
@@ -215,11 +221,11 @@ export default {
     // },
     colors: null,
     parts: {},
+    selectedParts: [],
   }),
   mounted() {
     this.getColors();
     this.getPartCategories();
-    this.handleTabClick(1);
   },
   methods: {
     getColors() {
@@ -271,11 +277,38 @@ export default {
         .get("http://localhost:3000/api/part/cat/" + selectedCategory)
         .then((response) => {
           this.parts = response.data;
-          console.log(this.parts); // Вывести ответ сервера в консоль
+          //   for (let i = 0; i < this.parts.length; i++) {
+          //     console.log(this.parts[i].name);
+          //   } // Вывести ответ сервера в консоль
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
+    },
+    addPart(part) {
+      {
+        // Удаление предыдущего выбора, если есть
+        const indexToRemove = this.selectedParts.indexOf(part);
+        if (indexToRemove && this.isInParts()) {
+          this.selectedParts.splice(indexToRemove, 1);
+        }
+
+        // Добавление нового выбора
+        if (part !== null) {
+          this.selectedParts.push(part);
+        }
+        for (let i = 0; i < this.selectedParts.length; i++) {
+          console.log(this.selectedParts[i].name);
+        } // Вывести ответ сервера в консоль
+      }
+    },
+    isInParts() {
+      for (let i = 0; i < this.parts.length; i++) {
+        if (this.selectedParts.indexOf(this.parts[i]) !== -1) {
+          return false;
+        }
+      }
+      return true;
     },
   },
 };
