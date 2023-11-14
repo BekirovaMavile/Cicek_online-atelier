@@ -1,12 +1,7 @@
 <template>
   <v-card>
     <v-tabs v-model="tab" color="blue-grey-darken-4" align-tabs="center">
-      <v-tab
-        v-for="(item, index) in partCategories"
-        :key="index"
-        :value="index + 1"
-        @click="handleTabClick(item.id)"
-      >
+      <v-tab v-for="(item, index) in partCategories" :key="index" :value="index + 1">
         {{ item.name }}
       </v-tab>
       <v-tab :value="partCategoriesLen + 1">Цвет</v-tab>
@@ -17,6 +12,7 @@
     <v-window v-model="tab">
       <v-window-item v-for="n in 20" :key="n" :value="n">
         <v-container fluid>
+
           <!-- <div v-for="(item, key, index) in parts" :key="index">
                     <v-row class="mb-12" v-if="n === index+1">
                         <v-col class="d-flex child-flex" cols="12">
@@ -34,30 +30,18 @@
                         </v-row>
                     </v-row>
                 </div> -->
-          <div>
-            <v-row class="mb-12" v-if="n <= partCategoriesLen">
+
+          <div v-for="(item, key, index) in parts" :key="index">
+            <v-row class="mb-12" v-if="n === index + 1">
               <v-col class="d-flex child-flex" cols="12">
                 <v-row justify="center">
-                  <v-card
-                    v-for="(part, index) in parts"
-                    :key="index"
-                    class="mr-4"
-                  >
+                  <v-card v-for="(part, index) in parts[key]" :key="index" class="mr-4">
                     <v-row align="center" justify="center">
-                      <!-- Установите фиксированную высоту и ширину для v-img -->
-                      <v-img
-                        :src="part.icon"
-                        aspect-ratio="1"
-                        height="450"
-                        width="450"
-                      ></v-img>
+
+                      <v-img :src="part.icon" aspect-ratio="1" height="450" width="450"></v-img>
                     </v-row>
-                    <v-radio-group
-                      class="ml-2 mt-2"
-                      v-model="selectedLenght"
-                      @click="addPart(part)"
-                    >
-                      <!-- Оберните v-radio в v-card -->
+                    <v-radio-group class="ml-2 mt-2" v-model="selectedLenght">
+
                       <v-radio :label="part.name" :value="part.name"></v-radio>
                     </v-radio-group>
                   </v-card>
@@ -65,6 +49,7 @@
               </v-col>
             </v-row>
           </div>
+
 
           <!-- <v-row class="mb-12" v-if="n === 1">
                     <v-col class="d-flex child-flex" cols="12">
@@ -116,20 +101,11 @@
 
           <!-- Цвет -->
           <v-row class="mb-12" v-if="n === partCategoriesLen + 1">
-            <v-col
-              v-for="(color, index) in colors"
-              :key="index"
-              cols="12"
-              sm="3"
-            >
+            <v-col v-for="(color, index) in colors" :key="index" cols="12" sm="3">
               <v-radio-group v-model="selectedColor">
-                <v-radio :label="color.name" :value="color.name"> </v-radio>
-                <v-img
-                  :src="color.icon"
-                  aspect-ratio="1"
-                  max-height="150"
-                  max-width="150"
-                ></v-img>
+                <v-radio :label="color.name" :value="color.name">
+                </v-radio>
+                <v-img :src="color.icon" aspect-ratio="1" max-height="150" max-width="150"></v-img>
               </v-radio-group>
             </v-col>
           </v-row>
@@ -137,29 +113,12 @@
           <!-- Размер -->
           <v-row v-if="n === partCategoriesLen + 2">
             <v-container>
-              <v-combobox
-                label="Выберите ваш размер"
-                :items="[
-                  'XS-44',
-                  'S-46',
-                  'M-48',
-                  'L-50',
-                  'XL-52',
-                  '2XL-54',
-                  '3XL-56',
-                  '4XL-58',
-                ]"
-                v-model="selectedSize"
-              ></v-combobox>
+              <v-combobox label="Выберите ваш размер"
+                :items="['XS-44', 'S-46', 'M-48', 'L-50', 'XL-52', '2XL-54', '3XL-56', '4XL-58']"
+                v-model="selectedSize"></v-combobox>
               <v-text-field label="Рост" variant="outlined"></v-text-field>
-              <v-text-field
-                label="Обхват груди"
-                variant="outlined"
-              ></v-text-field>
-              <v-text-field
-                label="Обхват бёдер"
-                variant="outlined"
-              ></v-text-field>
+              <v-text-field label="Обхват груди" variant="outlined"></v-text-field>
+              <v-text-field label="Обхват бёдер" variant="outlined"></v-text-field>
             </v-container>
           </v-row>
 
@@ -167,21 +126,15 @@
           <v-row v-if="n === partCategoriesLen + 3">
             <v-container>
               <ul>
-                <!-- <li>{{ selectedLenght }}</li>
+                <li>{{ selectedLenght }}</li>
                 <li>{{ selectedPocket }}</li>
-                <li>{{ selectedSleeve }}</li>
-                <li>{{ selectedNeck }}</li> -->
-                <li v-for="part in selectedParts" :key="part.id">
-                  {{ part.name }}
-                </li>
+                <li>{{ selectedNeck }}</li>
                 <li>{{ selectedColor }}</li>
                 <li>{{ selectedSize }}</li>
               </ul>
               <v-row>
                 <v-col cols="12" class="text-right">
-                  <v-btn rounded="" color="blue-grey-lighten-3"
-                    >Оформить заказ</v-btn
-                  >
+                  <v-btn rounded="" color="blue-grey-lighten-3">Оформить заказ</v-btn>
                 </v-col>
               </v-row>
             </v-container>
@@ -193,10 +146,11 @@
 </template>
 
 <script>
-import axios, { all } from "axios";
+import axios, {
+  all
+} from 'axios';
 export default {
   data: () => ({
-    tab: 1,
     selectedLenght: null,
     selectedColor: null,
     selectedNeck: null,
@@ -221,29 +175,28 @@ export default {
     // },
     colors: null,
     parts: {},
-    selectedParts: [],
   }),
   mounted() {
     this.getColors();
     this.getPartCategories();
+    this.getParts();
+    // this.handleTabClick(1);
   },
   methods: {
     getColors() {
-      axios
-        .get("http://localhost:3000/api/color")
-        .then((response) => {
+      axios.get('http://localhost:3000/api/color')
+        .then(response => {
           this.colors = response.data;
           console.log(this.myColors);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(error);
         });
     },
 
     getPartCategories() {
-      axios
-        .get("http://localhost:3000/api/partcategory")
-        .then((response) => {
+      axios.get('http://localhost:3000/api/partcategory')
+        .then(response => {
           this.partCategories = response.data;
           this.partCategoriesLen = this.partCategories.length;
 
@@ -251,65 +204,37 @@ export default {
             this.parts[String(category.id)] = [];
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(error);
         });
     },
 
-    // getParts() {
-    //     axios.get('http://localhost:3000/api/part')
-    //         .then(response => {
-    //             response.data.forEach((obj) => {
-    //                 if (this.parts.hasOwnProperty(obj.part_category_id)) {
-    //                     this.parts[obj.part_category_id].push(obj);
-    //                 }
-    //             });
-    //             console.log(this.parts);
+    getParts() {
+      axios.get('http://localhost:3000/api/part')
+        .then(response => {
+          response.data.forEach((obj) => {
+            if (this.parts.hasOwnProperty(obj.part_category_id)) {
+              this.parts[obj.part_category_id].push(obj);
+            }
+          });
+          console.log(this.parts);
 
-    //         })
-    //         .catch(error => {
-    //             console.error(error);
-    //         });
-    // },
-
-    async handleTabClick(selectedCategory) {
-      await axios
-        .get("http://localhost:3000/api/part/cat/" + selectedCategory)
-        .then((response) => {
-          this.parts = response.data;
-          //   for (let i = 0; i < this.parts.length; i++) {
-          //     console.log(this.parts[i].name);
-          //   } // Вывести ответ сервера в консоль
         })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
+        .catch(error => {
+          console.error(error);
         });
     },
-    addPart(part) {
-      {
-        // Удаление предыдущего выбора, если есть
-        const indexToRemove = this.selectedParts.indexOf(part);
-        if (indexToRemove && this.isInParts()) {
-          this.selectedParts.splice(indexToRemove, 1);
-        }
-
-        // Добавление нового выбора
-        if (part !== null) {
-          this.selectedParts.push(part);
-        }
-        for (let i = 0; i < this.selectedParts.length; i++) {
-          console.log(this.selectedParts[i].name);
-        } // Вывести ответ сервера в консоль
-      }
-    },
-    isInParts() {
-      for (let i = 0; i < this.parts.length; i++) {
-        if (this.selectedParts.indexOf(this.parts[i]) !== -1) {
-          return false;
-        }
-      }
-      return true;
-    },
+    // async handleTabClick(selectedCategory) {
+    //   await axios
+    //     .get("http://localhost:3000/api/part/cat/" + selectedCategory)
+    //     .then((response) => {
+    //       this.parts = response.data;
+    //       console.log(this.parts); // Вывести ответ сервера в консоль
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error fetching data:", error);
+    //     });
+    // },
   },
-};
+}
 </script>
