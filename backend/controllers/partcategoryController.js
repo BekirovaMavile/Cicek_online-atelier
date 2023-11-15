@@ -19,13 +19,14 @@ class partcategoryController {
   }
 
   async getAll(req, res) {
-    const productCategoryId = 2;
+    const id = req.query.productCategoryId;
     const partCategories = await PartCategory.findAll({
-        where: { product_categories_id: productCategoryId },
+        where: { product_categories_id: id},
         attributes: ['name', 'icon', 'id', 'product_categories_id']
     });
     return res.json(partCategories);
 }
+
 
 
   async getOne(req, res) {
