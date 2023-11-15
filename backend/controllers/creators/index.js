@@ -294,72 +294,72 @@ const createParts = async () => {
     {
       name: "Прямой конец (Straight Hem)",
       cat: "10",
-      image: "./images/hem_styles/straight_hem_pants.jpeg",
+      image: "./image/hem_styles/straight_hem_pants.jpeg",
     },
     {
       name: "Завышенный (растянутый) конец (Cropped Hem)",
       cat: "10",
-      image: "./images/hem_styles/cropped_hem_pants.jpeg",
+      image: "./image/hem_styles/cropped_hem_pants.jpeg",
     },
     {
       name: "Расклешенный конец (Flared Hem)",
       cat: "10",
-      image: "./images/hem_styles/flared_hem_pants.jpeg",
+      image: "./image/hem_styles/flared_hem_pants.jpeg",
     },
     {
       name: "Прямой",
       cat: "11",
-      image: "./images/hem_styles/straight_kroi_skirt.jpeg",
+      image: "./image/hem_styles/straight_kroi_skirt.jpeg",
     },
     {
       name: "Колокол",
       cat: "11",
-      image: "./images/hem_styles/bell_kroi_skirt.jpeg",
+      image: "./image/hem_styles/bell_kroi_skirt.jpeg",
     },
     {
       name: "Короткая",
       cat: "12",
-      image: "./images/hem_styles/short_length_skirt.jpeg",
+      image: "./image/hem_styles/short_length_skirt.jpeg",
     },
     {
       name: "Средняя",
       cat: "12",
-      image: "./images/hem_styles/middle_length_skirt.jpeg",
+      image: "./image/hem_styles/middle_length_skirt.jpeg",
     },
     {
       name: "Длинная",
       cat: "12",
-      image: "./images/hem_styles/long_length_skirt.jpeg",
+      image: "./image/hem_styles/long_length_skirt.jpeg",
     },
     {
       name: "Декоративная резинка кашкорсе",
       cat: "13",
-      image: "./images/hem_styles/kashkorse_waist_skirt.jpeg",
+      image: "./image/hem_styles/kashkorse_waist_skirt.jpeg",
     },
     {
       name: "Резинка со шнурком",
       cat: "13",
-      image: "./images/hem_styles/lace_waist_skirt.jpeg",
+      image: "./image/hem_styles/lace_waist_skirt.jpeg",
     },
     {
       name: "До пояса",
       cat: "14",
-      image: "./images/hem_styles/пояс_длина_футболка.jpeg",
+      image: "./image/hem_styles/пояс_длина_футболка.jpeg",
     },
     {
       name: "До бедра",
       cat: "14",
-      image: "./images/hem_styles/бедро_длина_футболка.jpeg",
+      image: "./image/hem_styles/бедро_длина_футболка.jpeg",
     },
     {
       name: "Круглая",
       cat: "15",
-      image: "./images/hem_styles/круглая_горловина_футболка.jpeg",
+      image: "./image/hem_styles/круглая_горловина_футболка.jpeg",
     },
     {
       name: "Треугольная",
       cat: "15",
-      image: "./images/hem_styles/треугольная_горловина_футболка.jpeg",
+      image: "./image/hem_styles/треугольная_горловина_футболка.jpeg",
     },
   ];
 
