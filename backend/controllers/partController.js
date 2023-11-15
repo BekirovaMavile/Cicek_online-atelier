@@ -20,10 +20,10 @@ class partController {
 
   async getAll(req, res) {
     const parts = await Part.findAll({
-        attributes: ['name', 'icon', 'id', 'part_category_id']
+      attributes: ["name", "icon", "id", "part_category_id"],
     });
     return res.json(parts);
-}
+  }
 
   async getOne(req, res) {
     const { id } = req.params;
@@ -43,14 +43,14 @@ class partController {
   }
 
   async getByProduct(req, res) {
-    const {  ProductId } = req.params;
+    const { product_id } = req.params;
 
     const productParts = await ProductPart.findAll({
-      where: { ProductId },
+      where: { product_id },
     });
 
     // Извлечь массив id из результатов запроса ProductPart
-    const partIds = productParts.map((part) => part.PartId);
+    const partIds = productParts.map((part) => part.part_id);
 
     const parts = await Part.findAll({
       where: { id: partIds },

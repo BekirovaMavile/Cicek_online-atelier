@@ -4,12 +4,10 @@ const { badRequest } = require("../error/ApiError");
 class product_size_Controller {
   async create(req, res, next) {
     try {
-      let { name, hip_girth, chest_girth } = req.body;
+      let { name } = req.body;
 
       const product_size = await ProductSize.create({
         name,
-        hip_girth,
-        chest_girth,
       });
 
       return res.json(product_size);
@@ -45,13 +43,12 @@ class product_size_Controller {
 
   async updateItem(req, res, next) {
     try {
-      let { name, hip_girth, chest_girth, id } = req.body;
+      let { name,  id } = req.body;
 
       const [updated] = await ProductSize.update(
         {
           name,
-          hip_girth,
-          chest_girth,
+
         },
         {
           where: {

@@ -1,11 +1,28 @@
 const express = require("express");
 const app = express();
 
+const { ProductSize } = require("../../models/models");
 const { ProductCategory } = require("../../models/models");
 const { Part } = require("../../models/models");
 const { Color } = require("../../models/models");
 const { Material } = require("../../models/models");
 const { PartCategory } = require("../../models/models");
+
+// async function syncModels() {
+//   const models = [
+//     Part,
+//     PartCategory,
+//     ProductCategory,
+//     ProductSize,
+//     Color,
+//     Material,
+//   ];
+
+//   for (const model of models) {
+//     await model.destroy({ where: {} });
+//     console.log(`All records in ${model.name} table deleted successfully.`);
+//   }
+// }
 
 const createProdCat = async () => {
   const prodcats = [
@@ -141,7 +158,6 @@ const createPartCat = async () => {
       image: "./image/material_cicek/горловина_футболка.jpeg",
       product: "1", //15
     },
-
   ];
 
   for (const elem of partcats) {
@@ -372,12 +388,48 @@ const createParts = async () => {
   }
 };
 
+const createSizes = async () => {
+  const sizes = [
+    {
+      name: "XS-44",
+    },
+    {
+      name: "S-46",
+    },
+    {
+      name: "M-48",
+    },
+    {
+      name: "L-50",
+    },
+    {
+      name: "XL-52",
+    },
+    {
+      name: "2XL-54",
+    },
+    {
+      name: "3XL-56",
+    },
+    {
+      name: "4XL-58",
+    },
+  ];
+  for (const elem of sizes) {
+    await ProductSize.create({
+      name: elem.name,
+    });
+  }
+};
+
 const CreateAll = async (req, res) => {
+  // await syncModels();
   await createProdCat();
   await createColors();
   await createMaterials();
   await createPartCat();
   await createParts();
+  await createSizes();
   res.json("Таблицы заполнены успешно!");
 };
 

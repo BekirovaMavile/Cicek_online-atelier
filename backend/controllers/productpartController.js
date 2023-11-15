@@ -4,11 +4,11 @@ const { badRequest } = "../error/ApiError";
 class productPartController {
   async create(req, res, next) {
     try {
-      let { name, icon } = req.body;
+      let { product_id, part_id } = req.body;
 
       const productPart = await ProductPart.create({
-        name,
-        icon,
+        part_id,
+        product_id,
       });
 
       return res.json(productPart);
@@ -22,11 +22,11 @@ class productPartController {
     return res.json(productParts);
   }
 
-  async getOne(req, res) {
-    const { id } = req.params;
-    const productPart = await ProductPart.findOne({
+  async getbyProduct(req, res) {
+    const { product_id } = req.params;
+    const productPart = await ProductPart.findAll({
       where: {
-        id,
+        product_id,
       },
     });
     return res.json(productPart);
@@ -44,12 +44,12 @@ class productPartController {
 
   async updateItem(req, res, next) {
     try {
-      let { name, icon, id } = req.body;
+      let { id } = req.body;
 
       const [updated] = await ProductPart.update(
         {
-          name,
-          icon,
+          part_id,
+          product_id,
         },
         {
           where: {
