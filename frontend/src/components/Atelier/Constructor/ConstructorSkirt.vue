@@ -1,111 +1,74 @@
 <template>
     <v-card>
         <v-tabs v-model="tab" color="blue-grey-darken-4" align-tabs="center">
-            <v-tab :value="1">Крой</v-tab>
-            <v-tab :value="2">Длина</v-tab>
-            <v-tab :value="3">Пояс</v-tab>
-            <v-tab :value="4">Ткань</v-tab>
-            <v-tab :value="5">Цвет</v-tab>
-            <v-tab :value="6">Размер</v-tab>
-            <v-tab :value="7">Итого</v-tab>
+            <v-tab v-for="(item, index) in partCategories" :key="index" :value="index + 1">
+                {{ item.name }}
+            </v-tab>
+            <v-tab :value="partCategoriesLen + 1">Цвет</v-tab>
+            <v-tab :value="partCategoriesLen + 2">Размер</v-tab>
+            <v-tab :value="partCategoriesLen + 3">Итого</v-tab>
         </v-tabs>
+
         <v-window v-model="tab">
-            <v-window-item v-for="n in 10" :key="n" :value="n">
+            <v-window-item v-for="n in 20" :key="n" :value="n">
                 <v-container fluid>
-                    <!-- Крой -->
-                    <v-row class="mb-12" v-if="n === 1">
-                        <v-col class="d-flex child-flex" cols="12">
-                            <v-row justify="center">
-                                <v-img v-for="image in images[n]" :key="image" :src="image" aspect-ratio="1"
-                                    max-height="450"></v-img>
-                            </v-row>
-                        </v-col>
-                        <v-row justify="center">
-                            <v-col v-for="(checkbox, index) in chexbox[n]" :key="index" cols="6" sm="6">
-                                 <v-radio-group class="ml-12" v-model="selectedCut">
-                        <v-radio :label="checkbox" :value="checkbox"></v-radio>
-                    </v-radio-group>
+                    <div v-for="(item, key, index) in parts" :key="index">
+                        <v-row class="mb-12" v-if="n === index + 1">
+                            <v-col class="d-flex child-flex" cols="12">
+                                <v-row justify="center">
+                                    <v-card v-for="(part, index) in parts[key]" :key="index" class="mr-4">
+                                        <v-row align="center" justify="center">
+                                            <v-img :src="part.icon" aspect-ratio="1" height="450" width="450"></v-img>
+                                        </v-row>
+                                        <v-radio-group class="ml-2 mt-2" v-model="selectedValue[key]">
+                                            <v-radio :label="part.name" :value="part.name"></v-radio>
+                                        </v-radio-group>
+                                    </v-card>
+                                </v-row>
                             </v-col>
                         </v-row>
-                    </v-row>
-                    <!-- Длина -->
-                    <v-row class="mb-12" v-if="n === 2">
-                        <v-col class="d-flex child-flex" cols="12">
-                            <v-row justify="center">
-                                <v-img v-for="image in images[n]" :key="image" :src="image" aspect-ratio="1"
-                                    max-height="450"></v-img>
-                            </v-row>
-                        </v-col>
-                        <v-row justify="center">
-                              <v-col v-for="(checkbox, index) in chexbox[n]" :key="index" cols="4">
-                              <v-radio-group v-model="selectedLength">
-                        <v-radio :label="checkbox" :value="checkbox"></v-radio>
-                    </v-radio-group>
-                            </v-col>
-                            </v-row>
-                    </v-row>
-                    <!-- Пояс -->
-                    <v-row class="mb-12" v-if="n === 3">
-                        <v-col class="d-flex child-flex" cols="12">
-                            <v-row justify="center">
-                                <v-img v-for="image in images[n]" :key="image" :src="image" aspect-ratio="1"
-                                    max-height="450"></v-img>
-                            </v-row>
-                        </v-col>
-                        <v-row justify="center">
-                                <v-col v-for="(checkbox, index) in chexbox[n]" :key="index" cols="6" sm="6">
-                                    <v-radio-group class="ml-12" v-model="selectedBelt">
-                        <v-radio :label="checkbox" :value="checkbox"></v-radio>
-                    </v-radio-group>
-                                </v-col>
-                            </v-row>
-                    </v-row>
-                    <!-- Ткань -->
-                    <v-row class="mb-12" v-if="n === 4">
-                        <v-col class="d-flex child-flex" cols="12">
-                            <v-row justify="center">
-                                <v-img v-for="image in images[n]" :key="image" :src="image" aspect-ratio="1"
-                                    max-height="450"></v-img>
-                            </v-row>
-                        </v-col>
-                        <v-row justify="center">
-                            <v-col v-for="(checkbox, index) in chexbox[n]" :key="index" cols="6">
-                                 <v-radio-group class="ml-12" v-model="selectedMaterial">
-                        <v-radio :label="checkbox" :value="checkbox"></v-radio>
-                    </v-radio-group>
-                            </v-col>
-                        </v-row>
-                    </v-row>
+                    </div>
+
                     <!-- Цвет -->
-                    <v-row class="mb-12" v-if="n === 5">
-                <v-col v-for="(color, index) in colors" :key="index" cols="12" sm="3">
-                  <v-radio-group v-model="selectedColor">
-                    <v-radio :label="color.name" :value="color.name">
-                    </v-radio>
-                    <v-img :src="color.image" aspect-ratio="1" max-height="150" max-width="150"></v-img>
-                  </v-radio-group>
-                </v-col>
-              </v-row>
+                    <v-row class="mb-12" v-if="n === partCategoriesLen + 1">
+                        <v-col cols="12" sm="12">
+                            <v-card class="d-flex align-center justify-center" style="width: 100%;">
+                                <v-row>
+                                    <v-col v-for="(color, index) in colors" :key="index" cols="12" sm="3">
+                                        <v-card style="width: 200px; height: 250px;">
+                                            <v-radio-group v-model="selectedColor">
+                                                <v-radio :label="color.name" :value="color.name"></v-radio>
+                                            </v-radio-group>
+                                            <v-img :src="color.icon" aspect-ratio="1" max-height="150"
+                                                max-width="150"></v-img>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+
                     <!-- Размер -->
-                    <v-row v-if="n === 6">
+                    <v-row v-if="n === partCategoriesLen + 2">
                         <v-container>
                             <v-combobox label="Выберите ваш размер"
-                                :items="['XS-44', 'S-46', 'M-48', 'L-50', 'XL-52', '2XL-54', '3XL-56', '4XL-58']" v-model="selectedSize"></v-combobox>
-                            <v-combobox label="Укажите рост"
-                                :items="['158-166', '167-178', '179-190', '191-202']"></v-combobox>
+                                :items="['XS-44', 'S-46', 'M-48', 'L-50', 'XL-52', '2XL-54', '3XL-56', '4XL-58']"
+                                v-model="selectedSize"></v-combobox>
+                            <v-text-field label="Рост" variant="outlined"></v-text-field>
+                            <v-text-field label="Обхват груди" variant="outlined"></v-text-field>
                             <v-text-field label="Обхват бёдер" variant="outlined"></v-text-field>
                         </v-container>
                     </v-row>
+
                     <!-- Итог -->
-                    <v-row v-if="n === 7">
+                    <v-row v-if="n === partCategoriesLen + 3">
                         <v-container>
                             <ul>
-                                 <li>Крой: {{ selectedCut }}</li>
-                    <li>Длина: {{ selectedLength }}</li>
-                    <li>Пояс: {{ selectedBelt }}</li>
-                    <li>Ткань: {{ selectedMaterial }}</li>
-                    <li>Цвет: {{ selectedColor }}</li>
-                    <li>Размер: {{ selectedSize }}</li>
+                                <li v-for="(value, key) in selectedValue" :key="key">
+                                    {{ value }}
+                                </li>
+                                <li>Цвет: {{ selectedColor }}</li>
+                                <li>Размер: {{ selectedSize }}</li>
                             </ul>
                             <v-row>
                                 <v-col cols="12" class="text-right">
@@ -119,49 +82,75 @@
         </v-window>
     </v-card>
 </template>
-
+    
 <script>
+import axios, {
+    all
+} from 'axios';
 export default {
     data: () => ({
-        selectedBelt: null,
         selectedColor: null,
-        selectedCut: null,
-        selectedLength: null, 
-        selectedMaterial: null,
         selectedSize: null,
-        // selectedHeight: null,
-        // selectedGirth: null,
+        selectedValue: {},
         tab: null,
-        images: {
-            1: ["./image/constructorSkirt/1.webp", "./image/constructorSkirt/2.webp"],
-            2: ["./image/constructorSkirt/3.jpeg", "./image/constructorSkirt/2.webp", "./image/constructorSkirt/1.webp"],
-            3: ["./image/constructorSkirt/3.jpeg", "./image/constructorSkirt/4.webp"],
-            4: ["./image/constructorSkirt/13.webp", "./image/constructorSkirt/14.webp"],
-        },
-        chexbox: {
-            1: ["Прямая", "Колокол"],
-            2: ["Короткая", "Средняя", "Длинная"],
-            3: ["Декоративная резинка кашкорсе", "Резинка со шнурком"],
-            4: ["С начёсом", "Без начёса"],
-        },
-        colors: [
-        { name: "Черный", image: "./image/color_cicek/black.jpeg" },
-        { name: "Песочный", image: "./image/color_cicek/песочный.jpeg" },
-        { name: "Фиолетовый", image: "./image/color_cicek/фиолетовый.jpeg" },
-        { name: "Лавандовый", image: "./image/color_cicek/лавандовый.jpeg" },
-        { name: "Розовый", image: "./image/color_cicek/розовый.jpeg" },
-        { name: "Белый", image: "./image/color_cicek/белый.jpeg" },
-        { name: "Серый", image: "./image/color_cicek/серый.jpeg" },
-        { name: "Графит", image: "./image/color_cicek/графит.jpg" },
-        { name: "Желтый", image: "./image/color_cicek/желтая.jpeg" },
-        { name: "Оранжевый", image: "./image/color_cicek/оранжевый.jpeg" },
-        { name: "Красный", image: "./image/color_cicek/красный.jpeg" },
-        { name: "Синий", image: "./image/color_cicek/синий.jpeg" },
-        { name: "Голубой", image: "./image/color_cicek/голубой.jpeg" },
-        { name: "Зеленый", image: "./image/color_cicek/зеленый.jpeg" },
-        { name: "Мятный", image: "./image/color_cicek/мятный.jpeg" },
-        { name: "Хаки", image: "./image/color_cicek/хаки.jpeg" },
-        ]
+        partCategoriesLen: 0,
+        partCategories: null,
+        selectedLengths: {},
+        colors: null,
+        parts: {},
     }),
-} 
+    mounted() {
+        this.getColors();
+        this.getPartCategories();
+        this.getParts();
+    },
+    methods: {
+        getColors() {
+            axios.get('http://localhost:3000/api/color')
+                .then(response => {
+                    this.colors = response.data;
+                    console.log(this.myColors);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+
+        getPartCategories() {
+            axios.get('http://localhost:3000/api/partcategory', {
+                params: {
+                    productCategoryId: 5
+                }
+            })
+                .then(response => {
+                    this.partCategories = response.data;
+                    this.partCategoriesLen = this.partCategories.length;
+
+                    this.partCategories.forEach((category) => {
+                        this.parts[String(category.id)] = [];
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+
+        getParts() {
+            axios.get('http://localhost:3000/api/part')
+                .then(response => {
+                    response.data.forEach((obj) => {
+                        if (this.parts.hasOwnProperty(obj.part_category_id)) {
+                            this.parts[obj.part_category_id].push(obj);
+                        }
+                    });
+                    console.log(this.parts);
+
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+    },
+}
 </script>
+    

@@ -3,26 +3,12 @@
 <h2 class="d-flex flex-column justify-center align-center mt-8 mb-8">
     ВЫБЕРИТЕ КАТЕГОРИЮ ОДЕЖДЫ:
 </h2>
-    <!-- <v-card>
-          <v-row>
-            <v-col v-for="category in productcategories" :key="category.id">
-              <v-card>
-                <v-card-title class="text-center">{{ category.name }}</v-card-title>
-                <v-img :src="getImagePath(category.name)" height="256"></v-img>
-                <v-card-actions>
-                    <v-btn @click="goToCategory(category.path || `/constructor${category.name}`)">Перейти</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-card> -->
-
             <div>
                 <v-col class="d-flex child-flex" cols="12">
             <v-row justify="center">
                     <v-card class="mb-4 ml-6 mt-2">
                         <v-card-title class="text-center">Платье</v-card-title>
-                        <v-img src="../../../public/image/constructorDress/3.webp" height="350" width="350"></v-img>
+                        <v-img src="../../../public/image/3.webp" height="350" width="350"></v-img>
                         <v-card-actions>
                             <v-btn class="pa-3" rounded="" to="/constructorDress">Перейти</v-btn>
                         </v-card-actions>
@@ -38,7 +24,7 @@
 
                         <v-card class="mb-4 ml-6 mt-2">
                             <v-card-title class="text-center">Футболка</v-card-title>
-                            <v-img src="../../../public/image/constructorShirt/1.jpeg" height="350" width="350"></v-img>
+                            <v-img src="../../../public/image/1.jpeg" height="350" width="350"></v-img>
                             <v-card-actions>
                                 <v-btn class="pa-3" rounded="" to="/constructorShirt">Перейти</v-btn>
                             </v-card-actions>
@@ -46,7 +32,7 @@
 
                         <v-card class="mb-4 ml-6 mt-2">
                             <v-card-title class="text-center">Юбка</v-card-title>
-                            <v-img src="../../../public/image/constructorSkirt/5.webp" height="350" width="350"></v-img>
+                            <v-img src="../../../public/image/5.webp" height="350" width="350"></v-img>
                             <v-card-actions>
                                 <v-btn class="pa-3" rounded="" to="/constructorSkirt">Перейти</v-btn>
                             </v-card-actions>
@@ -54,7 +40,7 @@
 
                         <v-card class="mb-4 ml-6 mt-2">
                             <v-card-title class="text-center">Брюки</v-card-title>
-                            <v-img src="../../../public/image/constructorPants/4.jpeg" height="350" width="350"></v-img>
+                            <v-img src="../../../public/image/4.jpeg" height="350" width="350"></v-img>
                             <v-card-actions>
                                 <v-btn class="pa-3" rounded="" to="/constructorPants">Перейти</v-btn>
                             </v-card-actions>

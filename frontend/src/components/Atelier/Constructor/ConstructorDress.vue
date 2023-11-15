@@ -12,105 +12,41 @@
     <v-window v-model="tab">
       <v-window-item v-for="n in 20" :key="n" :value="n">
         <v-container fluid>
-          <!-- <div v-for="(item, key, index) in parts" :key="index">
-                    <v-row class="mb-12" v-if="n === index+1">
-                        <v-col class="d-flex child-flex" cols="12">
-                            <v-row justify="center">
-                                <v-img v-for="(part, index) in parts[key]" :key="index" :src="part.icon" aspect-ratio="1" max-height="450"></v-img>
-                            </v-row>
-                        </v-col>
-
-                        <v-row justify="center">
-                            <v-col v-for="(part, index) in parts[key]" :key="index" cols="6" sm="6">
-                                <v-radio-group class="ml-12" v-model="selectedLenght">
-                                    <v-radio :label="part.name" :value="part.name"></v-radio>
-                                </v-radio-group>
-                            </v-col>
-                        </v-row>
-                    </v-row>
-                </div> -->
-
           <div v-for="(item, key, index) in parts" :key="index">
-              <v-row class="mb-12" v-if="n === index + 1">
-                <v-col class="d-flex child-flex" cols="12">
-                  <v-row justify="center">
-                    <v-card v-for="(part, index) in parts[key]" :key="index" class="mr-4">
-                      <v-row align="center" justify="center">
-                        <v-img :src="part.icon" aspect-ratio="1" height="450" width="450"></v-img>
-                      </v-row>
-                      <v-radio-group class="ml-2 mt-2" v-model="selectedLengths[part.name]">
-                        <v-radio :label="part.name" :value="part.name"></v-radio>
-                      </v-radio-group>
-                    </v-card>
-                  </v-row>
-                </v-col>
-              </v-row>
-            </div>
-          <!-- <v-row class="mb-12" v-if="n === 1">
-                    <v-col class="d-flex child-flex" cols="12">
-                        <v-row justify="center">
-                            <v-img v-for="(part, index) in parts[5]" :key="index" :src="part.icon" aspect-ratio="1" max-height="450"></v-img>
-                        </v-row>
-                    </v-col>
-
-                    <v-row justify="center">
-                        <v-col v-for="(part, index) in parts[5]" :key="index" cols="6" sm="6">
-                            <v-radio-group class="ml-12" v-model="selectedLenght">
-                                <v-radio :label="part.name" :value="part.name"></v-radio>
-                            </v-radio-group>
-                        </v-col>
+            <v-row class="mb-12" v-if="n === index + 1">
+              <v-col class="d-flex child-flex" cols="12">
+                <v-row justify="center">
+                  <v-card v-for="(part, index) in parts[key]" :key="index" class="mr-4">
+                    <v-row align="center" justify="center">
+                      <v-img :src="part.icon" aspect-ratio="1" height="450" width="450"></v-img>
                     </v-row>
+                    <v-radio-group class="ml-2 mt-2" v-model="selectedValue[key]">
+                      <v-radio :label="part.name" :value="part.name"></v-radio>
+                    </v-radio-group>
+                  </v-card>
                 </v-row>
-
-                <v-row class="mb-12" v-if="n === 2">
-                    <v-col class="d-flex child-flex" cols="12">
-                        <v-row justify="center">
-                            <v-img v-for="(part, index) in parts[6]" :key="index" :src="part.icon" aspect-ratio="1" max-height="450"></v-img>
-                        </v-row>
-                    </v-col>
-
-                    <v-row justify="center">
-                        <v-col v-for="(part, index) in parts[6]" :key="index" cols="6" sm="6">
-                            <v-radio-group class="ml-12" v-model="selectedLenght">
-                                <v-radio :label="part.name" :value="part.name"></v-radio>
-                            </v-radio-group>
-                        </v-col>
-                    </v-row>
-                </v-row>
-
-                <v-row class="mb-12" v-if="n === 3">
-                    <v-col class="d-flex child-flex" cols="12">
-                        <v-row justify="center">
-                            <v-img v-for="(part, index) in parts[7]" :key="index" :src="part.icon" aspect-ratio="1" max-height="450"></v-img>
-                        </v-row>
-                    </v-col>
-
-                    <v-row justify="center">
-                        <v-col v-for="(part, index) in parts[7]" :key="index" cols="6" sm="6">
-                            <v-radio-group class="ml-12" v-model="selectedLenght">
-                                <v-radio :label="part.name" :value="part.name"></v-radio>
-                            </v-radio-group>
-                        </v-col>
-                    </v-row>
-                </v-row> -->
+              </v-col>
+            </v-row>
+          </div>
 
           <!-- Цвет -->
           <v-row class="mb-12" v-if="n === partCategoriesLen + 1">
-    <v-col cols="12" sm="12">
-      <v-card class="d-flex align-center justify-center" style="width: 100%;">
-        <v-row>
-          <v-col v-for="(color, index) in colors" :key="index" cols="12" sm="3">
-            <v-card style="width: 200px; height: 250px;">
-              <v-radio-group v-model="selectedColor">
-                <v-radio :label="color.name" :value="color.name"></v-radio>
-              </v-radio-group>
-              <v-img :src="color.icon" aspect-ratio="1" max-height="150" max-width="150"></v-img>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-card>
-    </v-col>
-  </v-row>
+            <v-col cols="12" sm="12">
+              <v-card class="d-flex align-center justify-center" style="width: 100%;">
+                <v-row>
+                  <v-col v-for="(color, index) in colors" :key="index" cols="12" sm="3">
+                    <v-card style="width: 200px; height: 250px;">
+                      <v-radio-group v-model="selectedColor">
+                        <v-radio :label="color.name" :value="color.name"></v-radio>
+                      </v-radio-group>
+                      <v-img :src="color.icon" aspect-ratio="1" max-height="150" max-width="150"></v-img>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+          </v-row>
+
           <!-- Размер -->
           <v-row v-if="n === partCategoriesLen + 2">
             <v-container>
@@ -125,21 +61,21 @@
 
           <!-- Итог -->
           <v-row v-if="n === partCategoriesLen + 3">
-              <v-container>
-                <ul>
-                  <li v-for="(value, key) in selectedLengths" :key="key">
-        {{ key }}: {{ value }}
-      </li>
-                  <li>{{ selectedColor }}</li>
-                  <li>{{ selectedSize }}</li>
-                </ul>
-                <v-row>
-                  <v-col cols="12" class="text-right">
-                    <v-btn rounded="" color="blue-grey-lighten-3">Оформить заказ</v-btn>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-row>
+            <v-container>
+              <ul>
+                <li v-for="(value, key) in selectedValue" :key="key">
+                  {{ value }}
+                </li>
+                <li>Цвет: {{ selectedColor }}</li>
+                <li>Размер: {{ selectedSize }}</li>
+              </ul>
+              <v-row>
+                <v-col cols="12" class="text-right">
+                  <v-btn rounded="" color="blue-grey-lighten-3">Оформить заказ</v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-row>
         </v-container>
       </v-window-item>
     </v-window>
@@ -152,28 +88,13 @@ import axios, {
 } from 'axios';
 export default {
   data: () => ({
-    selectedLenght: null,
     selectedColor: null,
-    selectedNeck: null,
-    selectedPocket: null,
-    selectedSleeve: null,
     selectedSize: null,
+    selectedValue: {},
     tab: null,
     partCategoriesLen: 0,
     partCategories: null,
     selectedLengths: {},
-    // images: {
-    //     1: ["./image/constructorDress/1.webp", "./image/constructorDress/2.webp"],
-    //     2: ["./image/constructorDress/3.webp", "./image/constructorDress/4.webp"],
-    //     3: ["./image/constructorDress/1.webp", "./image/constructorDress/5.webp", "./image/constructorDress/3.webp"],
-    //     4: ["./image/constructorDress/1.webp", "./image/constructorDress/5.webp", "./image/constructorDress/3.webp"],
-    // },
-    // chexbox: {
-    //     1: ["Средняя", "Длинная"],
-    //     2: ["С карманом", "Без кармана"],
-    //     3: ["Длинный", "3/4", "Короткий"],
-    //     4: ["Квадратный", "Треугольный", "Круглый"],
-    // },
     colors: null,
     parts: {},
   }),
@@ -195,7 +116,11 @@ export default {
     },
 
     getPartCategories() {
-      axios.get('http://localhost:3000/api/partcategory')
+      axios.get('http://localhost:3000/api/partcategory', {
+        params: {
+          productCategoryId: 2
+        }
+      })
         .then(response => {
           this.partCategories = response.data;
           this.partCategoriesLen = this.partCategories.length;
