@@ -8,7 +8,6 @@
             <v-tab :value="partCategoriesLen + 2">Размер</v-tab>
             <v-tab :value="partCategoriesLen + 3">Итого</v-tab>
         </v-tabs>
-    
         <v-window v-model="tab">
             <v-window-item v-for="n in 20" :key="n" :value="n">
                 <v-container fluid>
@@ -28,7 +27,6 @@
                             </v-col>
                         </v-row>
                     </div>
-    
                     <!-- Цвет -->
                     <v-row class="mb-12" v-if="n === partCategoriesLen + 1">
                         <v-col cols="12" sm="12">
@@ -39,24 +37,26 @@
                                             <v-radio-group v-model="selectedColor">
                                                 <v-radio :label="color.name" :value="color.name"></v-radio>
                                             </v-radio-group>
-                                            <v-img :src="color.icon" aspect-ratio="1" max-height="150" max-width="150"></v-img>
+                                            <v-img :src="color.icon" aspect-ratio="1" max-height="150"
+                                                max-width="150"></v-img>
                                         </v-card>
                                     </v-col>
                                 </v-row>
                             </v-card>
                         </v-col>
                     </v-row>
-    
+
                     <!-- Размер -->
                     <v-row v-if="n === partCategoriesLen + 2">
                         <v-container>
-                            <v-combobox label="Выберите ваш размер" :items="['XS-44', 'S-46', 'M-48', 'L-50', 'XL-52', '2XL-54', '3XL-56', '4XL-58']" v-model="selectedSize"></v-combobox>
+                            <v-combobox label="Выберите ваш размер"
+                                :items="['XS-44', 'S-46', 'M-48', 'L-50', 'XL-52', '2XL-54', '3XL-56', '4XL-58']"
+                                v-model="selectedSize"></v-combobox>
                             <v-text-field label="Рост" variant="outlined"></v-text-field>
                             <v-text-field label="Обхват груди" variant="outlined"></v-text-field>
                             <v-text-field label="Обхват бёдер" variant="outlined"></v-text-field>
                         </v-container>
                     </v-row>
-    
                     <!-- Итог -->
                     <v-row v-if="n === partCategoriesLen + 3">
                         <v-container>
@@ -78,76 +78,76 @@
             </v-window-item>
         </v-window>
     </v-card>
-    </template>
+</template>
     
-    <script>
-    import axios, {
-        all
-    } from 'axios';
-    export default {
-        data: () => ({
-            selectedColor: null,
-            selectedSize: null,
-            selectedValue: {},
-            tab: null,
-            partCategoriesLen: 0,
-            partCategories: null,
-            selectedLengths: {},
-            colors: null,
-            parts: {},
-        }),
-        mounted() {
-            this.getColors();
-            this.getPartCategories();
-            this.getParts();
+<script>
+import axios, {
+    all
+} from 'axios';
+export default {
+    data: () => ({
+        selectedColor: null,
+        selectedSize: null,
+        selectedValue: {},
+        tab: null,
+        partCategoriesLen: 0,
+        partCategories: null,
+        selectedLengths: {},
+        colors: null,
+        parts: {},
+    }),
+    mounted() {
+        this.getColors();
+        this.getPartCategories();
+        this.getParts();
+    },
+    methods: {
+        getColors() {
+            axios.get('http://localhost:3000/api/color')
+                .then(response => {
+                    this.colors = response.data;
+                    console.log(this.myColors);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
-        methods: {
-            getColors() {
-                axios.get('http://localhost:3000/api/color')
-                    .then(response => {
-                        this.colors = response.data;
-                        console.log(this.myColors);
-                    })
-                    .catch(error => {
-                        console.error(error);
+
+        getPartCategories() {
+            axios.get('http://localhost:3000/api/partcategory', {
+                params: {
+                    productCategoryId: 5
+                }
+            })
+                .then(response => {
+                    this.partCategories = response.data;
+                    this.partCategoriesLen = this.partCategories.length;
+
+                    this.partCategories.forEach((category) => {
+                        this.parts[String(category.id)] = [];
                     });
-            },
-    
-            getPartCategories() {
-                axios.get('http://localhost:3000/api/partcategory', {
-                        params: {
-                            productCategoryId: 5
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        },
+
+        getParts() {
+            axios.get('http://localhost:3000/api/part')
+                .then(response => {
+                    response.data.forEach((obj) => {
+                        if (this.parts.hasOwnProperty(obj.part_category_id)) {
+                            this.parts[obj.part_category_id].push(obj);
                         }
-                    })
-                    .then(response => {
-                        this.partCategories = response.data;
-                        this.partCategoriesLen = this.partCategories.length;
-    
-                        this.partCategories.forEach((category) => {
-                            this.parts[String(category.id)] = [];
-                        });
-                    })
-                    .catch(error => {
-                        console.error(error);
                     });
-            },
-    
-            getParts() {
-                axios.get('http://localhost:3000/api/part')
-                    .then(response => {
-                        response.data.forEach((obj) => {
-                            if (this.parts.hasOwnProperty(obj.part_category_id)) {
-                                this.parts[obj.part_category_id].push(obj);
-                            }
-                        });
-                        console.log(this.parts);
-    
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            },
+                    console.log(this.parts);
+
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
-    }
-    </script>
+    },
+}
+</script>
     

@@ -46,17 +46,18 @@
                             </v-card>
                         </v-col>
                     </v-row>
-    
+
                     <!-- Размер -->
                     <v-row v-if="n === partCategoriesLen + 2">
                         <v-container>
-                            <v-combobox label="Выберите ваш размер" :items="['XS-44', 'S-46', 'M-48', 'L-50', 'XL-52', '2XL-54', '3XL-56', '4XL-58']" v-model="selectedSize"></v-combobox>
+                            <v-combobox label="Выберите ваш размер"
+                                :items="['XS-44', 'S-46', 'M-48', 'L-50', 'XL-52', '2XL-54', '3XL-56', '4XL-58']"
+                                v-model="selectedSize"></v-combobox>
                             <v-text-field label="Рост" variant="outlined"></v-text-field>
                             <v-text-field label="Обхват груди" variant="outlined"></v-text-field>
                             <v-text-field label="Обхват бёдер" variant="outlined"></v-text-field>
                         </v-container>
                     </v-row>
-    
                     <!-- Итог -->
                     <v-row v-if="n === partCategoriesLen + 3">
                         <v-container>
