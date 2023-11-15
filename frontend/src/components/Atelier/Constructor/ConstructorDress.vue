@@ -114,7 +114,11 @@ export default {
         },
 
         getPartCategories() {
-            axios.get('http://localhost:3000/api/partcategory')
+            axios.get('http://localhost:3000/api/partcategory', {
+                    params: {
+                        productCategoryId: 2
+                    }
+                })
                 .then(response => {
                     this.partCategories = response.data;
                     this.partCategoriesLen = this.partCategories.length;
