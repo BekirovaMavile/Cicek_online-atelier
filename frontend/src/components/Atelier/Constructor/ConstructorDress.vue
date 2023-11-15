@@ -161,7 +161,7 @@ export default {
       const body = {
         "price": "1000",
         "description": "description",
-        "color_id": "1",
+        "color_id": String(this.selectedColor.id),
         "material_id": "1",
         "product_size_id": "1",
         "product_categories_id": "2",
