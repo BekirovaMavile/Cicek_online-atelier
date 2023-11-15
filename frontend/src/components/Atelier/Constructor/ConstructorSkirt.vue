@@ -69,11 +69,20 @@
                             </ul>
                             <v-row>
                                 <v-col cols="12" class="text-right">
-                                    <v-btn rounded="" color="blue-grey-lighten-3">Оформить заказ</v-btn>
+                                    <v-btn rounded="" color="blue-grey-lighten-3" @click="openConfirmationModal">Оформить заказ</v-btn>
                                 </v-col>
                             </v-row>
                         </v-container>
                     </v-row>
+                    <v-dialog v-model="confirmationModal" max-width="600">
+                <v-card>
+                  <v-card-title class="headline">Для оформления заказа перейдите в корзину.</v-card-title>
+                  <v-card-actions>
+                    <v-btn color="black" @click="redirectToCart">Перейти в корзину</v-btn>
+                    <v-btn color="primary" @click="closeConfirmationModal">Закрыть</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
                 </v-container>
             </v-window-item>
         </v-window>
@@ -86,6 +95,7 @@ import axios, {
 } from 'axios';
 export default {
     data: () => ({
+        confirmationModal: false,
         selectedColor: null,
         selectedSize: null,
         selectedValue: {},
@@ -147,7 +157,21 @@ export default {
                     console.error(error);
                 });
         },
+        openConfirmationModal() {
+            this.confirmationModal = true;
+        },
+        closeConfirmationModal() {
+            this.confirmationModal = false;
+        },
+        redirectToCart() {
+            this.$router.push('/cart');
+        },
+        sendProductAndOpenModal() {
+            this.sendProduct();
+            this.openConfirmationModal();
+        },
     },
 }
+// 
 </script>
     

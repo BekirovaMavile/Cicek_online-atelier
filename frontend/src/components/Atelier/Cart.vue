@@ -79,64 +79,72 @@ export default {
 
 
 <template>
-    <v-container>
-            <v-img src="../../../public/image/login.jpg" max-height="220" max-width="220" class="d-flex mx-auto my-auto mt-2 mb-3"></v-img>
-            <v-card>
-    <div class="text-center">
-        <v-menu v-model="menu" :close-on-content-click="false" location="end">
-            <template v-slot:activator="{ props }">
-                <v-btn color="indigo" v-bind="props">
-                    Menu as Popover
-                </v-btn>
-            </template>
+    <v-container fluid>
+        <v-img src="../../../public/image/login.jpg" max-height="220" max-width="220"
+            class="d-flex mx-auto my-auto mt-2 mb-3"></v-img>
+        <v-row justify="center" class="mt-8 mb-4">
+            <v-col v-for="(card, index) in cardData" :key="index" cols="12" md="6" lg="4">
+                <v-card :width="300" :height="50" class="text-center mb-4">
+                    <div class="d-flex flex-column align-center justify-center">
+                        <v-menu v-model="card.menu" :close-on-content-click="false" location="end">
+                            <template v-slot:activator="{ props }">
+                                <v-btn rounded="" color="blue-grey-lighten-3" v-bind="props">
+                                    {{ card.buttonText }}
+                                </v-btn>
+                            </template>
 
-            <v-card min-width="300">
-                <v-list>
-                    <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg" title="John Leider"
-                        subtitle="Founder of Vuetify">
-                        <template v-slot:append>
-                            <v-btn variant="text" :class="fav ? 'text-red' : ''" icon="mdi-heart"
-                                @click="fav = !fav"></v-btn>
-                        </template>
-                    </v-list-item>
-                </v-list>
+                            <v-card min-width="300">
+                                <h2 class="text-center">{{ card.title }}</h2>
 
-                <v-divider></v-divider>
+                                <v-divider></v-divider>
 
-                <v-list>
-                    <v-list-item>
-                        <v-switch v-model="message" color="purple" label="Enable messages" hide-details></v-switch>
-                    </v-list-item>
+                                <v-list>
+                                    <v-list-item v-for="(detail, detailIndex) in card.details" :key="detailIndex">
+                                        {{ detail }}
+                                    </v-list-item>
+                                </v-list>
 
-                    <v-list-item>
-                        <v-switch v-model="hints" color="purple" label="Enable hints" hide-details></v-switch>
-                    </v-list-item>
-                </v-list>
-
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-
-                    <v-btn variant="text" @click="menu = false">
-                        Cancel
-                    </v-btn>
-                    <v-btn color="primary" variant="text" @click="menu = false">
-                        Save
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-menu>
-    </div>
-    </v-card>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn variant="text" @click="card.menu = false" color="primary">Cancel</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-menu>
+                    </div>
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12" class="text-right">
+                <h3>Итого: XXX руб.</h3>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12" class="text-right">
+                <v-btn rounded="" color="blue-grey-lighten-3">Оформить заказ</v-btn>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
 <script>
 export default {
     data: () => ({
-        fav: true,
-        menu: false,
-        message: false,
-        hints: true,
+        cardData: [
+            {
+                buttonText: 'Посмотреть подробности 1',
+                title: 'Dress 1',
+                details: ['Прямой крой (A-line)', 'Облегающий крой (Bodycon)', 'Принцесса-крой', 'Песочный', 'XS-44'],
+                menu: false, // Unique menu state for Dress 1
+            },
+            {
+                buttonText: 'Посмотреть подробности 2',
+                title: 'Dress 2',
+                details: ['Другие детали для Dress 2'],
+                menu: false, // Unique menu state for Dress 2
+            },
+        ],
     }),
-}
+};
 </script>
+
