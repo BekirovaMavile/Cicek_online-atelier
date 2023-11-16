@@ -77,74 +77,199 @@ export default {
 };
 </script> -->
 
-
 <template>
-    <v-container fluid>
-        <v-img src="../../../public/image/login.jpg" max-height="220" max-width="220"
-            class="d-flex mx-auto my-auto mt-2 mb-3"></v-img>
-        <v-row justify="center" class="mt-8 mb-4">
-            <v-col v-for="(card, index) in cardData" :key="index" cols="12" md="6" lg="4">
-                <v-card :width="300" :height="50" class="text-center mb-4">
-                    <div class="d-flex flex-column align-center justify-center">
-                        <v-menu v-model="card.menu" :close-on-content-click="false" location="end">
-                            <template v-slot:activator="{ props }">
-                                <v-btn rounded="" color="blue-grey-lighten-3" v-bind="props">
-                                    {{ card.buttonText }}
-                                </v-btn>
-                            </template>
+  <v-container fluid>
+    <v-img
+      src="../../../public/image/login.jpg"
+      max-height="220"
+      max-width="220"
+      class="d-flex mx-auto my-auto mt-2 mb-3"
+    ></v-img>
+    <v-row justify="center" class="mt-8 mb-4">
+      <v-col
+        v-for="(card, index) in cardData"
+        :key="index"
+        cols="12"
+        md="6"
+        lg="4"
+      >
+        <v-card :width="300" :height="50" class="text-center mb-4">
+          <div class="d-flex flex-column align-center justify-center">
+            <v-menu
+              v-model="card.menu"
+              :close-on-content-click="false"
+              location="end"
+            >
+              <template v-slot:activator="{ props }">
+                <v-btn rounded="" color="blue-grey-lighten-3" v-bind="props">
+                  {{ card.buttonText }}
+                </v-btn>
+              </template>
 
-                            <v-card min-width="300">
-                                <h2 class="text-center">{{ card.title }}</h2>
+              <v-card min-width="300">
+                <h2 class="text-center">{{ card.title }}</h2>
 
-                                <v-divider></v-divider>
+                <v-divider></v-divider>
 
-                                <v-list>
-                                    <v-list-item v-for="(detail, detailIndex) in card.details" :key="detailIndex">
-                                        {{ detail }}
-                                    </v-list-item>
-                                </v-list>
+                <v-list>
+                  <v-list-item
+                    v-for="(detail, detailIndex) in card.details"
+                    :key="detailIndex"
+                  >
+                    {{ detail }}
+                  </v-list-item>
+                </v-list>
 
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn variant="text" @click="card.menu = false" color="primary">Cancel</v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-menu>
-                    </div>
-                </v-card>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12" class="text-right">
-                <h3>Итого: XXX руб.</h3>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12" class="text-right">
-                <v-btn rounded="" color="blue-grey-lighten-3">Оформить заказ</v-btn>
-            </v-col>
-        </v-row>
-    </v-container>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    variant="text"
+                    @click="card.menu = false"
+                    color="primary"
+                    >Cancel</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </v-menu>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" class="text-right">
+        <h3>Итого: XXX руб.</h3>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" class="text-right">
+        <v-btn rounded="" color="blue-grey-lighten-3">Оформить заказ</v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
+import axios, { all } from "axios";
+
 export default {
-    data: () => ({
-        cardData: [
-            {
-                buttonText: 'Посмотреть подробности 1',
-                title: 'Dress 1',
-                details: ['Прямой крой (A-line)', 'Облегающий крой (Bodycon)', 'Принцесса-крой', 'Песочный', 'XS-44'],
-                menu: false, // Unique menu state for Dress 1
-            },
-            {
-                buttonText: 'Посмотреть подробности 2',
-                title: 'Dress 2',
-                details: ['Другие детали для Dress 2'],
-                menu: false, // Unique menu state for Dress 2
-            },
-        ],
-    }),
+  data: () => ({
+    productcategories: [],
+    productsizes: [],
+    products: [],
+    colors: [],
+    parts: [],
+    cardData: [
+      //   {
+      //     buttonText: "Посмотреть подробности 1",
+      //     title: "Dress 1",
+      //     details: [
+      //       "Прямой крой (A-line)",
+      //       "Облегающий крой (Bodycon)",
+      //       "Принцесса-крой",
+      //       "Песочный",
+      //       "XS-44",
+      //     ],
+      //     menu: false, // Unique menu state for Dress 1
+      //   },
+      //   {
+      //     buttonText: "Посмотреть подробности 2",
+      //     title: "Dress 2",
+      //     details: ["Другие детали для Dress 2"],
+      //     menu: false, // Unique menu state for Dress 2
+      //   },
+    ],
+  }),
+  mounted() {
+    this.getProdCats();
+    this.getProds();
+    this.getProdSizes();
+    this.getColors();
+    this.makeCards();
+  },
+  methods: {
+    async getProdCats() {
+      await axios
+        .get("http://localhost:3000/api/productcategory/")
+        .then((response) => {
+          this.productcategories = response.data.map((category) => {
+            category.path = `/constructor/${category.name.toLowerCase()}`;
+            return category;
+          });
+          //   console.log(this.productcategories);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    },
+    async getProds() {
+      await axios
+        .get("http://localhost:3000/api/product")
+        .then((response) => {
+          this.products = [...response.data];
+          console.log(this.products);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    async getProdSizes() {
+      await axios
+        .get("http://localhost:3000/api/productsize")
+        .then((response) => {
+          this.productsizes = response.data;
+          //   console.log(this.productsizes);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    async getColors() {
+      await axios
+        .get("http://localhost:3000/api/color")
+        .then((response) => {
+          this.colors = response.data;
+          //   console.log(this.colors);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    async getParts(prod) {
+      await axios
+        .get("http://localhost:3000/api/part/prod/" + prod)
+        .then((response) => {
+          console.log(response.data);
+
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    makeCards() {
+      let parts = [];
+      let card = {
+        buttonText: "Не придумал, что писать",
+        title: "",
+        details: [],
+        menu: false, // Unique menu state for Dress 1
+      };
+      this.products.map((item) => {
+        console.log(item);
+        card.title = this.productcategories[item.product_categories_id];
+        console.log(card);
+        card.details.push(this.colors[item.color_id].name);
+        console.log(card);
+        card.details.push(this.productsizes[item.product_size_id].name);
+        console.log(card);
+        parts = this.getParts(item.id);
+        parts.map((part) => {
+          card.details.push(part.name);
+        });
+        this.cardData.push(card);
+      });
+      console.log(this.cardData);
+    },
+  },
 };
 </script>
-
