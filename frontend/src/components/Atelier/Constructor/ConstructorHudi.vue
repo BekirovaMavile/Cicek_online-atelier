@@ -249,7 +249,7 @@ export default {
     },
     sendProductAndOpenModal() {
       this.sendProduct();
-      //   this.openConfirmationModal();
+      this.openConfirmationModal();
     },
   },
 };
