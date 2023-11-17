@@ -245,37 +245,6 @@ export default {
         throw error;
       }
     },
-    //  async makeCards() {
-    //     let parts = [];
-    //     let card = {
-    //       buttonText: "Не придумал, что писать",
-    //       title: "",
-    //       details: [],
-    //       menu: false, // Unique menu state for Dress 1
-    //     };
-    //     this.products.map((item) => {
-    //       card.details = [];
-    //       card.title = this.productcategories.find(
-    //         (category) => category.id === item.product_categories_id
-    //       ).name;
-    //       card.details.push(
-    //         this.colors.find((color) => color.id === item.color_id).name
-    //       );
-
-    //       card.details.push(
-    //         this.productsizes.find((size) => size.id === item.product_size_id)
-    //           .name
-    //       );
-    //       // console.log(card.details);
-    //       parts = await this.getParts(item.id);
-    //       console.log(parts);
-    //       // parts.map((part) => {
-    //       //   card.details.push(part.name);
-    //       // });
-    //       // this.cardData.push(card);
-    //     });
-    //     // console.log(this.cardData);
-    //   },
 
     makeCards() {
       const getProductDetails = async (item) => {
@@ -289,6 +258,7 @@ export default {
         card.title = this.productcategories.find(
           (category) => category.id === item.product_categories_id
         ).name;
+        card.buttonText = card.title;
 
         card.details.push(
           this.colors.find((color) => color.id === item.color_id).name
