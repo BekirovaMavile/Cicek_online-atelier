@@ -79,6 +79,9 @@ export default {
 
 <template>
   <v-container fluid>
+    <v-btn variant="text" @click="makeCards" color="primary"
+      >Прогрузить карточки</v-btn
+    >
     <v-img
       src="../../../public/image/login.jpg"
       max-height="220"
@@ -184,36 +187,32 @@ export default {
     this.getProds();
     this.getProdSizes();
     this.getColors();
-    this.makeCards();
   },
   methods: {
-    async getProdCats() {
-      await axios
+    getProdCats() {
+      axios
         .get("http://localhost:3000/api/productcategory/")
         .then((response) => {
-          this.productcategories = response.data.map((category) => {
-            category.path = `/constructor/${category.name.toLowerCase()}`;
-            return category;
-          });
+          this.productcategories = response.data;
           //   console.log(this.productcategories);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
     },
-    async getProds() {
-      await axios
+    getProds() {
+      axios
         .get("http://localhost:3000/api/product")
         .then((response) => {
-          this.products = [...response.data];
-          console.log(this.products);
+          this.products = response.data;
+          console.log(response.data);
         })
         .catch((error) => {
           console.error(error);
         });
     },
-    async getProdSizes() {
-      await axios
+    getProdSizes() {
+      axios
         .get("http://localhost:3000/api/productsize")
         .then((response) => {
           this.productsizes = response.data;
@@ -223,8 +222,8 @@ export default {
           console.error(error);
         });
     },
-    async getColors() {
-      await axios
+    getColors() {
+      axios
         .get("http://localhost:3000/api/color")
         .then((response) => {
           this.colors = response.data;
@@ -235,40 +234,90 @@ export default {
         });
     },
     async getParts(prod) {
-      await axios
-        .get("http://localhost:3000/api/part/prod/" + prod)
-        .then((response) => {
-          console.log(response.data);
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/part/prod/" + prod
+        );
+        return response.data;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+    //  async makeCards() {
+    //     let parts = [];
+    //     let card = {
+    //       buttonText: "Не придумал, что писать",
+    //       title: "",
+    //       details: [],
+    //       menu: false, // Unique menu state for Dress 1
+    //     };
+    //     this.products.map((item) => {
+    //       card.details = [];
+    //       card.title = this.productcategories.find(
+    //         (category) => category.id === item.product_categories_id
+    //       ).name;
+    //       card.details.push(
+    //         this.colors.find((color) => color.id === item.color_id).name
+    //       );
 
-          return response.data;
+    //       card.details.push(
+    //         this.productsizes.find((size) => size.id === item.product_size_id)
+    //           .name
+    //       );
+    //       // console.log(card.details);
+    //       parts = await this.getParts(item.id);
+    //       console.log(parts);
+    //       // parts.map((part) => {
+    //       //   card.details.push(part.name);
+    //       // });
+    //       // this.cardData.push(card);
+    //     });
+    //     // console.log(this.cardData);
+    //   },
+    makeCards() {
+      let cardData = [];
+      const getProductDetails = async (item) => {
+        let card = {
+          buttonText: "Не придумал, что писать",
+          title: "",
+          details: [],
+          menu: false,
+        };
+
+        card.title = this.productcategories.find(
+          (category) => category.id === item.product_categories_id
+        ).name;
+
+        card.details.push(
+          this.colors.find((color) => color.id === item.color_id).name
+        );
+
+        card.details.push(
+          this.productsizes.find((size) => size.id === item.product_size_id)
+            .name
+        );
+
+        try {
+          const parts = await this.getParts(item.id);
+          card.details = card.details.concat(parts.map((part) => part.name));
+        } catch (error) {
+          console.error("Error fetching parts:", error);
+        }
+
+        return card;
+      };
+
+      const promises = this.products.map((item) => getProductDetails(item));
+
+      Promise.all(promises)
+        .then((cards) => {
+          cardData = cards;
+          console.log(cardData);
         })
         .catch((error) => {
-          console.error(error);
+          console.error("Error creating cards:", error);
         });
-    },
-    makeCards() {
-      let parts = [];
-      let card = {
-        buttonText: "Не придумал, что писать",
-        title: "",
-        details: [],
-        menu: false, // Unique menu state for Dress 1
-      };
-      this.products.map((item) => {
-        console.log(item);
-        card.title = this.productcategories[item.product_categories_id];
-        console.log(card);
-        card.details.push(this.colors[item.color_id].name);
-        console.log(card);
-        card.details.push(this.productsizes[item.product_size_id].name);
-        console.log(card);
-        parts = this.getParts(item.id);
-        parts.map((part) => {
-          card.details.push(part.name);
-        });
-        this.cardData.push(card);
-      });
-      console.log(this.cardData);
     },
   },
 };
