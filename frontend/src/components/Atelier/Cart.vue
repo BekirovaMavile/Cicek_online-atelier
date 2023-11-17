@@ -161,25 +161,26 @@ export default {
     products: [],
     colors: [],
     parts: [],
+    menu: false,
     cardData: [
-      //   {
-      //     buttonText: "Посмотреть подробности 1",
-      //     title: "Dress 1",
-      //     details: [
-      //       "Прямой крой (A-line)",
-      //       "Облегающий крой (Bodycon)",
-      //       "Принцесса-крой",
-      //       "Песочный",
-      //       "XS-44",
-      //     ],
-      //     menu: false, // Unique menu state for Dress 1
-      //   },
-      //   {
-      //     buttonText: "Посмотреть подробности 2",
-      //     title: "Dress 2",
-      //     details: ["Другие детали для Dress 2"],
-      //     menu: false, // Unique menu state for Dress 2
-      //   },
+        // {
+        //   buttonText: "Посмотреть подробности 1",
+        //   title: "Dress 1",
+        //   details: [
+        //     "Прямой крой (A-line)",
+        //     "Облегающий крой (Bodycon)",
+        //     "Принцесса-крой",
+        //     "Песочный",
+        //     "XS-44",
+        //   ],
+        //   menu: false, // Unique menu state for Dress 1
+        // },
+        // {
+        //   buttonText: "Посмотреть подробности 2",
+        //   title: "Dress 2",
+        //   details: ["Другие детали для Dress 2"],
+        //   menu: false, // Unique menu state for Dress 2
+        // },
     ],
   }),
   mounted() {
@@ -275,8 +276,8 @@ export default {
     //     });
     //     // console.log(this.cardData);
     //   },
+
     makeCards() {
-      let cardData = [];
       const getProductDetails = async (item) => {
         let card = {
           buttonText: "Не придумал, что писать",
@@ -308,17 +309,67 @@ export default {
         return card;
       };
 
+      // Очистим массив cardData перед загрузкой новых данных
+      this.cardData = [];
+
       const promises = this.products.map((item) => getProductDetails(item));
 
       Promise.all(promises)
         .then((cards) => {
-          cardData = cards;
-          console.log(cardData);
+          // Присваиваем полученные карточки массиву cardData
+          this.cardData = cards;
+          console.log(this.cardData);
         })
         .catch((error) => {
           console.error("Error creating cards:", error);
         });
     },
+
+
+    // makeCards() {
+    //   let cardData = [];
+    //   const getProductDetails = async (item) => {
+    //     let card = {
+    //       buttonText: "Не придумал, что писать",
+    //       title: "",
+    //       details: [],
+    //       menu: false,
+    //     };
+
+    //     card.title = this.productcategories.find(
+    //       (category) => category.id === item.product_categories_id
+    //     ).name;
+
+    //     card.details.push(
+    //       this.colors.find((color) => color.id === item.color_id).name
+    //     );
+
+    //     card.details.push(
+    //       this.productsizes.find((size) => size.id === item.product_size_id)
+    //         .name
+    //     );
+
+    //     try {
+    //       const parts = await this.getParts(item.id);
+    //       card.details = card.details.concat(parts.map((part) => part.name));
+    //     } catch (error) {
+    //       console.error("Error fetching parts:", error);
+    //     }
+
+    //     return card;
+    //   };
+
+    //   const promises = this.products.map((item) => getProductDetails(item));
+
+    //   Promise.all(promises)
+    //     .then((cards) => {
+    //       cardData = cards;
+    //       console.log(cardData);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error creating cards:", error);
+    //     });
+    // },
   },
 };
 </script>
