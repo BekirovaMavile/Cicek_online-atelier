@@ -8,7 +8,7 @@
       >
         {{ item.name }}
       </v-tab>
-      <v-tab :value="partCategoriesLen + 1" >Цвет</v-tab>
+      <v-tab :value="partCategoriesLen + 1">Цвет</v-tab>
       <v-tab :value="partCategoriesLen + 2">Размер</v-tab>
       <v-tab :value="partCategoriesLen + 3">Итого</v-tab>
     </v-tabs>
@@ -118,7 +118,9 @@
               <v-row>
                 <v-col cols="12" class="text-right">
                   <v-btn
-                    color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined"
+                    color="rgba(232, 12, 108, 0.9)"
+                    style="border-radius: 15px"
+                    variant="outlined"
                     @click="sendProductAndOpenModal"
                     >Оформить заказ</v-btn
                   >
@@ -127,18 +129,28 @@
             </v-container>
           </v-row>
 
-  <v-dialog v-model="confirmationModal" max-width="600">
-        <v-card>
-          
-          <v-card-title class="headline">Для оформления заказа перейдите в корзину.</v-card-title>
-          <v-card-actions>
-            <v-btn color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined" @click="redirectToCart">Перейти в корзину</v-btn>
-            <v-btn color="rgba(232, 12, 108, 0.9)" variant="text" @click="closeConfirmationModal">Закрыть</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-
+          <v-dialog v-model="confirmationModal" max-width="600">
+            <v-card>
+              <v-card-title class="headline"
+                >Для оформления заказа перейдите в корзину.</v-card-title
+              >
+              <v-card-actions>
+                <v-btn
+                  color="rgba(232, 12, 108, 0.9)"
+                  style="border-radius: 15px"
+                  variant="outlined"
+                  @click="redirectToCart"
+                  >Перейти в корзину</v-btn
+                >
+                <v-btn
+                  color="rgba(232, 12, 108, 0.9)"
+                  variant="text"
+                  @click="closeConfirmationModal"
+                  >Закрыть</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-container>
       </v-window-item>
     </v-window>
@@ -146,6 +158,8 @@
 </template>
 
 <script>
+import Cookies from "js-cookie";
+
 import axios, { all } from "axios";
 export default {
   data: () => ({
@@ -167,30 +181,33 @@ export default {
   },
   methods: {
     sendProduct() {
-      const part_ids = [];
-      const selectedValuesArray = Object.values(this.selectedValue);
+      const part_ids = Object.values(this.selectedValue).map(
+        (part_id) => part_id.id
+      );
 
-      selectedValuesArray.map((part_id) => part_ids.push(part_id.id));  
-      const body = {
-        "price": "1000",
-        "description": "description",
-        "color_id": String(this.selectedColor.id),
-        "material_id": "1",
-        "product_size_id": "1",
-        "product_categories_id": "2",
-        "part_ids": part_ids,
-      }    
+      const newProduct = {
+        price: "1000",
+        description: "description",
+        color_id: String(this.selectedColor.id),
+        material_id: "1",
+        product_size_id: "1",
+        product_categories_id: "2",
+        part_ids: part_ids,
+      };
 
-        axios
-          .post("http://localhost:3000/api/product", body, {
-            
-          })
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+      // Получение текущего массива из cookies
+      const existingProducts = Cookies.get("products");
+
+      // Парсинг JSON строки в массив (если существует)
+      const parsedProducts = existingProducts
+        ? JSON.parse(existingProducts)
+        : [];
+
+      // Добавление нового объекта в массив
+      parsedProducts.push(newProduct);
+
+      // Сохранение массива в cookies
+      Cookies.set("products", JSON.stringify(parsedProducts));
     },
     getColors() {
       axios
@@ -207,10 +224,10 @@ export default {
     getPartCategories() {
       axios
         .get("http://localhost:3000/api/partcategory", {
-                    params: {
-                        productCategoryId: 2
-                    }
-                })
+          params: {
+            productCategoryId: 2,
+          },
+        })
         .then((response) => {
           this.partCategories = response.data;
           this.partCategoriesLen = this.partCategories.length;
@@ -246,7 +263,7 @@ export default {
       this.confirmationModal = false;
     },
     redirectToCart() {
-      this.$router.push('/cart');
+      this.$router.push("/cart");
     },
     sendProductAndOpenModal() {
       this.sendProduct();
