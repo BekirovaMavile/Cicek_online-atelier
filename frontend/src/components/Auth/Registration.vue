@@ -4,7 +4,8 @@
             <v-col cols="12" md="6" class="text-center mt-6 mb-10">
                 <h1 class="display-2 mb-6">ДОБРО ПОЖАЛОВАТЬ!</h1>
                 <p class="subtitle-1">
-                    Введите имя, фамилию, электронный адрес и пароль для регистрации. Если у вас уже есть аккаунт, введите свой электронный адрес и пароль.
+                    Введите имя, фамилию, электронный адрес и пароль для регистрации. Если у вас уже есть аккаунт, введите
+                    свой электронный адрес и пароль.
                 </p>
             </v-col>
 
@@ -13,14 +14,17 @@
                     <v-img src="../../../public/image/login.jpg" max-height="220" max-width="220"></v-img>
                 </v-col>
                 <v-form ref="form" @submit.prevent="submitForm">
-              <v-text-field v-model="first_name" :rules="nameRules" label="Введите имя пользователя"></v-text-field>
-              <v-text-field v-model="last_name" :rules="nameRules" label="Введите фамилию пользователя"></v-text-field>
-              <v-text-field v-model="email" :rules="emailRules" label="Введите электронный адрес"></v-text-field>
-              <v-text-field v-model="password" :rules="passwordRules" type="password" label="Введите пароль"></v-text-field>
-              <v-text-field v-model="confirmPassword" :rules="confirmPasswordRules" type="password" label="Подтвердите пароль"></v-text-field>
-              <v-btn rounded color="blue-grey-lighten-3" type="submit">Зарегистрироваться</v-btn>
-              <p class="mt-5">Уже есть аккаунт? <a href="/login" class="login">Войдите.</a></p>
-            </v-form>
+                    <v-text-field v-model="first_name" :rules="nameRules" label="Введите имя пользователя"></v-text-field>
+                    <v-text-field v-model="last_name" :rules="nameRules"
+                        label="Введите фамилию пользователя"></v-text-field>
+                    <v-text-field v-model="email" :rules="emailRules" label="Введите электронный адрес"></v-text-field>
+                    <v-text-field v-model="password" :rules="passwordRules" type="password"
+                        label="Введите пароль"></v-text-field>
+                    <v-text-field v-model="confirmPassword" :rules="confirmPasswordRules" type="password"
+                        label="Подтвердите пароль"></v-text-field>
+                    <v-btn color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined">Зарегистрироваться</v-btn>
+                    <p class="mt-5">Уже есть аккаунт? <a href="/login" class="login">Войдите.</a></p>
+                </v-form>
             </v-col>
         </v-row>
     </v-container>
@@ -28,6 +32,7 @@
 
 <script>
 import axios from 'axios';
+import { setMyCookie } from "@/plugins/cookie";
 
 export default {
     data() {
@@ -77,11 +82,13 @@ export default {
                         last_name: this.last_name,
                     });
 
-                    // Сохранение токена в локальном хранилище
-                    localStorage.setItem('token', response.data.token);
-
-                    // Перенаправление пользователя на страницу профиля
-                    this.$router.push({ name: 'profile' });
+                    if (response.data.accessToken) {
+                        setMyCookie(response.data.accessToken)
+                        // Перенаправление на страницу пользователя
+                        this.$router.push({ name: 'profile' });
+                    } else {
+                        console.log('Регистрация не удалась');
+                    }
                 } catch (error) {
                     // Обработка ошибок
                     // ...

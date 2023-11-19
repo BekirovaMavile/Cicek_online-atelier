@@ -37,15 +37,25 @@ class RegisterController {
                 first_name,
                 last_name,
             });
-            
-            res.status(201).json({
-                'success': `New user ${email} created!`
-            })
 
-            const {password, ...userData} = user.dataValues
-            console.log({userData});
+            const accessToken = jwt.sign({
+                email: email,
+                id: user.id
+            },
+                '' + process.env.ACCESS_TOKEN_SECRET, {
+                expiresIn: '1d'
+            }
+            );
 
-        } catch (error) {``
+            res.json({
+                accessToken
+            });
+
+            const { password, ...userData } = user.dataValues
+            console.log({ userData });
+
+        } catch (error) {
+            ``
             res.status(500).json({
                 'message': error.message
             })

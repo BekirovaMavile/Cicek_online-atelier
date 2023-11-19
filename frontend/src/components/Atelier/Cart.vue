@@ -1,30 +1,17 @@
 <template>
   <v-container fluid>
-    <v-btn variant="text" @click="makeCards" color="primary"
-      >Прогрузить карточки</v-btn
-    >
-    <v-img
-      src="../../../public/image/login.jpg"
-      max-height="220"
-      max-width="220"
-      class="d-flex mx-auto my-auto mt-2 mb-3"
-    ></v-img>
-    <v-row justify="center" class="mt-8 mb-4">
-      <v-col
-        v-for="(card, index) in cardData"
-        :key="index"
-        cols="12"
-        md="6"
-        lg="4"
-      >
+    <v-img src="../../../public/image/login.jpg" max-height="220" max-width="220"
+      class="d-flex mx-auto my-auto mt-2 mb-3"></v-img>
+    <v-btn @click="makeCards" color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined">
+      Загрузить данные заказа
+    </v-btn>
+    <v-row justify="center" class="mt-8 mb-4 text-center">
+      <v-col v-for="(card, index) in cardData" :key="index" cols="12" md="6" lg="4" class="d-flex justify-center align-center">
         <v-card :width="300" class="text-center mb-4">
-          <h2 class="text-center">{{ card.title }}</h2>
+          <h2 class="text-center" style="color: rgba(232, 12, 108, 0.7)">{{ card.title }}</h2>
           <v-divider></v-divider>
           <v-list>
-            <v-list-item
-              v-for="(detail, detailIndex) in card.details"
-              :key="detailIndex"
-            >
+            <v-list-item v-for="(detail, detailIndex) in card.details" :key="detailIndex">
               {{ detail }}
             </v-list-item>
           </v-list>
@@ -38,11 +25,12 @@
     </v-row>
     <v-row>
       <v-col cols="12" class="text-right">
-        <v-btn rounded="" color="blue-grey-lighten-3">Оформить заказ</v-btn>
+        <v-btn color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined">Оформить заказ</v-btn>
       </v-col>
     </v-row>
   </v-container>
 </template>
+
 
 <script>
 import axios, { all } from "axios";
@@ -129,7 +117,6 @@ export default {
         card.title = this.productcategories.find(
           (category) => category.id === item.product_categories_id
         ).name;
-        card.buttonText = card.title;
 
         card.details.push(
           this.colors.find((color) => color.id === item.color_id).name
@@ -149,13 +136,13 @@ export default {
 
         return card;
       };
-
       this.cardData = [];
-
       const promises = this.products.map((item) => getProductDetails(item));
 
       Promise.all(promises)
         .then((cards) => {
+          this.cardData = cards;
+          console.log(this.cardData);
         })
         .catch((error) => {
           console.error("Error creating cards:", error);
@@ -164,3 +151,21 @@ export default {
   },
 };
 </script>
+
+
+<!-- <style scoped>
+.custom-button {
+  background-color: rgba(232, 12, 108, 0.25);
+  color: black;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #e80c6c;
+  color: black;
+}</style> -->

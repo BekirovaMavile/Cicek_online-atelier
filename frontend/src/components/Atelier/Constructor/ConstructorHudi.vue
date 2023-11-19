@@ -118,8 +118,7 @@
               <v-row>
                 <v-col cols="12" class="text-right">
                   <v-btn
-                    rounded=""
-                    color="blue-grey-lighten-3"
+                    color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined"
                     @click="sendProductAndOpenModal"
                     >Оформить заказ</v-btn
                   >
@@ -133,10 +132,10 @@
                 >Для оформления заказа перейдите в корзину.</v-card-title
               >
               <v-card-actions>
-                <v-btn color="black" @click="redirectToCart"
+                <v-btn color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined" @click="redirectToCart"
                   >Перейти в корзину</v-btn
                 >
-                <v-btn color="primary" @click="closeConfirmationModal"
+                <v-btn color="rgba(232, 12, 108, 0.9)" variant="text" @click="closeConfirmationModal"
                   >Закрыть</v-btn
                 >
               </v-card-actions>
