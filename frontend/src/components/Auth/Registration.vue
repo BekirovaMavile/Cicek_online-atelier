@@ -22,7 +22,7 @@
                         label="Введите пароль"></v-text-field>
                     <v-text-field v-model="confirmPassword" :rules="confirmPasswordRules" type="password"
                         label="Подтвердите пароль"></v-text-field>
-                    <v-btn color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined">Зарегистрироваться</v-btn>
+                    <v-btn color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined" type="submit">Зарегистрироваться</v-btn>
                     <p class="mt-5">Уже есть аккаунт? <a href="/login" class="login">Войдите.</a></p>
                 </v-form>
             </v-col>
