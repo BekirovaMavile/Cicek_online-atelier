@@ -145,6 +145,8 @@
 </template>
 
 <script>
+import Cookies from "js-cookie";
+
 import axios, { all } from "axios";
 export default {
   data: () => ({
@@ -166,10 +168,11 @@ export default {
   },
   methods: {
     sendProduct() {
-      const part_ids = [];
-      const selectedValuesArray = Object.values(this.selectedValue);
-      selectedValuesArray.map((part_id) => part_ids.push(part_id.id));
-      const body = {
+      const part_ids = Object.values(this.selectedValue).map(
+        (part_id) => part_id.id
+      );
+
+      const newProduct = {
         price: "1000",
         description: "description",
         color_id: String(this.selectedColor.id),
@@ -178,14 +181,20 @@ export default {
         product_categories_id: "5",
         part_ids: part_ids,
       };
-      axios
-        .post("http://localhost:3000/api/product", body, {})
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+
+      // Получение текущего массива из cookies
+      const existingProducts = Cookies.get("products");
+
+      // Парсинг JSON строки в массив (если существует)
+      const parsedProducts = existingProducts
+        ? JSON.parse(existingProducts)
+        : [];
+
+      // Добавление нового объекта в массив
+      parsedProducts.push(newProduct);
+
+      // Сохранение массива в cookies
+      Cookies.set("products", JSON.stringify(parsedProducts));
     },
     getColors() {
       axios

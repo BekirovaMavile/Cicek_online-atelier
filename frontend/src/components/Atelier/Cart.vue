@@ -46,7 +46,8 @@
     </v-row>
     <v-row>
       <v-col cols="12" class="text-right">
-        <v-btn @click="CreateOrder"
+        <v-btn
+          @click="CreateOrder"
           color="rgba(232, 12, 108, 0.9)"
           style="border-radius: 15px"
           variant="outlined"
@@ -176,9 +177,13 @@ export default {
         this.cardData.push(card);
       });
     },
-    CreateOrder () {
+    CreateOrder() {
       // тут короче надо создать ордер и создать продукты по объектам из кукисов, там в this.products продукты уже готовые, осталось только на бэк кинуть гл только после создания заказа
-    }
+      const ClearProducts = [];
+      Cookies.set("products", JSON.stringify(ClearProducts));
+      this.getProds();
+      this.makeCards();
+    },
   },
 };
 </script>
