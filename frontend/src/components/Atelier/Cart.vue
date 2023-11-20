@@ -46,7 +46,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" class="text-right">
-        <v-btn
+        <v-btn @click="CreateOrder"
           color="rgba(232, 12, 108, 0.9)"
           style="border-radius: 15px"
           variant="outlined"
@@ -64,10 +64,10 @@ import axios, { all } from "axios";
 export default {
   data: () => ({
     productcategories: [],
+    parts: [],
     productsizes: [],
     products: [],
     colors: [],
-    parts: [],
     menu: false,
     cardData: [],
   }),
@@ -76,6 +76,7 @@ export default {
     this.getProds();
     this.getProdSizes();
     this.getColors();
+    this.getParts();
   },
   methods: {
     getProdCats() {
@@ -83,7 +84,7 @@ export default {
         .get("http://localhost:3000/api/productcategory/")
         .then((response) => {
           this.productcategories = response.data;
-          console.log(this.productcategories);
+          // console.log(this.productcategories);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -97,14 +98,14 @@ export default {
       this.products = JSON.parse(storedProducts);
 
       // Вывод данных в консоль (если необходимо)
-      console.log(this.products);
+      // console.log(this.products);
     },
     getProdSizes() {
       axios
         .get("http://localhost:3000/api/productsize")
         .then((response) => {
           this.productsizes = response.data;
-          console.log(this.productsizes);
+          // console.log(this.productsizes);
         })
         .catch((error) => {
           console.error(error);
@@ -115,24 +116,22 @@ export default {
         .get("http://localhost:3000/api/color")
         .then((response) => {
           this.colors = response.data;
-          console.log(this.colors);
+          // console.log(this.colors);
         })
         .catch((error) => {
           console.error(error);
         });
     },
-    async getParts(prod) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/part/prod/" + prod
-        );
-        console.log(response.data);
-
-        return response.data;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
+    async getParts() {
+      axios
+        .get("http://localhost:3000/api/part")
+        .then((response) => {
+          this.parts = response.data;
+          console.log(this.parts);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
 
     makeCards() {
@@ -160,16 +159,26 @@ export default {
           ).name
         );
 
-        try {
-          const parts = await this.getParts(Number(item.id));
-          console.log(parts)
-          card.details = card.details.concat(parts.map((part) => part.name));
-        } catch (error) {
-          console.error("Error fetching parts:", error);
-        }
+        const prods_parts = [];
+        item.part_ids.map((part) => prods_parts.push(Number(part)));
+        // console.log(prods_parts)
+        // const res_parts = this.parts.find(
+        //   (part) => prods_parts.indexOf(part.id).name
+        // );
+        const all_parts_ids = [];
+        this.parts.forEach((part) => all_parts_ids.push(part.id));
+
+        this.parts.map((part) => {
+          if (prods_parts.includes(part.id)) {
+            card.details.push(part.name);
+          }
+        });
         this.cardData.push(card);
       });
     },
+    CreateOrder () {
+      // тут короче надо создать ордер и создать продукты по объектам из кукисов, там в this.products продукты уже готовые, осталось только на бэк кинуть гл только после создания заказа
+    }
   },
 };
 </script>
