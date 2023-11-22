@@ -146,7 +146,7 @@
 
 <script>
 import Cookies from "js-cookie";
-import { baseURL } from 'config';
+// import { baseURL } from 'config';
 import axios, { all } from "axios";
 export default {
   data: () => ({
@@ -198,7 +198,7 @@ export default {
     },
     getColors() {
       axios
-        .get(`${baseURL}/api/color`)
+        .get(`${process.env.VUE_APP_BASEURL}/api/color`)
         .then((response) => {
           this.colors = response.data;
           console.log(this.myColors);
@@ -210,7 +210,7 @@ export default {
 
     getPartCategories() {
       axios
-        .get(`${baseURL}/api/partcategory`, {
+        .get(`${process.env.VUE_APP_BASEURL}/api/partcategory`, {
           params: {
             productCategoryId: 5,
           },
@@ -230,7 +230,7 @@ export default {
 
     getParts() {
       axios
-        .get(`${baseURL}/api/part`)
+        .get(`${process.env.VUE_APP_BASEURL}/api/part`)
         .then((response) => {
           response.data.forEach((obj) => {
             if (this.parts.hasOwnProperty(obj.part_category_id)) {

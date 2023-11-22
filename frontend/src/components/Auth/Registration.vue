@@ -33,7 +33,7 @@
 <script>
 import axios from 'axios';
 import { setMyCookie } from "@/plugins/cookie";
-import { baseURL } from 'config';
+// import { baseURL } from 'config';
 export default {
     data() {
         return {
@@ -75,7 +75,7 @@ export default {
             if (this.$refs.form.validate()) {
                 try {
                     // Отправка данных на сервер и получение токена
-                    const response = await axios.post(`${baseURL}/api/user/registration`, {
+                    const response = await axios.post(`${process.env.VUE_APP_BASEURL}/api/user/registration`, {
                         email: this.email,
                         password: this.password,
                         first_name: this.first_name,

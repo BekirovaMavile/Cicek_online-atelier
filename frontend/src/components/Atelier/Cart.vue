@@ -49,7 +49,7 @@ import Cookies from "js-cookie";
 import axios, {
     all
 } from "axios";
-import { baseURL } from 'config';
+// import { baseURL } from 'config';
 
 export default {
     data: () => ({
@@ -72,7 +72,7 @@ export default {
     methods: {
         getProdCats() {
             axios
-                .get("http://localhost:3000/api/productcategory/")
+                .get(`${process.env.VUE_APP_BASEURL}/api/productcategory/`)
                 .then((response) => {
                     this.productcategories = response.data;
                     // console.log(this.productcategories);
@@ -94,7 +94,7 @@ export default {
         },
         getProdSizes() {
             axios
-                .get("http://localhost:3000/api/productsize")
+                .get(`${process.env.VUE_APP_BASEURL}/api/productsize`)
                 .then((response) => {
                     this.productsizes = response.data;
                     // console.log(this.productsizes);
@@ -105,7 +105,7 @@ export default {
         },
         getColors() {
             axios
-                .get("http://localhost:3000/api/color")
+                .get(`$process.env.VUE_APP_BASEURL}/api/color`)
                 .then((response) => {
                     this.colors = response.data;
                     // console.log(this.colors);
@@ -116,7 +116,7 @@ export default {
         },
         async getParts() {
             axios
-                .get("http://localhost:3000/api/part")
+                .get(`${process.env.VUE_APP_BASEURL}/api/part`)
                 .then((response) => {
                     this.parts = response.data;
                     console.log(this.parts);
@@ -187,7 +187,7 @@ export default {
 
             for (let key in productsObject) {
                 console.log(productsObject[key]);
-                const response = await axios.post(`${baseURL}/api/product/`, productsObject[key]);
+                const response = await axios.post(`${process.env.VUE_APP_BASEURL}/api/product/`, productsObject[key]);
                 console.log(response);
             }
 

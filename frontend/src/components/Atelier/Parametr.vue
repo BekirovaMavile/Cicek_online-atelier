@@ -52,7 +52,7 @@
 
 <script>
 import axios from "axios";
-import { baseURL } from 'config';
+// import { baseURL } from 'config';
 export default {
     data() {
         return {
@@ -65,7 +65,7 @@ export default {
     methods: {
         async loadProdCats() {
             await axios
-                .get(`${baseURL}/api/productcategory/`)
+                .get(`${process.env.VUE_APP_BASEURL}/api/productcategory/`)
                 .then((response) => {
                     this.productcategories = response.data.map((category) => {
                         category.path = `/constructor/${category.name.toLowerCase()}`;

@@ -1,1 +1,1 @@
-export const baseURL = 'https://655e41b1c10ef30008a2d8dc--cicek-servise.netlify.app/'
+export var baseURL = 'https://655e41b1c10ef30008a2d8dc--cicek-servise.netlify.app/'

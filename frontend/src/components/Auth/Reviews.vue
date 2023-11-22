@@ -36,7 +36,7 @@
 
 <script>
 import axios from 'axios';
-import { baseURL } from 'config';
+// import { baseURL } from 'config';
 export default {
   data() {
     return {
@@ -62,7 +62,7 @@ export default {
       };
 
       // Отправляем новый отзыв на сервер
-      axios.post(`${baseURL}/api/reviews`, newReview).then((response) => {
+      axios.post(`${process.env.VUE_APP_BASEURL}/api/reviews`, newReview).then((response) => {
         this.newReviewText = ''; 
         this.newReviewRating = 0; 
         this.loadReviews(); 

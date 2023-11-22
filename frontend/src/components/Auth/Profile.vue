@@ -105,7 +105,7 @@
 <script>
 import axios from 'axios';
 import { getMyCookie, deleteCookie } from '@/plugins/cookie'
-import { baseURL } from 'config';
+// import { baseURL } from 'config';
 export default {
     data() {
         return {
@@ -131,7 +131,7 @@ export default {
 
         infoUser() {
             let token = getMyCookie()
-            axios.get(`${baseURL}/api/user/myprofile/`, {
+            axios.get(`${process.env.VUE_APP_BASEURL}/api/user/myprofile/`, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -147,7 +147,7 @@ export default {
 
         infoUserOrder() {
             let token = getMyCookie()
-            axios.get('http://localhost:3000/api/orders/user', {
+            axios.get(`${process.env.VUE_APP_BASEURL}/api/orders/user`, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -163,7 +163,7 @@ export default {
 
         updateUserInfo() {
             let token = getMyCookie()
-            axios.put('http://localhost:3000/api/user/update', this.user,
+            axios.put(`${process.env.VUE_APP_BASEURL}/api/user/update`, this.user,
                 {
                     headers: {
                         'Authorization': 'Bearer ' + token
