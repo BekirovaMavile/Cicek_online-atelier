@@ -105,7 +105,7 @@
 <script>
 import axios from 'axios';
 import { getMyCookie, deleteCookie } from '@/plugins/cookie'
-
+import { baseURL } from 'config';
 export default {
     data() {
         return {
@@ -131,7 +131,7 @@ export default {
 
         infoUser() {
             let token = getMyCookie()
-            axios.get('http://localhost:3000/api/user/myprofile/', {
+            axios.get(`${baseURL}/api/user/myprofile/`, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }

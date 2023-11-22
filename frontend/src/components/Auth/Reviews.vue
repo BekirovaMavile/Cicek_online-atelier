@@ -36,7 +36,7 @@
 
 <script>
 import axios from 'axios';
-
+import { baseURL } from 'config';
 export default {
   data() {
     return {
@@ -51,7 +51,7 @@ export default {
   methods: {
     loadReviews() {
       // Используйте Axios для загрузки отзывов из вашего серверного API
-      axios.get('http://localhost:3000/api/reviews').then((response) => {
+      axios.get(`${baseURL}/api/reviews`).then((response) => {
         this.reviews = response.data;
       });
     },
@@ -62,7 +62,7 @@ export default {
       };
 
       // Отправляем новый отзыв на сервер
-      axios.post('http://localhost:3000/api/reviews', newReview).then((response) => {
+      axios.post(`${baseURL}/api/reviews`, newReview).then((response) => {
         this.newReviewText = ''; 
         this.newReviewRating = 0; 
         this.loadReviews(); 

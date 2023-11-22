@@ -49,6 +49,7 @@ import Cookies from "js-cookie";
 import axios, {
     all
 } from "axios";
+import { baseURL } from 'config';
 
 export default {
     data: () => ({
@@ -186,7 +187,7 @@ export default {
 
             for (let key in productsObject) {
                 console.log(productsObject[key]);
-                const response = await axios.post('http://localhost:3000/api/product/', productsObject[key]);
+                const response = await axios.post(`${baseURL}/api/product/`, productsObject[key]);
                 console.log(response);
             }
 
