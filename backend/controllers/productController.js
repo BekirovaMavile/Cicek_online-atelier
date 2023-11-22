@@ -27,9 +27,11 @@ class productController {
       await Promise.all(
         part_ids.map(async (part_id) => {
           await ProductPart.create({
-            ProductId: product.id,
-            PartId: part_id,
+            product_id: product.id,
+            part_id: part_id,
           });
+          // console.log(part_id);
+          // console.log(product.id);
         })
       );
       return res.json(product);

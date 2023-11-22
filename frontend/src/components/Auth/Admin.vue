@@ -30,7 +30,7 @@
                   <v-text-field label="Значение для части категории" v-model="subCategoryValue" clearable></v-text-field>
     <v-file-input label="Изображение части категории" v-model="subCategoryImage" clearable></v-file-input>
                             <!-- Кнопка для отправки данных -->
-                            <v-btn rounded color="blue-grey-lighten-3" @click="addData">Добавить данные</v-btn>
+                            <v-btn color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined" @click="addData">Добавить данные</v-btn>
                         </v-form>
                     </v-card-text>
                 </v-card>

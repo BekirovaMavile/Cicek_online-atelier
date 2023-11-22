@@ -10,7 +10,7 @@
 
 # misc
 .DS_Store
-/backend/.env
+# /backend/.env
 /frontend/.env
 
 

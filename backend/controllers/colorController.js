@@ -18,9 +18,12 @@ class colorController {
   }
 
   async getAll(req, res) {
-    const colors = await Color.findAll();
+    const colors = await Color.findAll({
+        attributes: ['name', 'icon', 'id']
+    });
     return res.json(colors);
-  }
+}
+
 
   async getOne(req, res) {
     const { id } = req.params;

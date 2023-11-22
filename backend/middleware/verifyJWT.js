@@ -3,16 +3,13 @@ require('dotenv').config();
 
 const verifyJWT = (req, res, next) => {
     let token = req.headers['authorization'].split(' ')[1];
-    
-    jwt.verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET,
-        (err, decoded) => {
-            if (err) return res.sendStatus(403);
-            req.user = {"email": decoded.email, "id": decoded.id};
-            next();
-        }
-    )
+    if (token) {
+        console.log("token");
+    }
+    const decoded = jwt.decode(token, process.env.ACCESS_TOKEN_SECRET);
+    console.log(decoded.id);
+    req.user = { "email": decoded.email, "id": decoded.id }
+    next();
 }
 
 module.exports = verifyJWT

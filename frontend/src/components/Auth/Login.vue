@@ -16,7 +16,7 @@
                 <v-form ref="form" @submit.prevent="login">
                     <v-text-field v-model="email" :rules="emailRules" label="Электронный адрес"></v-text-field>
                     <v-text-field v-model="password" :rules="passwordRules" type="password" label="Пароль"></v-text-field>
-                    <v-btn rounded color="blue-grey-lighten-3" type="submit">Войти</v-btn>
+                    <v-btn color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined" type="submit">Войти</v-btn>
                     <p class="mt-5">Еще нет аккаунта? <a href="/registration" class="login">Зарегистрируйтесь.</a></p>
                     <p class="mt-5"><a href="/admin" class="login">Вход</a> для администратора</p>
                 </v-form>

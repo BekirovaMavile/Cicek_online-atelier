@@ -106,12 +106,6 @@ const ProductSize = sequelize.define("Product_Size", {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
-  hip_girth: {
-    type: DataTypes.STRING(45),
-  },
-  chest_girth: {
-    type: DataTypes.STRING(45),
-  },
 });
 
 const Material = sequelize.define("Material", {
@@ -246,8 +240,8 @@ PartCategory.hasMany(Part, {
 Part.belongsTo(PartCategory, { foreignKey: "part_category_id" });
 
 // Связь между таблицами Part и Product (многие ко многим)
-ProductPart.belongsTo(Part , { foreignKey: "part_id" });
-ProductPart.belongsTo(Product , { foreignKey: "product_id" });
+ProductPart.belongsTo(Part, { foreignKey: "part_id" });
+ProductPart.belongsTo(Product, { foreignKey: "product_id" });
 
 // Связь между таблицами User и Review
 User.hasMany(Review, { foreignKey: "user_id" });

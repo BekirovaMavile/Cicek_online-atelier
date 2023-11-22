@@ -11,6 +11,7 @@
     "@mdi/font": "5.9.55",
     "axios": "^1.5.1",
     "core-js": "^3.8.3",
+    "js-cookie": "^3.0.5",
     "mysql2": "^3.6.1",
     "roboto-fontface": "*",
     "vue": "^3.2.13",

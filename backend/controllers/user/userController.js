@@ -3,6 +3,25 @@ const {
 } = require("../../models/models");
 
 class UserController {
+  async deleteUserById(req, res) {
+    const id = req.body.id;
+    try {
+      const result = await User.destroy({
+        where: {
+          id: Number(id)
+        }
+      });
+      if (result) {
+        console.log(`Пользователь с ID ${id} успешно удален.`);
+        res.json(result)
+      } else {
+        console.log(`Пользователь с ID ${id} не найден.`);
+        res.json(result)
+      }
+    } catch (error) {
+      console.error('Произошла ошибка при удалении пользователя:', error);
+    }
+  }
   async update(req, res) {
     try {
       const userId = req.user.id;

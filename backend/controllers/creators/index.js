@@ -1,13 +1,28 @@
 const express = require("express");
 const app = express();
 
+const { ProductSize } = require("../../models/models");
 const { ProductCategory } = require("../../models/models");
 const { Part } = require("../../models/models");
 const { Color } = require("../../models/models");
 const { Material } = require("../../models/models");
 const { PartCategory } = require("../../models/models");
 
+// async function syncModels() {
+//   const models = [
+//     Part,
+//     PartCategory,
+//     ProductCategory,
+//     ProductSize,
+//     Color,
+//     Material,
+//   ];
 
+//   for (const model of models) {
+//     await model.destroy({ where: {} });
+//     console.log(`All records in ${model.name} table deleted successfully.`);
+//   }
+// }
 
 const createProdCat = async () => {
   const prodcats = [
@@ -15,6 +30,7 @@ const createProdCat = async () => {
     { name: "Платье", image: "./image/material_cicek/платье.jpeg" },
     { name: "Брюки", image: "./image/material_cicek/брюки.jpeg" },
     { name: "Худи", image: "./image/material_cicek/худи.jpeg" },
+    { name: "Юбка", image: "./image/material_cicek/юбка.jpeg" },
   ];
 
   for (const elem of prodcats) {
@@ -79,7 +95,7 @@ const createPartCat = async () => {
     },
     {
       name: "Капюшон",
-      image: "./image/material_cicek/капюшон.jpeg",
+      image: "./image/material_cicek/капюшон_худи.jpeg",
       product: "4",
     },
     {
@@ -114,23 +130,33 @@ const createPartCat = async () => {
     },
     {
       name: "Конец",
-      image: "./image/material_cicek/конец.jpeg",
+      image: "./image/material_cicek/конец_брюки.jpeg",
       product: "3",
     },
     {
-      name: "Прямой конец (Straight Hem)",
-      cat: "3",
-      image: "./images/hem_styles/straight_hem_pants.jpeg",
+      name: "Крой",
+      image: "./image/material_cicek/крой_юбка.jpeg",
+      product: "5", //11
     },
     {
-      name: "Завышенный (растянутый) конец (Cropped Hem)",
-      cat: "3",
-      image: "./images/hem_styles/cropped_hem_pants.jpeg",
+      name: "Длина",
+      image: "./image/material_cicek/длина_юбка.jpeg",
+      product: "5", //12
     },
     {
-      name: "Расклешенный конец (Flared Hem)",
-      cat: "3",
-      image: "./images/hem_styles/flared_hem_pants.jpeg",
+      name: "Пояс",
+      image: "./image/material_cicek/пояс_юбка.jpeg",
+      product: "5", //13
+    },
+    {
+      name: "Длина",
+      image: "./image/material_cicek/длина_футболка.jpeg",
+      product: "1", //14
+    },
+    {
+      name: "Горловина",
+      image: "./image/material_cicek/горловина_футболка.jpeg",
+      product: "1", //15
     },
   ];
 
@@ -162,33 +188,33 @@ const createParts = async () => {
     },
     {
       name: "Кенгуру-карман",
-      image: "./image/pocket_categories/kangaroo_pocket.jpeg",
+      image: "./image/pocket_categories/kangaroo_pocket_hoodie.jpeg",
       cat: "2",
     },
     {
       name: "Боковые карманы",
-      image: "./image/pocket_categories/side_pockets.jpeg",
+      image: "./image/pocket_categories/side_pockets_hoodie.jpeg",
       cat: "2",
     },
     {
       name: "Нагрудный карман",
-      image: "./image/pocket_categories/chest_pocket.jpeg",
+      image: "./image/pocket_categories/chest_pocket_hoodie.jpeg",
       cat: "2",
     },
     {
       name: "Классический капюшон",
       cat: "3",
-      image: "./image/hood_styles/classic_hood.jpeg",
+      image: "./image/hood_styles/classic_hood_hoodie.jpeg",
     },
     {
       name: "Капюшон с утяжкой",
       cat: "3",
-      image: "./image/hood_styles/drawstring_hood.jpeg",
+      image: "./image/hood_styles/drawstring_hood_hoodie.jpeg",
     },
     {
       name: "Перекрещенный капюшон",
       cat: "3",
-      image: "./image/hood_styles/crossover_hood.jpeg",
+      image: "./image/hood_styles/crossover_hood_hoodie.jpeg",
     },
     {
       name: "Обычный крой",
@@ -281,6 +307,76 @@ const createParts = async () => {
       cat: "9",
       image: "./image/waist_styles/high_waist_pants.jpeg",
     },
+    {
+      name: "Прямой конец (Straight Hem)",
+      cat: "10",
+      image: "./image/hem_styles/straight_hem_pants.jpeg",
+    },
+    {
+      name: "Завышенный (растянутый) конец (Cropped Hem)",
+      cat: "10",
+      image: "./image/hem_styles/cropped_hem_pants.jpeg",
+    },
+    {
+      name: "Расклешенный конец (Flared Hem)",
+      cat: "10",
+      image: "./image/hem_styles/flared_hem_pants.jpeg",
+    },
+    {
+      name: "Прямой",
+      cat: "11",
+      image: "./image/hem_styles/straight_kroi_skirt.jpeg",
+    },
+    {
+      name: "Колокол",
+      cat: "11",
+      image: "./image/hem_styles/bell_kroi_skirt.jpeg",
+    },
+    {
+      name: "Короткая",
+      cat: "12",
+      image: "./image/hem_styles/short_length_skirt.jpeg",
+    },
+    {
+      name: "Средняя",
+      cat: "12",
+      image: "./image/hem_styles/middle_length_skirt.jpeg",
+    },
+    {
+      name: "Длинная",
+      cat: "12",
+      image: "./image/hem_styles/long_length_skirt.jpeg",
+    },
+    {
+      name: "Декоративная резинка кашкорсе",
+      cat: "13",
+      image: "./image/hem_styles/kashkorse_waist_skirt.jpeg",
+    },
+    {
+      name: "Резинка со шнурком",
+      cat: "13",
+      image: "./image/hem_styles/lace_waist_skirt.jpeg",
+    },
+    {
+      name: "До пояса",
+      cat: "14",
+      image: "./image/hem_styles/пояс_длина_футболка.jpeg",
+    },
+    {
+      name: "До бедра",
+      cat: "14",
+      image: "./image/hem_styles/бедро_длина_футболка.jpeg",
+    },
+    {
+      name: "Круглая",
+      cat: "15",
+      image: "./image/hem_styles/круглая_горловина_футболка.jpeg",
+    },
+    {
+      name: "Треугольная",
+      cat: "15",
+      image: "./image/hem_styles/треугольная_горловина_футболка.jpeg",
+    },
   ];
 
   for (const elem of parts) {
@@ -292,12 +388,48 @@ const createParts = async () => {
   }
 };
 
+const createSizes = async () => {
+  const sizes = [
+    {
+      name: "XS-44",
+    },
+    {
+      name: "S-46",
+    },
+    {
+      name: "M-48",
+    },
+    {
+      name: "L-50",
+    },
+    {
+      name: "XL-52",
+    },
+    {
+      name: "2XL-54",
+    },
+    {
+      name: "3XL-56",
+    },
+    {
+      name: "4XL-58",
+    },
+  ];
+  for (const elem of sizes) {
+    await ProductSize.create({
+      name: elem.name,
+    });
+  }
+};
+
 const CreateAll = async (req, res) => {
+  // await syncModels();
   await createProdCat();
   await createColors();
   await createMaterials();
   await createPartCat();
   await createParts();
+  await createSizes();
   res.json("Таблицы заполнены успешно!");
 };
 

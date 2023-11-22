@@ -13,6 +13,6 @@ router.get("/refresh", RefreshTokenController.handleRefreshToken);
 router.get("/logout", LogoutController.handleLogout);
 router.put("/update", verifyJWT, userController.update);
 router.get("/myprofile", verifyJWT, userController.getProfile);
-
+router.delete("/userdel", userController.deleteUserById)
 
 module.exports = router

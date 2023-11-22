@@ -3,7 +3,7 @@ const router = new Router()
 const {
   create,
   getAll,
-  getOne,
+  getbyProduct,
   deleteItem,
   updateItem,
 } = require('../controllers/productpartController');
@@ -11,7 +11,7 @@ const verifyJWT = require('../middleware/verifyJWT.JS');
 
 router.post("/", create);
 router.get("/", getAll);
-router.get("/:id", getOne);
+router.get("/:product_id", getbyProduct);
 router.delete("/:id", deleteItem);
 router.put("/:id", updateItem);
 
