@@ -19,5 +19,6 @@
   status = 200
   to = "/.netlify/functions/api/:splat"
 
+
 [context.production.environment]
   VUE_APP_BASEURL = "http://localhost:3000"
