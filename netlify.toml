@@ -5,6 +5,7 @@
 
 [build]
   command = "npm run build"
+  functions = "backend/functions"
   publish="dist"
   base="frontend"
 
