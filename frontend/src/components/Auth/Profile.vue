@@ -104,7 +104,8 @@
     
 <script>
 import axios from 'axios';
-import { getMyCookie, deleteCookie } from '@/plugins/cookie'
+import { getMyCookie } from '@/plugins/cookie'
+import Cookies from "js-cookie";
 
 export default {
     data() {
@@ -122,7 +123,7 @@ export default {
     },
     methods: {
         logout() {
-            deleteCookie();
+            Cookies.remove('CookieEmail');
             console.log(getMyCookie());
             this.$router.push({
                 name: 'login'

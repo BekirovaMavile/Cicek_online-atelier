@@ -4,21 +4,43 @@
     <v-btn @click="makeCards" color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px" variant="outlined">
         Загрузить данные заказа
     </v-btn>
-    <v-row justify="center" class="mt-8 mb-4 text-center">
-        <v-col v-for="(card, index) in cardData" :key="index" cols="12" md="6" lg="4" class="d-flex justify-center align-center">
-            <v-card :width="300" class="text-center mb-4">
-                <h2 class="text-center" style="color: rgba(232, 12, 108, 0.7)">
-                    {{ card.title }}
-                </h2>
-                <v-divider></v-divider>
-                <v-list>
-                    <v-list-item v-for="(detail, detailIndex) in card.details" :key="detailIndex">
-                        {{ detail }}
-                    </v-list-item>
-                </v-list>
-            </v-card>
-        </v-col>
-    </v-row>
+
+    <v-container v-show="emptyBasket">
+        <v-row justify="center" class="mt-8 mb-4 text-center">
+            <v-img src="../../../public/image/emptyBasket.png" max-height="320" max-width="320" class="d-flex mx-auto my-auto mt-2 mb-3"></v-img>
+        </v-row>
+        <v-row justify="center" class="mt-8 mb-4 text-center">
+            <h1 style="color: #252525;" class="text-center">{{ messageBasket }}</h1>
+        </v-row>
+    </v-container>
+
+    <v-container v-show="!emptyBasket && messageBasket=='Заказ оформлен'">
+        <v-row justify="center" class="mt-8 mb-4 text-center">
+            <v-img src="../../../public/image/fullBasket.png" max-height="320" max-width="320" class="d-flex mx-auto my-auto mt-2 mb-3"></v-img>
+        </v-row>
+        <v-row justify="center" class="mt-8 mb-4 text-center">
+            <h1 style="color: #252525;" class="text-center">{{ messageBasket }}</h1>
+        </v-row>
+    </v-container>
+
+    <v-container v-show="infoProduct">
+        <v-row justify="center" class="mt-8 mb-4 text-center">
+            <v-col v-for="(card, index) in cardData" :key="index" cols="12" md="6" lg="4" class="d-flex justify-center align-center">
+                <v-card :width="300" class="text-center mb-4">
+                    <h2 class="text-center" style="color: rgba(232, 12, 108, 0.7)">
+                        {{ card.title }}
+                    </h2>
+                    <v-divider></v-divider>
+                    <v-list>
+                        <v-list-item v-for="(detail, detailIndex) in card.details" :key="detailIndex">
+                            {{ detail }}
+                        </v-list-item>
+                    </v-list>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
+
     <v-row>
         <v-col cols="12" class="text-right">
             <h3>Итого: XXX руб.</h3>
@@ -30,15 +52,16 @@
         </v-col>
     </v-row>
 
-    <!-- Сообщение о пустой корзине -->
-    <v-dialog v-model="messageBucket" max-width="290">
+    <!-- Сообщение о ошибке -->
+    <v-dialog v-model="error" max-width="700">
         <v-card>
-            
+            <v-card-title style="padding: 30px 30px 5px 30px;" class="headline">{{ messageError }}</v-card-title>
+            <p style="padding-left: 30px" class="headline">Список своих заказов вы можете просмотреть на странице профиля.</p>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="rgba(232, 12, 108, 0.9)" style="font-size: 18px" @click="messageBucket = false">X</v-btn>
+                <v-btn color="rgba(255, 83, 143, 0.902)" @click="error = false">Закрыть</v-btn>
+                <v-btn color="rgba(232, 12, 108, 0.9)" @click="error = false" variant="outlined" to="/parametr">К созданию</v-btn>
             </v-card-actions>
-            <v-card-title style="margin-bottom: 40px" class="headline text-center">Корзина пуста</v-card-title>
         </v-card>
     </v-dialog>
 </v-container>
@@ -49,6 +72,9 @@ import Cookies from "js-cookie";
 import axios, {
     all
 } from "axios";
+import {
+    getMyCookie
+} from "@/plugins/cookie";
 
 export default {
     data: () => ({
@@ -59,7 +85,11 @@ export default {
         colors: [],
         menu: false,
         cardData: [],
-        messageBucket: false,
+        messageBasket: "Ваша корзина пуста",
+        messageError: "Возникла ошибка",
+        emptyBasket: true,
+        infoProduct: false,
+        error: false,
     }),
     mounted() {
         this.getProdCats();
@@ -80,17 +110,27 @@ export default {
                     console.error("Error fetching data:", error);
                 });
         },
+
         getProds() {
+            // Проверка наличия Cookie
+            const productValueCookie = Cookies.get('products');
+            if (!productValueCookie) {
+                console.log('Cookie с именем "products" не существует');
+                console.log(Cookies.get('products'));
+                return false;
+            }
+            console.log('Cookie с именем "products" существует');
+            this.emptyBasket = false;
+            this.messageBasket = "Корзина не пуста"
             // Получение массива товаров из cookies
-            const storedProducts = Cookies.get("products") || [];
+            console.log(productValueCookie);
 
             // Обновление состояния компонента
-            this.products = JSON.parse(storedProducts);
+            this.products = JSON.parse(productValueCookie);
             console.log(this.products);
             return this.products
-            // Вывод данных в консоль (если необходимо)
-            // console.log(this.products);
         },
+
         getProdSizes() {
             axios
                 .get("http://localhost:3000/api/productsize")
@@ -102,6 +142,7 @@ export default {
                     console.error(error);
                 });
         },
+
         getColors() {
             axios
                 .get("http://localhost:3000/api/color")
@@ -113,6 +154,7 @@ export default {
                     console.error(error);
                 });
         },
+
         async getParts() {
             axios
                 .get("http://localhost:3000/api/part")
@@ -126,9 +168,11 @@ export default {
         },
 
         makeCards() {
+            this.infoProduct = true;
             const cookieProd = this.getProds();
-            if (Object.keys(cookieProd).length === 0) {
-                this.messageBucket = true;
+            if (!cookieProd) {
+                this.error = true;
+                this.messageError = "Заказ уже оформлени или корзина пуста";
                 return;
             }
 
@@ -174,26 +218,53 @@ export default {
             });
         },
 
-        async CreateOrder() {
-            const productsObject = this.getProds()
+        createUserOrder() {
+            let token = getMyCookie()
 
-            // Проверка на пустой объект
-            if (Object.keys(productsObject).length === 0) {
-                console.log("Объект пустой");
-                this.messageBucket = true;
-                return;
+            if (!token) {
+                this.error = true;
+                this.messageError = "Для офрмления заказа войдти в свой профиль";
+                return false;
+            }
+            if(!Cookies.get('products')){
+                this.error = true;
+                this.messageError = "Заказ уже оформлени или корзина пуста";
+                return 
+            }
+            axios.post('http://localhost:3000/api/orders/', {}, {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.error(error);
+                    return false
+                });
+            return true
+        },
+
+        async CreateOrder() {
+            if (!this.createUserOrder()) {
+                return
             }
 
+            const productsObject = this.getProds()
+            if (!productsObject) {
+                this.error = true;
+                this.messageError = "Заказ уже оформлени или корзина пуста";
+                return;
+            }
             for (let key in productsObject) {
                 console.log(productsObject[key]);
                 const response = await axios.post('http://localhost:3000/api/product/', productsObject[key]);
                 console.log(response);
             }
-
-            // Удаление данных из объекта products после выполнения функции
-            const ClearProducts = [];
-            Cookies.set("products", JSON.stringify(ClearProducts));
-            this.makeCards();
+            Cookies.remove('products');
+            this.messageBasket = "Заказ оформлен";
+            this.infoProduct = false;
         },
 
     },

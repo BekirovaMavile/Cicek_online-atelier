@@ -46,14 +46,6 @@ const Order = sequelize.define("Order", {
   },
 });
 
-// Связующая таблица между таб. Order and Product
-const OrderProduct = sequelize.define("ProductOrder", {
-  quantity: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-});
-
 const Review = sequelize.define("Review", {
   id: {
     type: DataTypes.INTEGER,
@@ -196,9 +188,9 @@ const ProductCategory = sequelize.define("Product_Category", {
 User.hasMany(Order, { as: "orders", foreignKey: "user_id" });
 Order.belongsTo(User, { foreignKey: "user_id" });
 
-// Связь между таблицами Product и Order (многие ко многим)
-OrderProduct.belongsTo(Order);
-OrderProduct.belongsTo(Product);
+// Связь между таблицами Product и Order
+Order.hasMany(Product, { foreignKey: 'order_id' });
+Product.belongsTo(Order, { foreignKey: 'order_id' });
 
 // Связь между таблицами Product и Color
 Color.hasMany(Product, { foreignKey: "color_id" });
@@ -260,5 +252,4 @@ module.exports = {
   ProductPart,
   PartCategory,
   ProductCategory,
-  OrderProduct,
 };
