@@ -21,4 +21,4 @@
 
 
 [context.production.environment]
-  VUE_APP_BASEURL = "http://localhost:3000"
+  VUE_APP_BASEURL = "https://korzina--cicek-servise.netlify.app/"
