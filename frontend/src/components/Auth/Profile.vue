@@ -25,11 +25,11 @@
                                     }}</v-list-item-subtitle>
                                     <br>
                                     <v-list-item-title>Адрес:</v-list-item-title>
-                                    <v-list-item-subtitle v-if="!loadingUser">{{ this.user.address || "Отсутсвует"
+                                    <v-list-item-subtitle v-if="!loadingUser">{{ this.user.address || "Отсутствует"
                                     }}</v-list-item-subtitle>
                                     <br>
                                     <v-list-item-title>Номер телефона:</v-list-item-title>
-                                    <v-list-item-subtitle v-if="!loadingUser">{{ this.user.phone_number || "Отсутсвует"
+                                    <v-list-item-subtitle v-if="!loadingUser">{{ this.user.phone_number || "Отсутствует"
                                     }}</v-list-item-subtitle>
                                 </v-list-item-content>
                             </v-list-item>
@@ -58,7 +58,7 @@
                                     }}</v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                    <v-btn rounded="" color="blue-grey-lighten-3" class="mt-3">Подробнее</v-btn>
+                                    <v-btn color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined" class="mt-3">Подробнее</v-btn>
                                 </v-list-item-action>
                             </v-list-item>
                         </v-list>
@@ -104,8 +104,9 @@
     
 <script>
 import axios from 'axios';
-import { getMyCookie, deleteCookie } from '@/plugins/cookie'
-// import { baseURL } from 'config';
+import { getMyCookie } from '@/plugins/cookie'
+import Cookies from "js-cookie";
+
 export default {
     data() {
         return {
@@ -122,7 +123,7 @@ export default {
     },
     methods: {
         logout() {
-            deleteCookie();
+            Cookies.remove('CookieEmail');
             console.log(getMyCookie());
             this.$router.push({
                 name: 'login'

@@ -173,6 +173,7 @@ export default {
     selectedLengths: {},
     colors: null,
     parts: {},
+    error: false,
   }),
   mounted() {
     this.getColors();
