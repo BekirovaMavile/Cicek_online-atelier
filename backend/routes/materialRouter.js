@@ -7,7 +7,7 @@ const {
   deleteItem,
   updateItem,
 } = require('../controllers/materialController');
-const verifyJWT = require('../middleware/verifyJWT.JS');
+const verifyJWT = require('../middleware/verifyJWT');
 
 router.post("/", verifyJWT, create);
 router.get("/", getAll);
