@@ -198,7 +198,7 @@ export default {
     },
     getColors() {
       axios
-        .get("http://localhost:3000/api/color")
+        .get(process.env.VUE_APP_URL + "/api/color")
         .then((response) => {
           this.colors = response.data;
           console.log(this.myColors);
@@ -210,7 +210,7 @@ export default {
 
     getPartCategories() {
       axios
-        .get("http://localhost:3000/api/partcategory", {
+        .get(process.env.VUE_APP_URL + "/api/partcategory", {
           params: {
             productCategoryId: 1,
           },
@@ -230,7 +230,7 @@ export default {
 
     getParts() {
       axios
-        .get("http://localhost:3000/api/part")
+        .get(process.env.VUE_APP_URL + "/api/part")
         .then((response) => {
           response.data.forEach((obj) => {
             if (this.parts.hasOwnProperty(obj.part_category_id)) {

@@ -57,7 +57,7 @@ export default {
         async login() {
             if (this.$refs.form.validate()) {
                 try {
-                    const response = await axios.post('http://localhost:3000/api/user/auth', {
+                    const response = await axios.post(process.env.VUE_APP_URL + '/api/user/auth', {
                         email: this.email,
                         password: this.password,
                     });

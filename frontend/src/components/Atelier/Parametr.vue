@@ -65,7 +65,7 @@ export default {
     methods: {
         async loadProdCats() {
             await axios
-                .get("http://localhost:3000/api/productcategory/")
+                .get(process.env.VUE_APP_URL + "/api/productcategory/")
                 .then((response) => {
                     this.productcategories = response.data.map((category) => {
                         category.path = `/constructor/${category.name.toLowerCase()}`;

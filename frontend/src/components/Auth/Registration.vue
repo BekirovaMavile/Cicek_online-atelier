@@ -75,7 +75,7 @@ export default {
             if (this.$refs.form.validate()) {
                 try {
                     // Отправка данных на сервер и получение токена
-                    const response = await axios.post('http://localhost:3000/api/user/registration', {
+                    const response = await axios.post(process.env.VUE_APP_URL + '/api/user/registration', {
                         email: this.email,
                         password: this.password,
                         first_name: this.first_name,

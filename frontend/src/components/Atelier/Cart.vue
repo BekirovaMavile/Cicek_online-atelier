@@ -133,7 +133,7 @@ export default {
 
         getProdSizes() {
             axios
-                .get("http://localhost:3000/api/productsize")
+                .get(process.env.VUE_APP_URL + "/api/productsize")
                 .then((response) => {
                     this.productsizes = response.data;
                     // console.log(this.productsizes);
@@ -145,7 +145,7 @@ export default {
 
         getColors() {
             axios
-                .get("http://localhost:3000/api/color")
+                .get(process.env.VUE_APP_URL + "/api/color")
                 .then((response) => {
                     this.colors = response.data;
                     // console.log(this.colors);
@@ -157,7 +157,7 @@ export default {
 
         async getParts() {
             axios
-                .get("http://localhost:3000/api/part")
+                .get(process.env.VUE_APP_URL + "/api/part")
                 .then((response) => {
                     this.parts = response.data;
                     console.log(this.parts);
@@ -231,7 +231,7 @@ export default {
                 this.messageError = "Заказ уже оформлени или корзина пуста";
                 return 
             }
-            axios.post('http://localhost:3000/api/orders/', {}, {
+            axios.post(process.env.VUE_APP_URL + "/api/orders/", {}, {
                     headers: {
                         'Authorization': 'Bearer ' + token
                     }
@@ -259,7 +259,7 @@ export default {
             }
             for (let key in productsObject) {
                 console.log(productsObject[key]);
-                const response = await axios.post('http://localhost:3000/api/product/', productsObject[key]);
+                const response = await axios.post(process.env.VUE_APP_URL + '/api/product/', productsObject[key]);
                 console.log(response);
             }
             Cookies.remove('products');
@@ -270,23 +270,3 @@ export default {
     },
 };
 </script>
-
-<!-- 
-
-<style scoped>
-.custom-button {
-    background-color: rgba(232, 12, 108, 0.25);
-    color: black;
-    border: none;
-    border-radius: 50px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.custom-button:hover {
-    background-color: #e80c6c;
-    color: black;
-}
-</style> -->

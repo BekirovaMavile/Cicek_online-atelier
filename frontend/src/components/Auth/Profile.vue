@@ -132,7 +132,7 @@ export default {
 
         infoUser() {
             let token = getMyCookie()
-            axios.get('http://localhost:3000/api/user/myprofile/', {
+            axios.get(process.env.VUE_APP_URL + '/api/user/myprofile/', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -148,7 +148,7 @@ export default {
 
         infoUserOrder() {
             let token = getMyCookie()
-            axios.get('http://localhost:3000/api/orders/user', {
+            axios.get(process.env.VUE_APP_URL + '/api/orders/user', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -164,7 +164,7 @@ export default {
 
         updateUserInfo() {
             let token = getMyCookie()
-            axios.put('http://localhost:3000/api/user/update', this.user,
+            axios.put(process.env.VUE_APP_URL + '/api/user/update', this.user,
                 {
                     headers: {
                         'Authorization': 'Bearer ' + token

@@ -13,7 +13,7 @@ const { Sequelize } = require("sequelize");
 module.exports = new Sequelize(
   'atelierdb', // Название базы данных
   'root', // Пользователь базы данных
-  'root', // Пароль от БД
+  'Atelier_0809', // Пароль от БД
   {
       host: 'localhost',
       dialect: 'mysql'
