@@ -7,7 +7,7 @@ const {
   deleteItem,
   updateItem,
 } = require('../controllers/productpartController');
-const verifyJWT = require('../middleware/verifyJWT.JS');
+const verifyJWT = require('../middleware/verifyJWT');
 
 router.post("/", create);
 router.get("/", getAll);
