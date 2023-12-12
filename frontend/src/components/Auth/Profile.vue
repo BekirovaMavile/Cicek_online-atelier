@@ -58,7 +58,7 @@
                                     }}</v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                    <v-btn rounded="" color="blue-grey-lighten-3" class="mt-3">Подробнее</v-btn>
+                                    <v-btn color="rgba(232, 12, 108, 0.9)" style="border-radius: 15px;" variant="outlined" class="mt-3">Подробнее</v-btn>
                                 </v-list-item-action>
                             </v-list-item>
                         </v-list>

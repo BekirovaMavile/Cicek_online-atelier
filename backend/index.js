@@ -10,9 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cokieParser());
 app.use(express.json())
-app.use(cors({
-    origin: 'http://c1cek.ru'
-}));
+app.use(cors());
 app.use('/api', router)
 
 
