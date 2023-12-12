@@ -16,29 +16,30 @@
             </div>
           </v-parallax>
   <v-container class="mt-5">
-      <v-card class="my-card">
-        <v-row>
-          <v-col cols="6" class="d-flex flex-column justify-center align-center">
-            <div>
-              <h2 class="pa-4">Как Это Работает</h2>
-              <p>Шаг 1: Зарегистрируйтесь</p>
-              <p>Шаг 2: Перейдите в конструктор</p>
-              <p>Шаг 3: Создайте свой уникальный дизайн</p>
-              <p>Шаг 4: Оформите заказ</p>
-              <p>Шаг 5: Ждите!</p>
-            </div>
-          </v-col>
-          <v-col cols="6" class="justify-center align-center">
-            <v-img
-              src="../../public/image/login.jpg"
-              max-height="300"
-              max-width="300"
-              class="mx-auto my-auto"
-            ></v-img>
-          </v-col>
-        </v-row>
-      </v-card>
-    </v-container>
+    <v-card class="my-card">
+      <v-row>
+        <v-col cols="6" class="justify-center align-center">
+          <v-img
+            src="../../public/image/login.jpg"
+            max-height="300"
+            max-width="300"
+            class="mx-auto my-auto"
+          ></v-img>
+        </v-col>
+        <v-col cols="6" class="d-flex flex-column justify-center align-center">
+          <div>
+            <h2 class="pa-4">Руководство пользователя</h2>
+            <p>Шаг 1: Зарегистрируйтесь</p>
+            <p>Шаг 2: Перейдите в конструктор</p>
+            <p>Шаг 3: Создайте свой уникальный дизайн</p>
+            <p>Шаг 4: Оформите заказ</p>
+            <p>Шаг 5: Ждите!</p>
+          </div>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
+
           <!-- <h1 class="d-flex flex-column justify-center align-center pa-12">КАТАЛОГ ТОВАРОВ</h1>
         <v-row>
     <v-col
