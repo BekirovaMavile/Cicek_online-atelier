@@ -11,6 +11,10 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
+  role: {
+    type: DataTypes.STRING(10),
+    defaultValue: "USER",
+  },
   password: {
     type: DataTypes.STRING(100),
     allowNull: false,
@@ -43,6 +47,9 @@ const Order = sequelize.define("Order", {
   status: {
     type: DataTypes.STRING(45),
     allowNull: false,
+  },
+  atelier_id: {
+    type: DataTypes.INTEGER,
   },
 });
 

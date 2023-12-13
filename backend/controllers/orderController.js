@@ -2,7 +2,7 @@ const { Order } = require("../models/models");
 
 class OrderController {
     async create(req, res) {
-        const user_id = req.user.id;
+        const {user_id} = req.body;
         const status = 'В обработке';
 
         console.log({user_id, "status": status});
@@ -61,6 +61,8 @@ class OrderController {
     async updateStatus(req, res) {
         try {
             const { newStatus, id } = req.body;
+            const user_id = req.user.id;
+            console.log(user_id);
             const foundOrder = await Order.findOne({
                 where: {
                     id: Number(id)
@@ -68,6 +70,7 @@ class OrderController {
             });
 
             foundOrder.status = newStatus;
+            foundOrder.atelier_id = user_id;
             foundOrder.save();
 
             return res.json(foundOrder);

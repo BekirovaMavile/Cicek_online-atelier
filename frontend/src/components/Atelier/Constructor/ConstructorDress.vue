@@ -70,11 +70,11 @@
                 <v-row v-if="n === partCategoriesLen + 3">
                     <v-container>
                         <ul>
-                            <li v-for="(value, key) in selectedValue" :key="key">
+                            <li v-for="(value, key) in selectedValue" :key="key" v-if="value && value.name">
                                 {{ value.name }}
                             </li>
-                            <li>Цвет: {{ selectedColor.name }}</li>
-                            <li>Размер: {{ selectedSize }}</li>
+                            <li v-if="selectedColor && selectedColor.name">Цвет: {{ selectedColor.name }}</li>
+                            <li v-if="selectedSize">Размер: {{ selectedSize }}</li>
                         </ul>
                         <v-row>
                             <v-col cols="12" class="text-right">
@@ -103,9 +103,7 @@
 <script>
 import Cookies from "js-cookie";
 
-import axios, {
-    all
-} from "axios";
+import axios from "axios";
 export default {
     data: () => ({
         confirmationModal: false,

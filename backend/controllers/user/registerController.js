@@ -11,12 +11,20 @@ class RegisterController {
             password,
             first_name,
             last_name,
+            role
         } = req.body;
 
         // Проверка на пустые поля
         if (!email || !password || !first_name || !last_name) return res.status(400).json({
             'message': "Fields are empty."
         })
+        let newRole;
+        if (role == "Ателье"){
+            newRole = 'ATELIER'
+        }
+        if (role == "Пользоваетль"){
+            newRole = 'USER'
+        }
 
         // Проверка на повторение по email
         const duplicate = await User.findOne({
@@ -36,6 +44,7 @@ class RegisterController {
                 password: hashedPwd,
                 first_name,
                 last_name,
+                role: newRole,
             });
 
             const accessToken = jwt.sign({
